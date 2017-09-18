@@ -1,0 +1,292 @@
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 3.361 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/goog/deps.js
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/oge/main.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/ui/codemirror.js
+notifying browser that file changed:  resources/public/js/dev/oge/core.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.859 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 6.89 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/goog/deps.js
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.191 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.165 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.851 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.921 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.874 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.834 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.971 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.949 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.233 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/goog/deps.js
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.088 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.892 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.876 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.86 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.831 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.081 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.109 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.925 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.9 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.29 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/blog/styles.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.182 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/ui/styles.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.925 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/ui/styles.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.972 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.062 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.925 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.241 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.342 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.089 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.0 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.869 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.884 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.863 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.01 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.863 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.912 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.225 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.923 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.367 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.915 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.868 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.083 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.926 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.872 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.041 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.887 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.853 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.875 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.173 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.926 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.898 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.902 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.972 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.864 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.882 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.907 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.876 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.866 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.046 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.83 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.908 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.893 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.067 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.88 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.947 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.006 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.869 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.832 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 0.831 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[31mFailed to compile "resources/public/js/dev/main.js" in 0.722 seconds.[0m
+[36m----  Could not Read  src/com/wsscode/oge/main.cljs   line:65 ----[0m
+
+  [1m/Users/wilkerlucio/Development/oge/src/com/wsscode/oge/main.cljs [line 65, col 62] Invalid keyword: :.[0m
+
+  [36m63[0m  [36m  (dom/button #js {:style #js {:marginLeft 10}[0m
+  [36m64[0m  [36m                   :className "btn btn-primary"[0m
+  [33m65[0m  [1m                   :onClick #(fetch/load-field this :[`(send-query {:q ~query})])}[0m
+  [0m  [0m  [33m                   /Users/wilkerlucio/Development/oge/src/com/wsscode/oge/main.cljs [line 65, col 62] Invalid keyword: :.[0m
+  [36m66[0m  [36m    "Run Query"))[0m
+  [36m67[0m  [36m(codemirror/clojure {:className (:editor css)[0m
+  [36m68[0m  [36m                     :value    query[0m
+
+[36m----  Reader Error : Please see src/com/wsscode/oge/main.cljs  ----[0m
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 1.01 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
+[0mCompiling "resources/public/js/dev/main.js" from ["src"]...[0m
+[36m----  Compiler Warning on   src/com/wsscode/oge/main.cljs   line:139  column:59  ----[0m
+
+  [1mNo such namespace: network, could not locate network.cljs, network.cljc, or JavaScript source providing "network"[0m
+
+  [36m136[0m  [36m(defn local-network [parser][0m
+  [36m137[0m  [36m  (map->LocalNetwork {:parser parser}))[0m
+  [36m138[0m  [36m[0m
+  [33m139[0m  [1m(defonce app (atom (fulcro/new-fulcro-client :networking (network/local-network parser))))[0m
+  [0m   [0m  [33m                                                          ^--- No such namespace: network, could not locate network.cljs, network.cljc, or JavaScript source providing "network"[0m
+  [36m140[0m  [36m[0m
+  [36m141[0m  [36m(defn init [][0m
+  [36m142[0m  [36m  (swap! app fulcro/mount Root "oge-container")[0m
+  [36m143[0m  [36m  (css/upsert-css "oge" Root))[0m
+
+[36m----  Compiler Warning : Please see src/com/wsscode/oge/main.cljs  ----[0m
+[36m----  Compiler Warning on   src/com/wsscode/oge/main.cljs   line:139  column:59  ----[0m
+
+  [1mUse of undeclared Var network/local-network[0m
+
+  [36m136[0m  [36m(defn local-network [parser][0m
+  [36m137[0m  [36m  (map->LocalNetwork {:parser parser}))[0m
+  [36m138[0m  [36m[0m
+  [33m139[0m  [1m(defonce app (atom (fulcro/new-fulcro-client :networking (network/local-network parser))))[0m
+  [0m   [0m  [33m                                                          ^--- Use of undeclared Var network/local-network[0m
+  [36m140[0m  [36m[0m
+  [36m141[0m  [36m(defn init [][0m
+  [36m142[0m  [36m  (swap! app fulcro/mount Root "oge-container")[0m
+  [36m143[0m  [36m  (css/upsert-css "oge" Root))[0m
+
+[36m----  Compiler Warning : Please see src/com/wsscode/oge/main.cljs  ----[0m
+[36m----  Compiler Warning on   src/com/wsscode/oge/main.cljs   line:139  column:81  ----[0m
+
+  [1mUse of undeclared Var com.wsscode.oge.main/parser[0m
+
+  [36m136[0m  [36m(defn local-network [parser][0m
+  [36m137[0m  [36m  (map->LocalNetwork {:parser parser}))[0m
+  [36m138[0m  [36m[0m
+  [33m139[0m  [1m(defonce app (atom (fulcro/new-fulcro-client :networking (network/local-network parser))))[0m
+  [0m   [0m  [33m                                                                                ^--- Use of undeclared Var com.wsscode.oge.main/parser[0m
+  [36m140[0m  [36m[0m
+  [36m141[0m  [36m(defn init [][0m
+  [36m142[0m  [36m  (swap! app fulcro/mount Root "oge-container")[0m
+  [36m143[0m  [36m  (css/upsert-css "oge" Root))[0m
+
+[36m----  Compiler Warning : Please see src/com/wsscode/oge/main.cljs  ----[0m
+[32mSuccessfully compiled "resources/public/js/dev/main.js" in 2.236 seconds.[0m
+notifying browser that file changed:  resources/public/js/dev/cljs_deps.js
+notifying browser that file changed:  resources/public/js/dev/com/wsscode/oge/main.js
