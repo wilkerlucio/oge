@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
                  [org.clojure/clojurescript "1.9.908"]
+                 [org.clojure/core.async "0.3.443"]
                  [org.clojure/test.check "0.9.0"]
 
                  [spec-coerce "1.0.0-alpha5"]
@@ -16,6 +17,7 @@
 
                  [figwheel-sidecar "0.5.13"]
                  [binaryage/devtools "0.9.4"]]
+
   :source-paths ["src"]
 
   :cljsbuild {:builds [{:id           "dev"
