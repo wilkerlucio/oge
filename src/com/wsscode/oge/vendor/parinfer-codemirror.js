@@ -571,11 +571,11 @@
     var cm = state.cm;
     cm.on('cursorActivity', state.callbackCursor);
     cm.on('changes', state.callbackChanges);
-    state.origExtraKeys = cm.getOption('extraKeys');
-    cm.setOption('extraKeys', {
-      Tab: function(cm) { onTab(cm, 1); },
+    state.parinferKeys = {
+      'Tab': function(cm) { onTab(cm, 1); },
       'Shift-Tab': function(cm) { onTab(cm, -1); }
-    });
+    };
+    cm.addKeyMap(state.parinferKeys);
     state.enabled = true;
   }
 
@@ -587,7 +587,7 @@
     clearAllMarks(cm);
     cm.off('cursorActivity', state.callbackCursor);
     cm.off('changes', state.callbackChanges);
-    cm.setOption('extraKeys', state.origExtraKeys);
+    cm.removeKeyMap(state.parinferKeys);
     state.enabled = false;
   }
 

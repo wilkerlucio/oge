@@ -2,32 +2,24 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
-                 [org.clojure/clojurescript "1.9.908"]
+            :url  "http://www.eclipse.org/legal/epl-v10.html"}
+  :dependencies [[org.clojure/clojure "1.9.0-beta2"]
+                 [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/core.async "0.3.443"]
-                 [org.clojure/test.check "0.9.0"]
 
                  [spec-coerce "1.0.0-alpha5"]
                  [org.omcljs/om "1.0.0-beta1"]
-                 [fulcrologic/fulcro "1.0.0-beta10-SNAPSHOT"]
+                 [fulcrologic/fulcro "1.0.0"]
                  [fulcrologic/fulcro-css "1.0.0"]
-                 [com.wsscode/pathom "1.0.0-beta8-SNAPSHOT"]
-                 [cljsjs/codemirror "5.24.0-1"]
+                 [com.wsscode/pathom "1.0.0-beta9-SNAPSHOT"]
 
-                 [figwheel-sidecar "0.5.13"]
-                 [binaryage/devtools "0.9.4"]]
+                 [cljsjs/codemirror "5.24.0-1"]
+                 [cljsjs/d3 "4.3.0-5"]
+                 [cljsjs/d3-tip "0.7.1-0"]]
 
   :source-paths ["src"]
 
-  :cljsbuild {:builds [{:id           "dev"
-                        :figwheel     true
-                        :source-paths ["src"]
-                        :compiler     {:main                 com.wsscode.oge.main
-                                       :source-map-timestamp true
-                                       :asset-path           "/js/dev"
-                                       :output-to            "resources/public/js/dev/main.js"
-                                       :output-dir           "resources/public/js/dev"
-                                       :preloads             [devtools.preload]
-                                       :parallel-build       true
-                                       :verbose              false}}]})
+  :figwheel {:server-port 3450}
+
+  :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.13"]
+                                  [binaryage/devtools "0.9.4"]]}})
