@@ -69,8 +69,10 @@
   (render [this]
     (let [props (om/props this)]
       (dom/div (-> props (dissoc :value :onChange) (html-props))
-        (dom/create-element "textarea"
-          #js {:ref #(gobj/set this "textNode" %)})))))
+        (js/React.createElement "textarea"
+          #js {:ref #(gobj/set this "textNode" %)
+               :defaultValue (:value props)
+               :autoComplete "off"})))))
 
 (def editor (om/factory Editor {:validator #(if (s/valid? ::props %)
                                               true

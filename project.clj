@@ -10,7 +10,7 @@
 
                  [spec-coerce "1.0.0-alpha5"]
                  [org.omcljs/om "1.0.0-beta1"]
-                 [fulcrologic/fulcro "1.0.0-beta10"]
+                 [fulcrologic/fulcro "1.0.0-beta10-SNAPSHOT"]
                  [fulcrologic/fulcro-css "1.0.0"]
                  [com.wsscode/pathom "1.0.0-beta8-SNAPSHOT"]
                  [cljsjs/codemirror "5.24.0-1"]
