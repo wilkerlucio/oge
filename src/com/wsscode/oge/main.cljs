@@ -3,6 +3,7 @@
             [fulcro.client.data-fetch :as fetch]
             [fulcro.client.mutations :as mutations]
             [fulcro-css.css :as css]
+            [com.wsscode.pathom.core :as p]
             [com.wsscode.pathom.profile :as p.profile]
             [com.wsscode.pathom.connect :as p.connect]
             [com.wsscode.oge.ui.codemirror :as codemirror]
@@ -13,10 +14,17 @@
             [cljs.pprint :refer [pprint]]
             [cljs.reader :refer [read-string]]))
 
+(defmethod mutations/mutate `clear-errors [{:keys [state]} _ _]
+  {:action
+   (fn []
+     (swap! state dissoc ::p/errors))})
+
 (defmethod mutations/mutate `normalize-result [{:keys [ref state]} _ _]
   {:action
    (fn []
-     (let [result' (-> @state (get-in ref) :oge/result')
+     (let [result' (cond-> (-> @state (get-in ref) :oge/result')
+                     (get @state ::p/errors) (assoc ::p/errors (->> (get @state ::p/errors)
+                                                                    (into {} (map (fn [[k v]] [(vec (next k)) v]))))))
            profile (some-> result' ::p.profile/profile :>/oge)
            result  (with-out-str (cljs.pprint/pprint (dissoc result' ::p.profile/profile)))]
        (swap! state update-in ref merge {:oge/result  result
@@ -24,7 +32,8 @@
 
 (defn oge-query [this query]
   (try
-    (om/transact! this [(list 'fulcro/load {:target        (conj (om/get-ident this) :oge/result')
+    (om/transact! this [`(clear-errors)
+                        (list 'fulcro/load {:target        (conj (om/get-ident this) :oge/result')
                                             :query         [{:>/oge (conj (read-string query) ::p.profile/profile)}]
                                             :refresh       [:oge/result]
                                             :post-mutation `normalize-result})])
