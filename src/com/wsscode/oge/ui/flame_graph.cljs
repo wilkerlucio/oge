@@ -5,6 +5,10 @@
             [d3.flamegraph]
             [goog.object :as gobj]))
 
+(defn js-call [obj fn & args]
+  (let [f (gobj/get obj fn)]
+    (.apply f obj (to-array args))))
+
 (defn render-flame [profile target]
   (let [profile' (-> profile p.profile/profile->flame-graph clj->js)
         tooltip  (fn [d]
@@ -16,16 +20,16 @@
                          total-value (gobj/get profile' "value")
                          pct         (-> (/ value total-value) (* 100) (.toFixed 2))]
                      (str name "<br>"
-                          self "/" value "ms<br />"
-                          pct "% of total")))
-        tip (-> (js/d3.tip)
-                (.attr "class" "d3-flame-graph-tip")
-                (.html tooltip))
+                       self "/" value "ms<br />"
+                       pct "% of total")))
+        tip      (-> ((gobj/get js/d3 "tip"))
+                     (js-call "attr" "class" "d3-flame-graph-tip")
+                     (js-call "html" tooltip))
 
-        flame    (-> (js/d3.flameGraph)
-                     (.width 600)
-                     (.height 300)
-                     (.tooltip tip))]
+        flame    (-> ((gobj/get js/d3 "flameGraph"))
+                     (js-call "width" 600)
+                     (js-call "height" 300)
+                     (js-call "tooltip" tip))]
 
     (-> (js/d3.select target)
         (.datum profile')

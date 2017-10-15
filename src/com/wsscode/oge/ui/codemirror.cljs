@@ -241,7 +241,7 @@
                                                                          (= 1 (-> (gobj/get e "key") (count))))
                                                                 (js/CodeMirror.showHint cm))))
                                    (gobj/set cm "ogeIndex" indexes)
-                                   (js/parinferCodeMirror.init cm "smart" #js {:forceBalance true})))
+                                   ((gobj/get js/parinferCodeMirror "init") cm "smart" #js {:forceBalance true})))
                 (update ::options #(merge options %))))))
 
 (defn clojure [props]
