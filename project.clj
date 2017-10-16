@@ -19,6 +19,8 @@
 
   :source-paths ["src"]
 
+  :jar-exclusions [#"public/js/.*"]
+
   :figwheel {:server-port 3450}
 
   :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.13"]
