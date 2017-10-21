@@ -83,7 +83,6 @@
     (let [textarea   (gobj/get this "textNode")
           options    (-> this om/props ::options (or {}) clj->js)
           process    (-> this om/props ::process)
-          id         (-> this om/props ::id)
           codemirror (js/CodeMirror.fromTextArea textarea options)]
 
       (try
@@ -134,11 +133,13 @@
                      ([s] (find-ctx s []))
                      ([s ctx]
                       (cond
+                        ; ident join: [{[:ident x] [|]}]
                         (and (= "join" (gobj/get s "mode"))
                              (= "ident" (gobj/getValueByKeys s #js ["key" "mode"])))
                         (let [key (str->keyword (gobj/getValueByKeys s #js ["key" "key"]))]
                           {:type :attribute :context (conj ctx key)})
 
+                        ; ident join: [{[:ident x] [|]}]
                         (and (= "join" (gobj/get s "mode"))
                              (= (string? (gobj/get s "key"))))
                         (let [key (str->keyword (gobj/get s "key"))]
@@ -163,6 +164,7 @@
       (or (= "attr-list" mode))
       (if (gobj/getValueByKeys path-stack #js ["prev" "mode"])
         (find-ctx (gobj/get path-stack "prev"))
+        ; no stack, empty context
         {:type :attribute :context []}))))
 
 (defn completions [index cm]
@@ -170,14 +172,13 @@
         ch    (.-ch cur)
         token (.getTokenAt cm cur)
         reg   (subs (.-string token) 0 (- ch (.-start token)))
-        ctx   (token-context index cm)
-        words (when reg (case (:type ctx)
-                          :attribute (->> (p.connect/discover-attrs (assoc index ::p.connect/cache oge-cache)
-                                            (->> ctx :context (remove (comp #{">"} namespace)))))
-                          :ident (into {} (map #(hash-map % {})) (-> index ::p.connect/idents))
-                          {}))]
-
-    words))
+        ctx   (token-context index cm)]
+    (when reg
+      (case (:type ctx)
+        :attribute (->> (p.connect/discover-attrs (assoc index ::p.connect/cache oge-cache)
+                          (->> ctx :context (remove (comp #{">"} namespace)))))
+        :ident (into {} (map #(hash-map % {})) (-> index ::p.connect/idents))
+        {}))))
 
 (defn autocomplete [index cm options]
   (let [cur    (.getCursor cm)
@@ -231,7 +232,7 @@
                  ::autoCloseBrackets         true
                  ::highlightSelectionMatches true
                  ::foldGutter                true
-                 ::hintOptions               {:hint (partial autocomplete indexes)
+                 ::hintOptions               {:hint           (partial autocomplete indexes)
                                               :completeSingle false}
                  ::extraKeys                 {"Ctrl-Space" "autocomplete"}
                  ::gutters                   ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]}]
