@@ -8,11 +8,12 @@
             [com.wsscode.pathom.connect :as p.connect]
             [com.wsscode.oge.ui.codemirror :as codemirror]
             [com.wsscode.oge.ui.flame-graph :as ui.flame]
-            [com.wsscode.oge.ui.styles :as styles]
+            [com.wsscode.oge.ui.helpers :as helpers]
             [om.next :as om]
             [om.dom :as dom]
             [cljs.pprint :refer [pprint]]
-            [cljs.reader :refer [read-string]]))
+            [cljs.reader :refer [read-string]]
+            [com.wsscode.oge.ui.common :as ui]))
 
 (defmethod mutations/mutate `clear-errors [{:keys [state]} _ _]
   {:action
@@ -61,14 +62,14 @@
                                   :border                "1px solid #ddd"
                                   :grid-template-rows    "auto 1fr 12px 300px"
                                   :grid-template-columns "600px 12px 1fr"
-                                  :grid-template-areas   (styles/strings ["title title title"
-                                                                          "editor divisor result"
-                                                                          "hdiv divisor result"
-                                                                          "flame divisor result"])}
+                                  :grid-template-areas   (helpers/strings ["title title title"
+                                                                           "editor divisor result"
+                                                                           "hdiv divisor result"
+                                                                           "flame divisor result"])}
                      [:&.simple {:grid-template-rows    "auto 1fr"
                                  :grid-template-columns "600px 12px 1fr"
-                                 :grid-template-areas   (styles/strings ["title title title"
-                                                                         "editor divisor result"])}]
+                                 :grid-template-areas   (helpers/strings ["title title title"
+                                                                          "editor divisor result"])}]
                      [:$CodeMirror {:height "100%" :width "100%" :position "absolute"}]]
 
                     [:.title {:grid-area     "title"
@@ -77,6 +78,7 @@
                               :background    "linear-gradient(#f7f7f7, #e2e2e2)"
                               :padding       "2px 10px"
                               :border-bottom "1px solid #e0e0e0"}]
+                    [:.title-oge {:margin "0" :margin-bottom "8px"}]
                     [:.divisor {:grid-area     "divisor"
                                 :background    "#eee"
                                 :border        "1px solid #e0e0e0"
@@ -93,7 +95,7 @@
                              :border-width "1px 0"}]
                     [:.flame {:grid-area  "flame"
                               :background "#f6f7f8"}]])
-  (include-children [_] [])
+  (include-children [_] [ui/CSS])
 
   Object
   (render [this]
@@ -104,11 +106,10 @@
       (dom/div #js {:className (str (:container css) " " (if-not profile (:simple css)))
                     :style     (clj->js style)}
         (dom/div #js {:className (:title css)}
-          (dom/h2 #js {:className "flex"} "OgE")
-          (dom/button #js {:style     #js {:marginLeft 10}
-                           :className "btn btn-primary"
-                           :disabled  (fetch/loading? (:ui/fetch-state result'))
-                           :onClick   #(oge-query this query)}
+          (dom/h2 #js {:className (str "flex " (:title-oge css))} "OgE")
+          (ui/button {:style    #js {:marginLeft 10}
+                      :disabled (fetch/loading? (:ui/fetch-state result'))
+                      :onClick  #(oge-query this query)}
             (if (fetch/loading? (:ui/fetch-state result'))
               "Loading..."
               "Run Query")))
