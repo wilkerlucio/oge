@@ -19,9 +19,34 @@
 
   :source-paths ["src"]
 
+  :plugins [[lein-cljsbuild "1.1.7"]]
+
   :jar-exclusions [#"public/js/.*"]
 
   :figwheel {:server-port 3450}
+
+  :cljsbuild {:builds [{:id           "dev"
+                        :figwheel     true
+                        :source-paths ["src"]
+                        :compiler     {:main                 com.wsscode.oge.pub.main
+                                       :source-map-timestamp true
+                                       :asset-path           "/js/dev"
+                                       :output-to            "resources/public/js/dev/main.js"
+                                       :output-dir           "resources/public/js/dev"
+                                       :preloads             [devtools.preload]
+                                       :parallel-build       true
+                                       :verbose              false}}
+
+                       {:id           "prod"
+                        :source-paths ["src"]
+                        :compiler     {:main                 com.wsscode.oge.pub.main
+                                       :source-map-timestamp true
+                                       :asset-path           "/js/prod"
+                                       :output-to            "resources/public/js/prod/main.js"
+                                       :output-dir           "resources/public/js/prod"
+                                       :optimizations        :advanced
+                                       :parallel-build       true
+                                       :verbose              false}}]}
 
   :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.13"]
                                   [binaryage/devtools "0.9.4"]]}})

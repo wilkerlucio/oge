@@ -1,4 +1,4 @@
-(ns com.wsscode.oge.main
+(ns com.wsscode.oge.core
   (:require [fulcro.client.core :as fulcro]
             [fulcro.client.data-fetch :as fetch]
             [fulcro.client.mutations :as mutations]
