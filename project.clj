@@ -19,7 +19,8 @@
 
   :source-paths ["src"]
 
-  :plugins [[lein-cljsbuild "1.1.7"]]
+  :plugins [[lein-cljsbuild "1.1.7"]
+            [lein-figwheel "0.5.13"]]
 
   :jar-exclusions [#"public/js/.*"]
 
