@@ -65,7 +65,9 @@
 (om/defui ^:once TextField
   static css/CSS
   (local-rules [_] [[:.input css-input
-                     [:&:focus css-input-focus]]])
+                     [:&:focus css-input-focus]
+                     [:&.success {:border-color "#5cb85c"}]
+                     [:&.warning {:border-color "#f0ad4e"}]]])
   (include-children [_] [])
 
   Object
@@ -74,6 +76,7 @@
           css   (css/get-classnames TextField)]
       (dom/input (helpers/props->html {:className (:input css)
                                        :type      "text"}
+                   (helpers/expand-classes css (::classes props))
                    props)))))
 
 (def text-field (om/factory TextField))

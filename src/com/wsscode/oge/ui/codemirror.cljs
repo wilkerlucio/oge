@@ -66,7 +66,6 @@
                                     ::p.connect/keys [indexes]}]
     (let [cm (gobj/get this "codemirror")]
       (when (not= indexes (gobj/get cm "ogeIndex"))
-        (js/console.log "Updating index" indexes)
         (reset! oge-cache {})
         (gobj/set cm "ogeIndex" indexes)
         (gobj/set (gobj/getValueByKeys cm #js ["options" "hintOptions"]) "hint" (partial autocomplete indexes)))

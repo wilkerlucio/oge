@@ -8,12 +8,14 @@
             [com.wsscode.oge.pub.network :as network]
             [goog.functions :as gfun]
             [om.next :as om]
-            [om.dom :as dom]))
+            [om.dom :as dom]
+            [fulcro.client.data-fetch :as fetch]))
 
 (defn update-index [reconciler]
   (om/transact! reconciler
-    [(list 'fulcro/load {:target [:oge/id "editor" ::p.connect/indexes]
-                         :query  (-> oge/Oge om/get-query (om/focus-query [::p.connect/indexes]))})]))
+    [(list 'fulcro/load {:target  [:oge/id "editor" ::p.connect/indexes]
+                         :query   (-> oge/Oge om/get-query (om/focus-query [::p.connect/indexes]))
+                         :refresh #{:ui/editor}})]))
 
 (def debounced-update-index
   (gfun/debounce update-index 600))
@@ -55,12 +57,19 @@
   Object
   (render [this]
     (let [{:keys [ui/editor ui/target-url]} (om/props this)
-          css (css/get-classnames OgeMain)]
+          css (css/get-classnames OgeMain)
+          fs  (-> editor ::p.connect/indexes :ui/fetch-state)]
       (dom/div #js {:className (:container css)}
         (ui/text-field {:value       target-url
                         :className   (:input css)
                         :placeholder "https://your-endpoint.here.com"
-                        :onChange    #(om/transact! this [`(update-endpoint {::url ~(.. % -target -value)})])})
+                        :onChange    #(om/transact! this [`(update-endpoint {::url ~(.. % -target -value)})])
+                        ::ui/classes (cond
+                                       (-> editor ::p.connect/indexes ::p.connect/index-io)
+                                       [:success]
+
+                                       (fetch/failed? fs)
+                                       [:warning])})
         (oge/oge (om/computed editor {:style {:flex 1}}))))))
 
 (def oge-main (om/factory OgeMain))
