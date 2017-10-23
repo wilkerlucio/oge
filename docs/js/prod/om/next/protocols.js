@@ -224,8 +224,8 @@ throw cljs.core.missing_protocol("IReconciler.schedule-sends!",reconciler);
 });
 
 om.next.protocols.queue_BANG_ = (function om$next$protocols$queue_BANG_(var_args){
-var G__18508 = arguments.length;
-switch (G__18508) {
+var G__17278 = arguments.length;
+switch (G__17278) {
 case 2:
 return om.next.protocols.queue_BANG_.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -320,8 +320,8 @@ throw cljs.core.missing_protocol("IReconciler.reindex!",reconciler);
 });
 
 om.next.protocols.reconcile_BANG_ = (function om$next$protocols$reconcile_BANG_(var_args){
-var G__18530 = arguments.length;
-switch (G__18530) {
+var G__17285 = arguments.length;
+switch (G__17285) {
 case 1:
 return om.next.protocols.reconcile_BANG_.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 

@@ -48,20 +48,20 @@ return goog.debug.Logger.Level.getPredefinedLevel(G__33238);
  */
 fulcro.client.logging.value_message = (function fulcro$client$logging$value_message(msg,val){
 return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(msg),":\n",cljs.core.str.cljs$core$IFn$_invoke$arity$1((function (){var sb__11539__auto__ = (new goog.string.StringBuffer());
-var _STAR_print_newline_STAR_33245_33247 = cljs.core._STAR_print_newline_STAR_;
-var _STAR_print_fn_STAR_33246_33248 = cljs.core._STAR_print_fn_STAR_;
+var _STAR_print_newline_STAR_33244_33247 = cljs.core._STAR_print_newline_STAR_;
+var _STAR_print_fn_STAR_33245_33248 = cljs.core._STAR_print_fn_STAR_;
 cljs.core._STAR_print_newline_STAR_ = true;
 
-cljs.core._STAR_print_fn_STAR_ = ((function (_STAR_print_newline_STAR_33245_33247,_STAR_print_fn_STAR_33246_33248,sb__11539__auto__){
+cljs.core._STAR_print_fn_STAR_ = ((function (_STAR_print_newline_STAR_33244_33247,_STAR_print_fn_STAR_33245_33248,sb__11539__auto__){
 return (function (x__11540__auto__){
 return sb__11539__auto__.append(x__11540__auto__);
-});})(_STAR_print_newline_STAR_33245_33247,_STAR_print_fn_STAR_33246_33248,sb__11539__auto__))
+});})(_STAR_print_newline_STAR_33244_33247,_STAR_print_fn_STAR_33245_33248,sb__11539__auto__))
 ;
 
 try{cljs.pprint.pprint.cljs$core$IFn$_invoke$arity$1(val);
-}finally {cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR_33246_33248;
+}finally {cljs.core._STAR_print_fn_STAR_ = _STAR_print_fn_STAR_33245_33248;
 
-cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR_33245_33247;
+cljs.core._STAR_print_newline_STAR_ = _STAR_print_newline_STAR_33244_33247;
 }
 return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(sb__11539__auto__)].join('');
 })())].join('');
@@ -71,8 +71,8 @@ return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(sb__11539__auto__)].join('')
  *        Returns the value (like identity) so it can be harmlessly nested in expressions.
  */
 fulcro.client.logging.debug = (function fulcro$client$logging$debug(var_args){
-var G__33251 = arguments.length;
-switch (G__33251) {
+var G__33253 = arguments.length;
+switch (G__33253) {
 case 1:
 return fulcro.client.logging.debug.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -145,14 +145,14 @@ return fulcro.client.logging.info.cljs$core$IFn$_invoke$arity$variadic(cljs.core
  */
 fulcro.client.logging.warn = (function fulcro$client$logging$warn(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___33282 = arguments.length;
-var i__11692__auto___33283 = (0);
+var len__11691__auto___33283 = arguments.length;
+var i__11692__auto___33284 = (0);
 while(true){
-if((i__11692__auto___33283 < len__11691__auto___33282)){
-args__11698__auto__.push((arguments[i__11692__auto___33283]));
+if((i__11692__auto___33284 < len__11691__auto___33283)){
+args__11698__auto__.push((arguments[i__11692__auto___33284]));
 
-var G__33285 = (i__11692__auto___33283 + (1));
-i__11692__auto___33283 = G__33285;
+var G__33285 = (i__11692__auto___33284 + (1));
+i__11692__auto___33284 = G__33285;
 continue;
 } else {
 }
@@ -164,9 +164,9 @@ return fulcro.client.logging.warn.cljs$core$IFn$_invoke$arity$variadic(argseq__1
 });
 
 fulcro.client.logging.warn.cljs$core$IFn$_invoke$arity$variadic = (function (data){
-var G__33278 = om.next._STAR_logger_STAR_;
-var G__33279 = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.interpose.cljs$core$IFn$_invoke$arity$2(" ",data));
-return goog.log.warning(G__33278,G__33279);
+var G__33280 = om.next._STAR_logger_STAR_;
+var G__33281 = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.interpose.cljs$core$IFn$_invoke$arity$2(" ",data));
+return goog.log.warning(G__33280,G__33281);
 });
 
 fulcro.client.logging.warn.cljs$lang$maxFixedArity = (0);
@@ -180,10 +180,10 @@ return fulcro.client.logging.warn.cljs$core$IFn$_invoke$arity$variadic(cljs.core
  */
 fulcro.client.logging.error = (function fulcro$client$logging$error(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___33296 = arguments.length;
+var len__11691__auto___33297 = arguments.length;
 var i__11692__auto___33298 = (0);
 while(true){
-if((i__11692__auto___33298 < len__11691__auto___33296)){
+if((i__11692__auto___33298 < len__11691__auto___33297)){
 args__11698__auto__.push((arguments[i__11692__auto___33298]));
 
 var G__33299 = (i__11692__auto___33298 + (1));
@@ -199,14 +199,14 @@ return fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic(argseq__
 });
 
 fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic = (function (data){
-var G__33292 = om.next._STAR_logger_STAR_;
-var G__33293 = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.interpose.cljs$core$IFn$_invoke$arity$2(" ",data));
-return goog.log.error(G__33292,G__33293);
+var G__33293 = om.next._STAR_logger_STAR_;
+var G__33295 = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.interpose.cljs$core$IFn$_invoke$arity$2(" ",data));
+return goog.log.error(G__33293,G__33295);
 });
 
 fulcro.client.logging.error.cljs$lang$maxFixedArity = (0);
 
-fulcro.client.logging.error.cljs$lang$applyTo = (function (seq33287){
-return fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq33287));
+fulcro.client.logging.error.cljs$lang$applyTo = (function (seq33291){
+return fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq33291));
 });
 

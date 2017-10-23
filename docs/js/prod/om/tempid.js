@@ -62,8 +62,8 @@ return (new om.tempid.TempId(id,__hash));
 });
 
 om.tempid.tempid = (function om$tempid$tempid(var_args){
-var G__18691 = arguments.length;
-switch (G__18691) {
+var G__17344 = arguments.length;
+switch (G__17344) {
 case 0:
 return om.tempid.tempid.cljs$core$IFn$_invoke$arity$0();
 

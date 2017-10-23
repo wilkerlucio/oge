@@ -15,16 +15,16 @@ this.size = size;
 om.next.cache.Cache.prototype.add = (function (id,x){
 var self__ = this;
 var this$ = this;
-var x_SINGLEQUOTE__16125 = cljs.core.vary_meta.cljs$core$IFn$_invoke$arity$4(x,cljs.core.assoc,cljs.core.cst$kw$client_DASH_time,(new Date()));
+var x_SINGLEQUOTE__16062 = cljs.core.vary_meta.cljs$core$IFn$_invoke$arity$4(x,cljs.core.assoc,cljs.core.cst$kw$client_DASH_time,(new Date()));
 if((self__.size <= self__.arr.length)){
-var id_SINGLEQUOTE__16126 = self__.arr.shift();
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(self__.index,((function (id_SINGLEQUOTE__16126,x_SINGLEQUOTE__16125,this$){
-return (function (p1__16122_SHARP_){
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(p1__16122_SHARP_,id_SINGLEQUOTE__16126),id,x_SINGLEQUOTE__16125);
-});})(id_SINGLEQUOTE__16126,x_SINGLEQUOTE__16125,this$))
+var id_SINGLEQUOTE__16064 = self__.arr.shift();
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(self__.index,((function (id_SINGLEQUOTE__16064,x_SINGLEQUOTE__16062,this$){
+return (function (p1__16056_SHARP_){
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(p1__16056_SHARP_,id_SINGLEQUOTE__16064),id,x_SINGLEQUOTE__16062);
+});})(id_SINGLEQUOTE__16064,x_SINGLEQUOTE__16062,this$))
 );
 } else {
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(self__.index,cljs.core.assoc,id,x_SINGLEQUOTE__16125);
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(self__.index,cljs.core.assoc,id,x_SINGLEQUOTE__16062);
 }
 
 return self__.arr.push(id);

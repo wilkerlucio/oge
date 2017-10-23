@@ -10,22 +10,22 @@ goog.require('cljs.core.constants');
  */
 clojure.walk.walk = (function clojure$walk$walk(inner,outer,form){
 if(cljs.core.list_QMARK_(form)){
-var G__16004 = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.list,cljs.core.map.cljs$core$IFn$_invoke$arity$2(inner,form));
-return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(G__16004) : outer.call(null,G__16004));
-} else {
-if(cljs.core.seq_QMARK_(form)){
-var G__16005 = cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.map.cljs$core$IFn$_invoke$arity$2(inner,form));
-return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(G__16005) : outer.call(null,G__16005));
-} else {
-if(cljs.core.record_QMARK_(form)){
-var G__16006 = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (r,x){
-return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(r,(inner.cljs$core$IFn$_invoke$arity$1 ? inner.cljs$core$IFn$_invoke$arity$1(x) : inner.call(null,x)));
-}),form,form);
+var G__16006 = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.list,cljs.core.map.cljs$core$IFn$_invoke$arity$2(inner,form));
 return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(G__16006) : outer.call(null,G__16006));
 } else {
-if(cljs.core.coll_QMARK_(form)){
-var G__16007 = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.empty(form),cljs.core.map.cljs$core$IFn$_invoke$arity$2(inner,form));
+if(cljs.core.seq_QMARK_(form)){
+var G__16007 = cljs.core.doall.cljs$core$IFn$_invoke$arity$1(cljs.core.map.cljs$core$IFn$_invoke$arity$2(inner,form));
 return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(G__16007) : outer.call(null,G__16007));
+} else {
+if(cljs.core.record_QMARK_(form)){
+var G__16009 = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (r,x){
+return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(r,(inner.cljs$core$IFn$_invoke$arity$1 ? inner.cljs$core$IFn$_invoke$arity$1(x) : inner.call(null,x)));
+}),form,form);
+return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(G__16009) : outer.call(null,G__16009));
+} else {
+if(cljs.core.coll_QMARK_(form)){
+var G__16011 = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.empty(form),cljs.core.map.cljs$core$IFn$_invoke$arity$2(inner,form));
+return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(G__16011) : outer.call(null,G__16011));
 } else {
 return (outer.cljs$core$IFn$_invoke$arity$1 ? outer.cljs$core$IFn$_invoke$arity$1(form) : outer.call(null,form));
 
@@ -52,10 +52,10 @@ return clojure.walk.walk(cljs.core.partial.cljs$core$IFn$_invoke$arity$2(clojure
  * Recursively transforms all map keys from strings to keywords.
  */
 clojure.walk.keywordize_keys = (function clojure$walk$keywordize_keys(m){
-var f = (function (p__16021){
-var vec__16022 = p__16021;
-var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16022,(0),null);
-var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16022,(1),null);
+var f = (function (p__16025){
+var vec__16026 = p__16025;
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16026,(0),null);
+var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16026,(1),null);
 if(typeof k === 'string'){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.cljs$core$IFn$_invoke$arity$1(k),v], null);
 } else {
@@ -77,9 +77,9 @@ return x;
  */
 clojure.walk.stringify_keys = (function clojure$walk$stringify_keys(m){
 var f = (function (p__16032){
-var vec__16033 = p__16032;
-var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16033,(0),null);
-var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16033,(1),null);
+var vec__16034 = p__16032;
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16034,(0),null);
+var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__16034,(1),null);
 if((k instanceof cljs.core.Keyword)){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.name(k),v], null);
 } else {

@@ -47,8 +47,8 @@ return (new om.transit.TempIdHandler());
 });
 
 om.transit.writer = (function om$transit$writer(var_args){
-var G__19480 = arguments.length;
-switch (G__19480) {
+var G__17353 = arguments.length;
+switch (G__17353) {
 case 0:
 return om.transit.writer.cljs$core$IFn$_invoke$arity$0();
 
@@ -74,8 +74,8 @@ return cognitect.transit.writer.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$j
 om.transit.writer.cljs$lang$maxFixedArity = 1;
 
 om.transit.reader = (function om$transit$reader(var_args){
-var G__19512 = arguments.length;
-switch (G__19512) {
+var G__17356 = arguments.length;
+switch (G__17356) {
 case 0:
 return om.transit.reader.cljs$core$IFn$_invoke$arity$0();
 

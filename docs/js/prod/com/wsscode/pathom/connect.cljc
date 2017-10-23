@@ -113,14 +113,19 @@
    (defn reader [env]
      (let [k (-> env :ast :key)]
        (if-let [{:keys [e f]} (pick-resolver env)]
-         (let [response (p/cached env [f e] ((resolve f) env e))]
+         (let [{::keys [cache?] :or {cache? true}} (get-in env [::indexes ::index-fio f])
+               response (if cache?
+                          (p/cached env [f e] ((resolve f) env e))
+                          ((resolve f) env e))
+               env'     (get response ::env env)
+               response (dissoc response ::env)]
            (if-not (or (nil? response) (map? response))
              (throw (ex-info "Response from reader must be a map." {:sym f :response response})))
-           (p/swap-entity! env #(merge % response))
+           (p/swap-entity! env' #(merge % response))
            (let [x (get response k)]
              (if (sequential? x)
-               (->> x (map atom) (p/join-seq env))
-               (p/join (atom (get response k)) env))))
+               (->> x (map atom) (p/join-seq env'))
+               (p/join (atom (get response k)) env'))))
          ::p/continue))))
 
 (def index-reader
@@ -144,14 +149,6 @@
 
 ;;;;;;;;;;;;;;;;;;;
 
-(defn- take-while+
-  [pred coll]
-  (lazy-seq
-    (when-let [[f & r] (seq coll)]
-      (if (pred f)
-        (cons f (take-while+ pred r))
-        [f]))))
-
 (defn- cached [cache x f]
   (if cache
     (if (contains? @cache x)
@@ -166,9 +163,8 @@
     (fn []
       (let [base-keys
             (if (> (count ctx) 1)
-              (let [ctx' (take-while+ #(not (contains? index-io #{%})) ctx)
-                    tree (->> ctx'
-                              (repeat (dec (count ctx')))
+              (let [tree (->> ctx
+                              (repeat (dec (count ctx)))
                               (map-indexed #(drop (- (count %2) (inc %)) %2))
                               (reduce (fn [a b]
                                         (let [attrs (discover-attrs index (vec b))]
@@ -176,7 +172,7 @@
                                             attrs
                                             (update-in a (reverse (drop-last b)) merge-io attrs))))
                                 nil))]
-                (get-in tree (->> ctx' reverse next vec)))
+                (get-in tree (->> ctx reverse next vec)))
               (merge-io (get-in index-io [#{} (first ctx)])
                         (get index-io #{(first ctx)} {})))]
         (loop [available index-io

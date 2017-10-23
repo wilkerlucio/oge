@@ -37,8 +37,8 @@ return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(s)].join('');
  *   those things in their queries.
  */
 fulcro.client.util.force_render = (function fulcro$client$util$force_render(var_args){
-var G__33253 = arguments.length;
-switch (G__33253) {
+var G__33252 = arguments.length;
+switch (G__33252) {
 case 2:
 return fulcro.client.util.force_render.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -124,14 +124,14 @@ return fulcro.client.util.deep_merge.cljs$core$IFn$_invoke$arity$variadic(cljs.c
  */
 fulcro.client.util.log_app_state = (function fulcro$client$util$log_app_state(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___33294 = arguments.length;
-var i__11692__auto___33295 = (0);
+var len__11691__auto___33292 = arguments.length;
+var i__11692__auto___33294 = (0);
 while(true){
-if((i__11692__auto___33295 < len__11691__auto___33294)){
-args__11698__auto__.push((arguments[i__11692__auto___33295]));
+if((i__11692__auto___33294 < len__11691__auto___33292)){
+args__11698__auto__.push((arguments[i__11692__auto___33294]));
 
-var G__33297 = (i__11692__auto___33295 + (1));
-i__11692__auto___33295 = G__33297;
+var G__33296 = (i__11692__auto___33294 + (1));
+i__11692__auto___33294 = G__33296;
 continue;
 } else {
 }
@@ -159,12 +159,12 @@ var path = make_path(location);
 return cljs.core.assoc_in(acc,path,cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(app_state),path));
 });})(app_state))
 ;
-var pred__33289 = cljs.core._EQ_;
-var expr__33290 = cljs.core.count(keys_and_paths);
-if(cljs.core.truth_((pred__33289.cljs$core$IFn$_invoke$arity$2 ? pred__33289.cljs$core$IFn$_invoke$arity$2((0),expr__33290) : pred__33289.call(null,(0),expr__33290)))){
+var pred__33288 = cljs.core._EQ_;
+var expr__33289 = cljs.core.count(keys_and_paths);
+if(cljs.core.truth_((pred__33288.cljs$core$IFn$_invoke$arity$2 ? pred__33288.cljs$core$IFn$_invoke$arity$2((0),expr__33289) : pred__33288.call(null,(0),expr__33289)))){
 return cljs.core.deref(app_state);
 } else {
-if(cljs.core.truth_((pred__33289.cljs$core$IFn$_invoke$arity$2 ? pred__33289.cljs$core$IFn$_invoke$arity$2((1),expr__33290) : pred__33289.call(null,(1),expr__33290)))){
+if(cljs.core.truth_((pred__33288.cljs$core$IFn$_invoke$arity$2 ? pred__33288.cljs$core$IFn$_invoke$arity$2((1),expr__33289) : pred__33288.call(null,(1),expr__33289)))){
 return cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(app_state),make_path(cljs.core.first(keys_and_paths)));
 } else {
 return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(process_location,cljs.core.PersistentArrayMap.EMPTY,keys_and_paths);
@@ -182,10 +182,10 @@ throw e33286;
 
 fulcro.client.util.log_app_state.cljs$lang$maxFixedArity = (1);
 
-fulcro.client.util.log_app_state.cljs$lang$applyTo = (function (seq33280){
-var G__33281 = cljs.core.first(seq33280);
-var seq33280__$1 = cljs.core.next(seq33280);
-return fulcro.client.util.log_app_state.cljs$core$IFn$_invoke$arity$variadic(G__33281,seq33280__$1);
+fulcro.client.util.log_app_state.cljs$lang$applyTo = (function (seq33278){
+var G__33279 = cljs.core.first(seq33278);
+var seq33278__$1 = cljs.core.next(seq33278);
+return fulcro.client.util.log_app_state.cljs$core$IFn$_invoke$arity$variadic(G__33279,seq33278__$1);
 });
 
 fulcro.client.util.conform_BANG_ = (function fulcro$client$util$conform_BANG_(spec,x){

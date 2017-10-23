@@ -146,9 +146,9 @@ return !((cljs.core.re_matches(/(\.|\$|&\.|&\$).*/,nm) == null));
  * Returns the prefix of a string. [. $ &$ &.]
  */
 fulcro_css.css.get_prefix = (function fulcro_css$css$get_prefix(nm){
-var vec__48612 = cljs.core.re_matches(/(\.|\$|&\.|&\$).*/,nm);
-var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48612,(0),null);
-var prefix = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48612,(1),null);
+var vec__48630 = cljs.core.re_matches(/(\.|\$|&\.|&\$).*/,nm);
+var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48630,(0),null);
+var prefix = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48630,(1),null);
 return prefix;
 });
 /**
@@ -193,8 +193,8 @@ if(cljs.core.empty_QMARK_(direct_children)){
 return cljs.core.PersistentVector.EMPTY;
 } else {
 return cljs.core.concat.cljs$core$IFn$_invoke$arity$2(direct_children,cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(((function (direct_children){
-return (function (p1__48615_SHARP_,p2__48616_SHARP_){
-return cljs.core.concat.cljs$core$IFn$_invoke$arity$2(p1__48615_SHARP_,(fulcro_css.css.get_nested_includes.cljs$core$IFn$_invoke$arity$1 ? fulcro_css.css.get_nested_includes.cljs$core$IFn$_invoke$arity$1(p2__48616_SHARP_) : fulcro_css.css.get_nested_includes.call(null,p2__48616_SHARP_)));
+return (function (p1__48636_SHARP_,p2__48637_SHARP_){
+return cljs.core.concat.cljs$core$IFn$_invoke$arity$2(p1__48636_SHARP_,(fulcro_css.css.get_nested_includes.cljs$core$IFn$_invoke$arity$1 ? fulcro_css.css.get_nested_includes.cljs$core$IFn$_invoke$arity$1(p2__48637_SHARP_) : fulcro_css.css.get_nested_includes.call(null,p2__48637_SHARP_)));
 });})(direct_children))
 ,cljs.core.PersistentVector.EMPTY,direct_children));
 }
@@ -202,8 +202,8 @@ return cljs.core.concat.cljs$core$IFn$_invoke$arity$2(p1__48615_SHARP_,(fulcro_c
 fulcro_css.css.localize_name = (function fulcro_css$css$localize_name(nm,comp){
 var no_prefix = fulcro_css.css.remove_prefix(nm);
 var prefix = fulcro_css.css.get_prefix(nm);
-var G__48620 = prefix;
-switch (G__48620) {
+var G__48642 = prefix;
+switch (G__48642) {
 case ".":
 case "&.":
 return [cljs.core.str.cljs$core$IFn$_invoke$arity$1(prefix),cljs.core.str.cljs$core$IFn$_invoke$arity$1(fulcro_css.core.local_class.cljs$core$IFn$_invoke$arity$2(comp,cljs.core.keyword.cljs$core$IFn$_invoke$arity$1(no_prefix)))].join('');
@@ -218,7 +218,7 @@ return ["&.",cljs.core.str.cljs$core$IFn$_invoke$arity$1(no_prefix)].join('');
 
 break;
 default:
-throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__48620)].join('')));
+throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__48642)].join('')));
 
 }
 });
@@ -232,8 +232,8 @@ fulcro_css.css.local_class = (function fulcro_css$css$local_class(comp,kw){
 var nm = cljs.core.name(kw);
 var prefix = fulcro_css.css.get_prefix(nm);
 var no_prefix = cljs.core.subs.cljs$core$IFn$_invoke$arity$2(nm,cljs.core.count(prefix));
-var G__48626 = prefix;
-switch (G__48626) {
+var G__48647 = prefix;
+switch (G__48647) {
 case "$":
 case "&$":
 return no_prefix;
@@ -245,7 +245,7 @@ return fulcro_css.core.local_class.cljs$core$IFn$_invoke$arity$2(comp,no_prefix)
 
 break;
 default:
-throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__48626)].join('')));
+throw (new Error(["No matching clause: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(G__48647)].join('')));
 
 }
 });
@@ -256,11 +256,11 @@ fulcro_css.css.localize_selector = (function fulcro_css$css$localize_selector(se
 var val = cljs.core.cst$kw$selector.cljs$core$IFn$_invoke$arity$1(selector);
 var split_cns_selectors = clojure.string.split.cljs$core$IFn$_invoke$arity$2(val,/ /);
 return garden.selectors.selector(clojure.string.join.cljs$core$IFn$_invoke$arity$2(" ",cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (val,split_cns_selectors){
-return (function (p1__48631_SHARP_){
-if(cljs.core.truth_(fulcro_css.css.prefixed_name_QMARK_(p1__48631_SHARP_))){
-return fulcro_css.css.localize_name(p1__48631_SHARP_,comp);
+return (function (p1__48653_SHARP_){
+if(cljs.core.truth_(fulcro_css.css.prefixed_name_QMARK_(p1__48653_SHARP_))){
+return fulcro_css.css.localize_name(p1__48653_SHARP_,comp);
 } else {
-return p1__48631_SHARP_;
+return p1__48653_SHARP_;
 }
 });})(val,split_cns_selectors))
 ,split_cns_selectors)));
@@ -269,43 +269,43 @@ return p1__48631_SHARP_;
  * Converts prefixed keywords into localized keywords and localizes the values of garden selectors
  */
 fulcro_css.css.localize_css = (function fulcro_css$css$localize_css(component){
-return com.rpl.specter.impl.compiled_transform_STAR_((function (){var info__31013__auto__ = fulcro_css.css.pathcache48638;
-var info__31013__auto____$1 = (((info__31013__auto__ == null))?(function (){var info48639 = com.rpl.specter.impl.magic_precompilation(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [com.rpl.specter.impl.__GT_FnInvocation(com.rpl.specter.impl.__GT_VarUse(com.rpl.specter.walker,new cljs.core.Var(function(){return com.rpl.specter.walker;},cljs.core.cst$sym$com$rpl$specter_SLASH_walker,cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$ns,cljs.core.cst$kw$name,cljs.core.cst$kw$file,cljs.core.cst$kw$end_DASH_column,cljs.core.cst$kw$column,cljs.core.cst$kw$line,cljs.core.cst$kw$end_DASH_line,cljs.core.cst$kw$arglists,cljs.core.cst$kw$doc,cljs.core.cst$kw$test],[cljs.core.cst$sym$com$rpl$specter,cljs.core.cst$sym$walker,"resources/public/js/prod/com/rpl/specter.cljc",9,1,1292,1296,cljs.core.List.EMPTY,"Navigate the data structure until reaching\n          a value for which `afn` returns truthy. Has\n          same semantics as clojure.walk.",(cljs.core.truth_(com.rpl.specter.walker)?com.rpl.specter.walker.cljs$lang$test:null)])),cljs.core.cst$sym$sp_SLASH_walker),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [com.rpl.specter.impl.__GT_SpecialFormUse(((function (info__31013__auto__){
-return (function (p1__48636_SHARP_){
-var or__10412__auto__ = fulcro_css.css.prefixed_keyword_QMARK_(p1__48636_SHARP_);
+return com.rpl.specter.impl.compiled_transform_STAR_((function (){var info__27641__auto__ = fulcro_css.css.pathcache48656;
+var info__27641__auto____$1 = (((info__27641__auto__ == null))?(function (){var info48657 = com.rpl.specter.impl.magic_precompilation(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [com.rpl.specter.impl.__GT_FnInvocation(com.rpl.specter.impl.__GT_VarUse(com.rpl.specter.walker,new cljs.core.Var(function(){return com.rpl.specter.walker;},cljs.core.cst$sym$com$rpl$specter_SLASH_walker,cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$ns,cljs.core.cst$kw$name,cljs.core.cst$kw$file,cljs.core.cst$kw$end_DASH_column,cljs.core.cst$kw$column,cljs.core.cst$kw$line,cljs.core.cst$kw$end_DASH_line,cljs.core.cst$kw$arglists,cljs.core.cst$kw$doc,cljs.core.cst$kw$test],[cljs.core.cst$sym$com$rpl$specter,cljs.core.cst$sym$walker,"resources/public/js/prod/com/rpl/specter.cljc",9,1,1292,1296,cljs.core.List.EMPTY,"Navigate the data structure until reaching\n          a value for which `afn` returns truthy. Has\n          same semantics as clojure.walk.",(cljs.core.truth_(com.rpl.specter.walker)?com.rpl.specter.walker.cljs$lang$test:null)])),cljs.core.cst$sym$sp_SLASH_walker),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [com.rpl.specter.impl.__GT_SpecialFormUse(((function (info__27641__auto__){
+return (function (p1__48654_SHARP_){
+var or__10412__auto__ = fulcro_css.css.prefixed_keyword_QMARK_(p1__48654_SHARP_);
 if(cljs.core.truth_(or__10412__auto__)){
 return or__10412__auto__;
 } else {
-return fulcro_css.css.selector_QMARK_(p1__48636_SHARP_);
+return fulcro_css.css.selector_QMARK_(p1__48654_SHARP_);
 }
-});})(info__31013__auto__))
-,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__48636_SHARP_], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.list(cljs.core.cst$sym$prefixed_DASH_keyword_QMARK_,cljs.core.cst$sym$p1__48636_SHARP_),cljs.core.list(cljs.core.cst$sym$selector_QMARK_,cljs.core.cst$sym$p1__48636_SHARP_))))], null),cljs.core.list(cljs.core.cst$sym$sp_SLASH_walker,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__48636_SHARP_], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.list(cljs.core.cst$sym$prefixed_DASH_keyword_QMARK_,cljs.core.cst$sym$p1__48636_SHARP_),cljs.core.list(cljs.core.cst$sym$selector_QMARK_,cljs.core.cst$sym$p1__48636_SHARP_)))))], null),"fulcro-css.css",cljs.core.PersistentVector.EMPTY,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$sp_SLASH_walker,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__48636_SHARP_], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.list(cljs.core.cst$sym$prefixed_DASH_keyword_QMARK_,cljs.core.cst$sym$p1__48636_SHARP_),cljs.core.list(cljs.core.cst$sym$selector_QMARK_,cljs.core.cst$sym$p1__48636_SHARP_)))], null));
-fulcro_css.css.pathcache48638 = info48639;
+});})(info__27641__auto__))
+,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__48654_SHARP_], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.list(cljs.core.cst$sym$prefixed_DASH_keyword_QMARK_,cljs.core.cst$sym$p1__48654_SHARP_),cljs.core.list(cljs.core.cst$sym$selector_QMARK_,cljs.core.cst$sym$p1__48654_SHARP_))))], null),cljs.core.list(cljs.core.cst$sym$sp_SLASH_walker,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__48654_SHARP_], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.list(cljs.core.cst$sym$prefixed_DASH_keyword_QMARK_,cljs.core.cst$sym$p1__48654_SHARP_),cljs.core.list(cljs.core.cst$sym$selector_QMARK_,cljs.core.cst$sym$p1__48654_SHARP_)))))], null),"fulcro-css.css",cljs.core.PersistentVector.EMPTY,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$sp_SLASH_walker,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__48654_SHARP_], null),cljs.core.list(cljs.core.cst$sym$or,cljs.core.list(cljs.core.cst$sym$prefixed_DASH_keyword_QMARK_,cljs.core.cst$sym$p1__48654_SHARP_),cljs.core.list(cljs.core.cst$sym$selector_QMARK_,cljs.core.cst$sym$p1__48654_SHARP_)))], null));
+fulcro_css.css.pathcache48656 = info48657;
 
-return info48639;
-})():info__31013__auto__);
-var precompiled48640 = com.rpl.specter.impl.cached_path_info_precompiled(info__31013__auto____$1);
-var dynamic_QMARK___31014__auto__ = com.rpl.specter.impl.cached_path_info_dynamic_QMARK_(info__31013__auto____$1);
-if(cljs.core.truth_(dynamic_QMARK___31014__auto__)){
-var G__48641 = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [com.rpl.specter.walker,((function (info__31013__auto__,info__31013__auto____$1,precompiled48640,dynamic_QMARK___31014__auto__){
-return (function (p1__48636_SHARP_){
-var or__10412__auto__ = fulcro_css.css.prefixed_keyword_QMARK_(p1__48636_SHARP_);
+return info48657;
+})():info__27641__auto__);
+var precompiled48658 = com.rpl.specter.impl.cached_path_info_precompiled(info__27641__auto____$1);
+var dynamic_QMARK___27642__auto__ = com.rpl.specter.impl.cached_path_info_dynamic_QMARK_(info__27641__auto____$1);
+if(cljs.core.truth_(dynamic_QMARK___27642__auto__)){
+var G__48659 = new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [com.rpl.specter.walker,((function (info__27641__auto__,info__27641__auto____$1,precompiled48658,dynamic_QMARK___27642__auto__){
+return (function (p1__48654_SHARP_){
+var or__10412__auto__ = fulcro_css.css.prefixed_keyword_QMARK_(p1__48654_SHARP_);
 if(cljs.core.truth_(or__10412__auto__)){
 return or__10412__auto__;
 } else {
-return fulcro_css.css.selector_QMARK_(p1__48636_SHARP_);
+return fulcro_css.css.selector_QMARK_(p1__48654_SHARP_);
 }
-});})(info__31013__auto__,info__31013__auto____$1,precompiled48640,dynamic_QMARK___31014__auto__))
+});})(info__27641__auto__,info__27641__auto____$1,precompiled48658,dynamic_QMARK___27642__auto__))
 ], null);
-return (precompiled48640.cljs$core$IFn$_invoke$arity$1 ? precompiled48640.cljs$core$IFn$_invoke$arity$1(G__48641) : precompiled48640.call(null,G__48641));
+return (precompiled48658.cljs$core$IFn$_invoke$arity$1 ? precompiled48658.cljs$core$IFn$_invoke$arity$1(G__48659) : precompiled48658.call(null,G__48659));
 } else {
-return precompiled48640;
+return precompiled48658;
 }
-})(),(function (p1__48637_SHARP_){
-if(cljs.core.truth_(fulcro_css.css.prefixed_keyword_QMARK_(p1__48637_SHARP_))){
-return fulcro_css.css.localize_kw(p1__48637_SHARP_,component);
+})(),(function (p1__48655_SHARP_){
+if(cljs.core.truth_(fulcro_css.css.prefixed_keyword_QMARK_(p1__48655_SHARP_))){
+return fulcro_css.css.localize_kw(p1__48655_SHARP_,component);
 } else {
-return fulcro_css.css.localize_selector(p1__48637_SHARP_,component);
+return fulcro_css.css.localize_selector(p1__48655_SHARP_,component);
 }
 }),fulcro_css.css.get_local_rules(component));
 });
@@ -322,8 +322,8 @@ fulcro_css.css.get_css = (function fulcro_css$css$get_css(component){
 var own_rules = fulcro_css.css.get_css_rules(component);
 var nested_children = cljs.core.distinct.cljs$core$IFn$_invoke$arity$1(fulcro_css.css.get_nested_includes(component));
 var nested_children_rules = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(((function (own_rules,nested_children){
-return (function (p1__48650_SHARP_,p2__48651_SHARP_){
-return cljs.core.into.cljs$core$IFn$_invoke$arity$2(p1__48650_SHARP_,fulcro_css.css.get_css_rules(p2__48651_SHARP_));
+return (function (p1__48672_SHARP_,p2__48673_SHARP_){
+return cljs.core.into.cljs$core$IFn$_invoke$arity$2(p1__48672_SHARP_,fulcro_css.css.get_css_rules(p2__48673_SHARP_));
 });})(own_rules,nested_children))
 ,cljs.core.PersistentVector.EMPTY,nested_children);
 return cljs.core.concat.cljs$core$IFn$_invoke$arity$2(own_rules,nested_children_rules);
@@ -334,8 +334,8 @@ return cljs.core.concat.cljs$core$IFn$_invoke$arity$2(own_rules,nested_children_
 fulcro_css.css.get_selector_keywords = (function fulcro_css$css$get_selector_keywords(selector){
 var val = cljs.core.cst$kw$selector.cljs$core$IFn$_invoke$arity$1(selector);
 var classnames = cljs.core.filter.cljs$core$IFn$_invoke$arity$2(((function (val){
-return (function (p1__48656_SHARP_){
-return cljs.core.re_matches(/[.$].*/,p1__48656_SHARP_);
+return (function (p1__48674_SHARP_){
+return cljs.core.re_matches(/[.$].*/,p1__48674_SHARP_);
 });})(val))
 ,clojure.string.split.cljs$core$IFn$_invoke$arity$2(val,/ /));
 return cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.keyword,classnames);
@@ -356,8 +356,8 @@ fulcro_css.css.get_classnames = (function fulcro_css$css$get_classnames(comp){
 var local_class_keys = fulcro_css.css.get_class_keys(fulcro_css.css.get_local_rules(comp));
 var global_class_keys = cljs.core.map.cljs$core$IFn$_invoke$arity$2(fulcro_css.css.remove_prefix_kw,fulcro_css.css.get_class_keys(fulcro_css.css.get_global_rules(comp)));
 var local_classnames = cljs.core.zipmap(cljs.core.map.cljs$core$IFn$_invoke$arity$2(fulcro_css.css.remove_prefix_kw,local_class_keys),cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (local_class_keys,global_class_keys){
-return (function (p1__48657_SHARP_){
-return fulcro_css.css.local_class(comp,p1__48657_SHARP_);
+return (function (p1__48675_SHARP_){
+return fulcro_css.css.local_class(comp,p1__48675_SHARP_);
 });})(local_class_keys,global_class_keys))
 ,local_class_keys));
 var global_classnames = cljs.core.zipmap(global_class_keys,cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.name,global_class_keys));

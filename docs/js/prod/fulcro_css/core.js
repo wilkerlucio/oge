@@ -62,8 +62,8 @@ return "unknown/unknown";
  * Generate a keyword for a localized CSS class for use in Garden CSS syntax as a localized component classname keyword.
  */
 fulcro_css.core.local_kw = (function fulcro_css$core$local_kw(var_args){
-var G__48596 = arguments.length;
-switch (G__48596) {
+var G__48614 = arguments.length;
+switch (G__48614) {
 case 1:
 return fulcro_css.core.local_kw.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -93,8 +93,8 @@ fulcro_css.core.local_kw.cljs$lang$maxFixedArity = 2;
  *   with the (optional) specified name.
  */
 fulcro_css.core.local_class = (function fulcro_css$core$local_class(var_args){
-var G__48604 = arguments.length;
-switch (G__48604) {
+var G__48619 = arguments.length;
+switch (G__48619) {
 case 1:
 return fulcro_css.core.local_class.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 

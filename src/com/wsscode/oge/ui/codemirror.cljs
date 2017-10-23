@@ -41,7 +41,7 @@
                                ::lineNumbers]))
 
 (s/def ::props (s/keys :req-un [::value]
-                 :opt [::options]))
+                       :opt [::options]))
 
 (s/def ::extraKeys
   (s/map-of string? (s/or :str string? :fn fn?)))

@@ -113,14 +113,14 @@ return false;
  */
 fulcro.client.core.new_fulcro_client = (function fulcro$client$core$new_fulcro_client(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___48600 = arguments.length;
-var i__11692__auto___48601 = (0);
+var len__11691__auto___48620 = arguments.length;
+var i__11692__auto___48621 = (0);
 while(true){
-if((i__11692__auto___48601 < len__11691__auto___48600)){
-args__11698__auto__.push((arguments[i__11692__auto___48601]));
+if((i__11692__auto___48621 < len__11691__auto___48620)){
+args__11698__auto__.push((arguments[i__11692__auto___48621]));
 
-var G__48603 = (i__11692__auto___48601 + (1));
-i__11692__auto___48601 = G__48603;
+var G__48622 = (i__11692__auto___48621 + (1));
+i__11692__auto___48621 = G__48622;
 continue;
 } else {
 }
@@ -131,26 +131,26 @@ var argseq__11699__auto__ = ((((0) < args__11698__auto__.length))?(new cljs.core
 return fulcro.client.core.new_fulcro_client.cljs$core$IFn$_invoke$arity$variadic(argseq__11699__auto__);
 });
 
-fulcro.client.core.new_fulcro_client.cljs$core$IFn$_invoke$arity$variadic = (function (p__48592){
-var map__48593 = p__48592;
-var map__48593__$1 = ((((!((map__48593 == null)))?((((map__48593.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48593.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48593):map__48593);
-var started_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48593__$1,cljs.core.cst$kw$started_DASH_callback,cljs.core.constantly(null));
-var initial_state = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48593__$1,cljs.core.cst$kw$initial_DASH_state,cljs.core.PersistentArrayMap.EMPTY);
-var reconciler_options = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48593__$1,cljs.core.cst$kw$reconciler_DASH_options);
-var read_local = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48593__$1,cljs.core.cst$kw$read_DASH_local,cljs.core.constantly(false));
-var network_error_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48593__$1,cljs.core.cst$kw$network_DASH_error_DASH_callback,cljs.core.constantly(null));
-var networking = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48593__$1,cljs.core.cst$kw$networking);
-var mutation_merge = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48593__$1,cljs.core.cst$kw$mutation_DASH_merge);
-var transit_handlers = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48593__$1,cljs.core.cst$kw$transit_DASH_handlers);
-var migrate = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48593__$1,cljs.core.cst$kw$migrate,null);
-var request_transform = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48593__$1,cljs.core.cst$kw$request_DASH_transform);
-var shared = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48593__$1,cljs.core.cst$kw$shared,null);
-var G__48597 = new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$initial_DASH_state,initial_state,cljs.core.cst$kw$read_DASH_local,read_local,cljs.core.cst$kw$mutation_DASH_merge,mutation_merge,cljs.core.cst$kw$started_DASH_callback,started_callback,cljs.core.cst$kw$reconciler_DASH_options,cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function (){var G__48598 = cljs.core.PersistentArrayMap.EMPTY;
-var G__48598__$1 = (cljs.core.truth_(migrate)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__48598,cljs.core.cst$kw$migrate,migrate):G__48598);
+fulcro.client.core.new_fulcro_client.cljs$core$IFn$_invoke$arity$variadic = (function (p__48610){
+var map__48611 = p__48610;
+var map__48611__$1 = ((((!((map__48611 == null)))?((((map__48611.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48611.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48611):map__48611);
+var started_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48611__$1,cljs.core.cst$kw$started_DASH_callback,cljs.core.constantly(null));
+var initial_state = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48611__$1,cljs.core.cst$kw$initial_DASH_state,cljs.core.PersistentArrayMap.EMPTY);
+var reconciler_options = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48611__$1,cljs.core.cst$kw$reconciler_DASH_options);
+var read_local = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48611__$1,cljs.core.cst$kw$read_DASH_local,cljs.core.constantly(false));
+var network_error_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48611__$1,cljs.core.cst$kw$network_DASH_error_DASH_callback,cljs.core.constantly(null));
+var networking = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48611__$1,cljs.core.cst$kw$networking);
+var mutation_merge = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48611__$1,cljs.core.cst$kw$mutation_DASH_merge);
+var transit_handlers = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48611__$1,cljs.core.cst$kw$transit_DASH_handlers);
+var migrate = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48611__$1,cljs.core.cst$kw$migrate,null);
+var request_transform = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48611__$1,cljs.core.cst$kw$request_DASH_transform);
+var shared = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48611__$1,cljs.core.cst$kw$shared,null);
+var G__48615 = new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$initial_DASH_state,initial_state,cljs.core.cst$kw$read_DASH_local,read_local,cljs.core.cst$kw$mutation_DASH_merge,mutation_merge,cljs.core.cst$kw$started_DASH_callback,started_callback,cljs.core.cst$kw$reconciler_DASH_options,cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function (){var G__48616 = cljs.core.PersistentArrayMap.EMPTY;
+var G__48616__$1 = (cljs.core.truth_(migrate)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__48616,cljs.core.cst$kw$migrate,migrate):G__48616);
 if(cljs.core.truth_(shared)){
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__48598__$1,cljs.core.cst$kw$shared,shared);
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__48616__$1,cljs.core.cst$kw$shared,shared);
 } else {
-return G__48598__$1;
+return G__48616__$1;
 }
 })(),reconciler_options], 0)),cljs.core.cst$kw$networking,(function (){var or__10412__auto__ = networking;
 if(cljs.core.truth_(or__10412__auto__)){
@@ -159,13 +159,13 @@ return or__10412__auto__;
 return fulcro.client.network.make_fulcro_network.cljs$core$IFn$_invoke$arity$variadic("/api",cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$request_DASH_transform,request_transform,cljs.core.cst$kw$transit_DASH_handlers,transit_handlers,cljs.core.cst$kw$global_DASH_error_DASH_callback,network_error_callback], 0));
 }
 })()], null);
-return (fulcro.client.core.map__GT_Application.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.core.map__GT_Application.cljs$core$IFn$_invoke$arity$1(G__48597) : fulcro.client.core.map__GT_Application.call(null,G__48597));
+return (fulcro.client.core.map__GT_Application.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.core.map__GT_Application.cljs$core$IFn$_invoke$arity$1(G__48615) : fulcro.client.core.map__GT_Application.call(null,G__48615));
 });
 
 fulcro.client.core.new_fulcro_client.cljs$lang$maxFixedArity = (0);
 
-fulcro.client.core.new_fulcro_client.cljs$lang$applyTo = (function (seq48591){
-return fulcro.client.core.new_fulcro_client.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq48591));
+fulcro.client.core.new_fulcro_client.cljs$lang$applyTo = (function (seq48609){
+return fulcro.client.core.new_fulcro_client.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq48609));
 });
 
 
@@ -398,16 +398,16 @@ var fulcro$client$core$merge_alternate_unions_$_walk_ast = null;
 var fulcro$client$core$merge_alternate_unions_$_walk_ast__2 = (function (ast,visitor){
 return fulcro$client$core$merge_alternate_unions_$_walk_ast.cljs$core$IFn$_invoke$arity$3(ast,visitor,null);
 });
-var fulcro$client$core$merge_alternate_unions_$_walk_ast__3 = (function (p__48628,visitor,parent_union){
-var map__48629 = p__48628;
-var map__48629__$1 = ((((!((map__48629 == null)))?((((map__48629.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48629.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48629):map__48629);
-var parent_ast = map__48629__$1;
-var children = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48629__$1,cljs.core.cst$kw$children);
-var component = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48629__$1,cljs.core.cst$kw$component);
-var type = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48629__$1,cljs.core.cst$kw$type);
-var dispatch_key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48629__$1,cljs.core.cst$kw$dispatch_DASH_key);
-var union_key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48629__$1,cljs.core.cst$kw$union_DASH_key);
-var key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48629__$1,cljs.core.cst$kw$key);
+var fulcro$client$core$merge_alternate_unions_$_walk_ast__3 = (function (p__48644,visitor,parent_union){
+var map__48645 = p__48644;
+var map__48645__$1 = ((((!((map__48645 == null)))?((((map__48645.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48645.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48645):map__48645);
+var parent_ast = map__48645__$1;
+var children = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48645__$1,cljs.core.cst$kw$children);
+var component = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48645__$1,cljs.core.cst$kw$component);
+var type = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48645__$1,cljs.core.cst$kw$type);
+var dispatch_key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48645__$1,cljs.core.cst$kw$dispatch_DASH_key);
+var union_key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48645__$1,cljs.core.cst$kw$union_DASH_key);
+var key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48645__$1,cljs.core.cst$kw$key);
 if(cljs.core.truth_((function (){var and__10400__auto__ = component;
 if(cljs.core.truth_(and__10400__auto__)){
 var and__10400__auto____$1 = parent_union;
@@ -425,13 +425,13 @@ return and__10400__auto__;
 }
 
 if(cljs.core.truth_(children)){
-var seq__48632 = cljs.core.seq(children);
-var chunk__48633 = null;
-var count__48634 = (0);
-var i__48635 = (0);
+var seq__48648 = cljs.core.seq(children);
+var chunk__48649 = null;
+var count__48650 = (0);
+var i__48651 = (0);
 while(true){
-if((i__48635 < count__48634)){
-var ast = chunk__48633.cljs$core$IIndexed$_nth$arity$2(null,i__48635);
+if((i__48651 < count__48650)){
+var ast = chunk__48649.cljs$core$IIndexed$_nth$arity$2(null,i__48651);
 if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$type.cljs$core$IFn$_invoke$arity$1(ast),cljs.core.cst$kw$union)){
 fulcro$client$core$merge_alternate_unions_$_walk_ast.cljs$core$IFn$_invoke$arity$3(ast,visitor,component);
 } else {
@@ -445,32 +445,32 @@ fulcro$client$core$merge_alternate_unions_$_walk_ast.cljs$core$IFn$_invoke$arity
 }
 }
 
-var G__48642 = seq__48632;
-var G__48643 = chunk__48633;
-var G__48644 = count__48634;
-var G__48645 = (i__48635 + (1));
-seq__48632 = G__48642;
-chunk__48633 = G__48643;
-count__48634 = G__48644;
-i__48635 = G__48645;
+var G__48660 = seq__48648;
+var G__48661 = chunk__48649;
+var G__48662 = count__48650;
+var G__48663 = (i__48651 + (1));
+seq__48648 = G__48660;
+chunk__48649 = G__48661;
+count__48650 = G__48662;
+i__48651 = G__48663;
 continue;
 } else {
-var temp__5459__auto__ = cljs.core.seq(seq__48632);
+var temp__5459__auto__ = cljs.core.seq(seq__48648);
 if(temp__5459__auto__){
-var seq__48632__$1 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(seq__48632__$1)){
-var c__11343__auto__ = cljs.core.chunk_first(seq__48632__$1);
-var G__48646 = cljs.core.chunk_rest(seq__48632__$1);
-var G__48647 = c__11343__auto__;
-var G__48648 = cljs.core.count(c__11343__auto__);
-var G__48649 = (0);
-seq__48632 = G__48646;
-chunk__48633 = G__48647;
-count__48634 = G__48648;
-i__48635 = G__48649;
+var seq__48648__$1 = temp__5459__auto__;
+if(cljs.core.chunked_seq_QMARK_(seq__48648__$1)){
+var c__11343__auto__ = cljs.core.chunk_first(seq__48648__$1);
+var G__48664 = cljs.core.chunk_rest(seq__48648__$1);
+var G__48665 = c__11343__auto__;
+var G__48666 = cljs.core.count(c__11343__auto__);
+var G__48667 = (0);
+seq__48648 = G__48664;
+chunk__48649 = G__48665;
+count__48650 = G__48666;
+i__48651 = G__48667;
 continue;
 } else {
-var ast = cljs.core.first(seq__48632__$1);
+var ast = cljs.core.first(seq__48648__$1);
 if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$type.cljs$core$IFn$_invoke$arity$1(ast),cljs.core.cst$kw$union)){
 fulcro$client$core$merge_alternate_unions_$_walk_ast.cljs$core$IFn$_invoke$arity$3(ast,visitor,component);
 } else {
@@ -484,14 +484,14 @@ fulcro$client$core$merge_alternate_unions_$_walk_ast.cljs$core$IFn$_invoke$arity
 }
 }
 
-var G__48652 = cljs.core.next(seq__48632__$1);
-var G__48653 = null;
-var G__48654 = (0);
-var G__48655 = (0);
-seq__48632 = G__48652;
-chunk__48633 = G__48653;
-count__48634 = G__48654;
-i__48635 = G__48655;
+var G__48668 = cljs.core.next(seq__48648__$1);
+var G__48669 = null;
+var G__48670 = (0);
+var G__48671 = (0);
+seq__48648 = G__48668;
+chunk__48649 = G__48669;
+count__48650 = G__48670;
+i__48651 = G__48671;
 continue;
 }
 } else {
@@ -504,12 +504,12 @@ break;
 return null;
 }
 });
-fulcro$client$core$merge_alternate_unions_$_walk_ast = function(p__48628,visitor,parent_union){
+fulcro$client$core$merge_alternate_unions_$_walk_ast = function(p__48644,visitor,parent_union){
 switch(arguments.length){
 case 2:
-return fulcro$client$core$merge_alternate_unions_$_walk_ast__2.call(this,p__48628,visitor);
+return fulcro$client$core$merge_alternate_unions_$_walk_ast__2.call(this,p__48644,visitor);
 case 3:
-return fulcro$client$core$merge_alternate_unions_$_walk_ast__3.call(this,p__48628,visitor,parent_union);
+return fulcro$client$core$merge_alternate_unions_$_walk_ast__3.call(this,p__48644,visitor,parent_union);
 }
 throw(new Error('Invalid arity: ' + (arguments.length - 1)));
 };
@@ -603,29 +603,29 @@ return new_state;
  *   update the network map with this value. Returns possibly updated `network-map`.
  */
 fulcro.client.core.start_networking = (function fulcro$client$core$start_networking(network_map){
-return cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.EMPTY,(function (){var iter__11294__auto__ = (function fulcro$client$core$start_networking_$_iter__48658(s__48659){
+return cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.EMPTY,(function (){var iter__11294__auto__ = (function fulcro$client$core$start_networking_$_iter__48676(s__48677){
 return (new cljs.core.LazySeq(null,(function (){
-var s__48659__$1 = s__48659;
+var s__48677__$1 = s__48677;
 while(true){
-var temp__5459__auto__ = cljs.core.seq(s__48659__$1);
+var temp__5459__auto__ = cljs.core.seq(s__48677__$1);
 if(temp__5459__auto__){
-var s__48659__$2 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__48659__$2)){
-var c__11292__auto__ = cljs.core.chunk_first(s__48659__$2);
+var s__48677__$2 = temp__5459__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__48677__$2)){
+var c__11292__auto__ = cljs.core.chunk_first(s__48677__$2);
 var size__11293__auto__ = cljs.core.count(c__11292__auto__);
-var b__48661 = cljs.core.chunk_buffer(size__11293__auto__);
-if((function (){var i__48660 = (0);
+var b__48679 = cljs.core.chunk_buffer(size__11293__auto__);
+if((function (){var i__48678 = (0);
 while(true){
-if((i__48660 < size__11293__auto__)){
-var vec__48662 = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__11292__auto__,i__48660);
-var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48662,(0),null);
-var remote = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48662,(1),null);
+if((i__48678 < size__11293__auto__)){
+var vec__48680 = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__11292__auto__,i__48678);
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48680,(0),null);
+var remote = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48680,(1),null);
 var started = fulcro.client.network.start(remote);
 var valid = ((((!((started == null)))?(((false) || ((cljs.core.PROTOCOL_SENTINEL === started.fulcro$client$network$FulcroNetwork$)))?true:false):false))?started:remote);
-cljs.core.chunk_append(b__48661,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,valid], null));
+cljs.core.chunk_append(b__48679,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,valid], null));
 
-var G__48670 = (i__48660 + (1));
-i__48660 = G__48670;
+var G__48688 = (i__48678 + (1));
+i__48678 = G__48688;
 continue;
 } else {
 return true;
@@ -633,17 +633,17 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__48661),fulcro$client$core$start_networking_$_iter__48658(cljs.core.chunk_rest(s__48659__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__48679),fulcro$client$core$start_networking_$_iter__48676(cljs.core.chunk_rest(s__48677__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__48661),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__48679),null);
 }
 } else {
-var vec__48666 = cljs.core.first(s__48659__$2);
-var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48666,(0),null);
-var remote = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48666,(1),null);
+var vec__48684 = cljs.core.first(s__48677__$2);
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48684,(0),null);
+var remote = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48684,(1),null);
 var started = fulcro.client.network.start(remote);
 var valid = ((((!((started == null)))?(((false) || ((cljs.core.PROTOCOL_SENTINEL === started.fulcro$client$network$FulcroNetwork$)))?true:false):false))?started:remote);
-return cljs.core.cons(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,valid], null),fulcro$client$core$start_networking_$_iter__48658(cljs.core.rest(s__48659__$2)));
+return cljs.core.cons(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,valid], null),fulcro$client$core$start_networking_$_iter__48676(cljs.core.rest(s__48677__$2)));
 }
 } else {
 return null;
@@ -659,24 +659,24 @@ return iter__11294__auto__(network_map);
  * Initialize the fulcro Application. Creates network queue, sets up i18n, creates reconciler, mounts it, and returns
  *   the initialized app
  */
-fulcro.client.core.initialize = (function fulcro$client$core$initialize(p__48671,initial_state,root_component,dom_id_or_node,reconciler_options){
-var map__48672 = p__48671;
-var map__48672__$1 = ((((!((map__48672 == null)))?((((map__48672.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48672.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48672):map__48672);
-var app = map__48672__$1;
-var networking = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48672__$1,cljs.core.cst$kw$networking);
-var read_local = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48672__$1,cljs.core.cst$kw$read_DASH_local);
-var started_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48672__$1,cljs.core.cst$kw$started_DASH_callback);
+fulcro.client.core.initialize = (function fulcro$client$core$initialize(p__48689,initial_state,root_component,dom_id_or_node,reconciler_options){
+var map__48690 = p__48689;
+var map__48690__$1 = ((((!((map__48690 == null)))?((((map__48690.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48690.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48690):map__48690);
+var app = map__48690__$1;
+var networking = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48690__$1,cljs.core.cst$kw$networking);
+var read_local = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48690__$1,cljs.core.cst$kw$read_DASH_local);
+var started_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48690__$1,cljs.core.cst$kw$started_DASH_callback);
 var network_map = ((((!((networking == null)))?(((false) || ((cljs.core.PROTOCOL_SENTINEL === networking.fulcro$client$network$FulcroNetwork$)))?true:false):false))?new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$remote,networking], null):networking);
 var remotes = cljs.core.keys(network_map);
-var send_queues = cljs.core.zipmap(remotes,cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (network_map,remotes,map__48672,map__48672__$1,app,networking,read_local,started_callback){
+var send_queues = cljs.core.zipmap(remotes,cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (network_map,remotes,map__48690,map__48690__$1,app,networking,read_local,started_callback){
 return (function (){
 return cljs.core.async.chan.cljs$core$IFn$_invoke$arity$1((1024));
-});})(network_map,remotes,map__48672,map__48672__$1,app,networking,read_local,started_callback))
+});})(network_map,remotes,map__48690,map__48690__$1,app,networking,read_local,started_callback))
 ,remotes));
-var response_channels = cljs.core.zipmap(remotes,cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (network_map,remotes,send_queues,map__48672,map__48672__$1,app,networking,read_local,started_callback){
+var response_channels = cljs.core.zipmap(remotes,cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (network_map,remotes,send_queues,map__48690,map__48690__$1,app,networking,read_local,started_callback){
 return (function (){
 return cljs.core.async.chan.cljs$core$IFn$_invoke$arity$0();
-});})(network_map,remotes,send_queues,map__48672,map__48672__$1,app,networking,read_local,started_callback))
+});})(network_map,remotes,send_queues,map__48690,map__48690__$1,app,networking,read_local,started_callback))
 ,remotes));
 var parser = om.next.parser(new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$read,cljs.core.partial.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.om_plumbing.read_local,read_local),cljs.core.cst$kw$mutate,fulcro.client.impl.om_plumbing.write_entry_point], null));
 var initial_app = cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(app,cljs.core.cst$kw$send_DASH_queues,send_queues,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$response_DASH_channels,response_channels,cljs.core.cst$kw$parser,parser,cljs.core.cst$kw$mounted_QMARK_,true], 0));
@@ -708,8 +708,8 @@ fulcro.client.core.clear_queue = (function fulcro$client$core$clear_queue(queue)
 var element = cljs.core.async.poll_BANG_(queue);
 while(true){
 if(cljs.core.truth_(element)){
-var G__48675 = cljs.core.async.poll_BANG_(queue);
-element = G__48675;
+var G__48706 = cljs.core.async.poll_BANG_(queue);
+element = G__48706;
 continue;
 } else {
 return null;
@@ -721,29 +721,29 @@ break;
  * Needed for mocking in tests. Use FulcroApplication protocol methods instead.
  */
 fulcro.client.core.reset_history_impl = (function fulcro$client$core$reset_history_impl(app){
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(app,cljs.core.cst$kw$reconciler,cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(app),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$config,cljs.core.cst$kw$history], null),(function (p1__48676_SHARP_){
-return om.next.cache.cache(p1__48676_SHARP_.size);
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(app,cljs.core.cst$kw$reconciler,cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(app),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$config,cljs.core.cst$kw$history], null),(function (p1__48707_SHARP_){
+return om.next.cache.cache(p1__48707_SHARP_.size);
 })));
 });
-fulcro.client.core.refresh_STAR_ = (function fulcro$client$core$refresh_STAR_(p__48677,root,target){
-var map__48678 = p__48677;
-var map__48678__$1 = ((((!((map__48678 == null)))?((((map__48678.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48678.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48678):map__48678);
-var app = map__48678__$1;
-var reconciler = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48678__$1,cljs.core.cst$kw$reconciler);
-var old_target_48680 = cljs.core.cst$kw$target.cljs$core$IFn$_invoke$arity$1(cljs.core.deref(cljs.core.cst$kw$state.cljs$core$IFn$_invoke$arity$1(reconciler)));
-var target_48681__$1 = ((typeof target === 'string')?goog.dom.getElement(target):target);
-if(cljs.core.truth_((function (){var and__10400__auto__ = old_target_48680;
+fulcro.client.core.refresh_STAR_ = (function fulcro$client$core$refresh_STAR_(p__48713,root,target){
+var map__48714 = p__48713;
+var map__48714__$1 = ((((!((map__48714 == null)))?((((map__48714.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48714.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48714):map__48714);
+var app = map__48714__$1;
+var reconciler = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48714__$1,cljs.core.cst$kw$reconciler);
+var old_target_48718 = cljs.core.cst$kw$target.cljs$core$IFn$_invoke$arity$1(cljs.core.deref(cljs.core.cst$kw$state.cljs$core$IFn$_invoke$arity$1(reconciler)));
+var target_48719__$1 = ((typeof target === 'string')?goog.dom.getElement(target):target);
+if(cljs.core.truth_((function (){var and__10400__auto__ = old_target_48718;
 if(cljs.core.truth_(and__10400__auto__)){
-return !((old_target_48680 === target_48681__$1));
+return !((old_target_48718 === target_48719__$1));
 } else {
 return and__10400__auto__;
 }
 })())){
 fulcro.client.logging.info.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Mounting on newly supplied target."], 0));
 
-om.next.remove_root_BANG_(reconciler,old_target_48680);
+om.next.remove_root_BANG_(reconciler,old_target_48718);
 
-om.next.add_root_BANG_.cljs$core$IFn$_invoke$arity$3(reconciler,root,target_48681__$1);
+om.next.add_root_BANG_.cljs$core$IFn$_invoke$arity$3(reconciler,root,target_48719__$1);
 } else {
 }
 
@@ -751,13 +751,13 @@ fulcro.client.logging.info.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_s
 
 return fulcro.client.util.force_render.cljs$core$IFn$_invoke$arity$1(reconciler);
 });
-fulcro.client.core.mount_STAR_ = (function fulcro$client$core$mount_STAR_(p__48682,root_component,dom_id_or_node){
-var map__48683 = p__48682;
-var map__48683__$1 = ((((!((map__48683 == null)))?((((map__48683.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48683.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48683):map__48683);
-var app = map__48683__$1;
-var mounted_QMARK_ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48683__$1,cljs.core.cst$kw$mounted_QMARK_);
-var initial_state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48683__$1,cljs.core.cst$kw$initial_DASH_state);
-var reconciler_options = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48683__$1,cljs.core.cst$kw$reconciler_DASH_options);
+fulcro.client.core.mount_STAR_ = (function fulcro$client$core$mount_STAR_(p__48724,root_component,dom_id_or_node){
+var map__48725 = p__48724;
+var map__48725__$1 = ((((!((map__48725 == null)))?((((map__48725.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48725.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48725):map__48725);
+var app = map__48725__$1;
+var mounted_QMARK_ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48725__$1,cljs.core.cst$kw$mounted_QMARK_);
+var initial_state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48725__$1,cljs.core.cst$kw$initial_DASH_state);
+var reconciler_options = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48725__$1,cljs.core.cst$kw$reconciler_DASH_options);
 if(cljs.core.truth_(mounted_QMARK_)){
 fulcro.client.core.refresh_STAR_(app,root_component,dom_id_or_node);
 
@@ -841,12 +841,12 @@ return this__11100__auto____$1.cljs$core$ILookup$_lookup$arity$3(null,k__11101__
 });
 
 
-fulcro.client.core.Application.prototype.cljs$core$ILookup$_lookup$arity$3 = (function (this__11102__auto__,k48686,else__11103__auto__){
+fulcro.client.core.Application.prototype.cljs$core$ILookup$_lookup$arity$3 = (function (this__11102__auto__,k48728,else__11103__auto__){
 var self__ = this;
 var this__11102__auto____$1 = this;
-var G__48690 = k48686;
-var G__48690__$1 = (((G__48690 instanceof cljs.core.Keyword))?G__48690.fqn:null);
-switch (G__48690__$1) {
+var G__48733 = k48728;
+var G__48733__$1 = (((G__48733 instanceof cljs.core.Keyword))?G__48733.fqn:null);
+switch (G__48733__$1) {
 case "initial-state":
 return self__.initial_state;
 
@@ -896,7 +896,7 @@ return self__.reconciler_options;
 
 break;
 default:
-return cljs.core.get.cljs$core$IFn$_invoke$arity$3(self__.__extmap,k48686,else__11103__auto__);
+return cljs.core.get.cljs$core$IFn$_invoke$arity$3(self__.__extmap,k48728,else__11103__auto__);
 
 }
 });
@@ -914,10 +914,10 @@ return cljs.core.pr_sequential_writer(writer__11115__auto__,pr_pair__11117__auto
 });
 
 
-fulcro.client.core.Application.prototype.cljs$core$IIterable$_iterator$arity$1 = (function (G__48685){
+fulcro.client.core.Application.prototype.cljs$core$IIterable$_iterator$arity$1 = (function (G__48727){
 var self__ = this;
-var G__48685__$1 = this;
-return (new cljs.core.RecordIter((0),G__48685__$1,12,new cljs.core.PersistentVector(null, 12, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$initial_DASH_state,cljs.core.cst$kw$mutation_DASH_merge,cljs.core.cst$kw$started_DASH_callback,cljs.core.cst$kw$remotes,cljs.core.cst$kw$networking,cljs.core.cst$kw$send_DASH_queues,cljs.core.cst$kw$response_DASH_channels,cljs.core.cst$kw$reconciler,cljs.core.cst$kw$read_DASH_local,cljs.core.cst$kw$parser,cljs.core.cst$kw$mounted_QMARK_,cljs.core.cst$kw$reconciler_DASH_options], null),(cljs.core.truth_(self__.__extmap)?cljs.core._iterator(self__.__extmap):cljs.core.nil_iter())));
+var G__48727__$1 = this;
+return (new cljs.core.RecordIter((0),G__48727__$1,12,new cljs.core.PersistentVector(null, 12, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$initial_DASH_state,cljs.core.cst$kw$mutation_DASH_merge,cljs.core.cst$kw$started_DASH_callback,cljs.core.cst$kw$remotes,cljs.core.cst$kw$networking,cljs.core.cst$kw$send_DASH_queues,cljs.core.cst$kw$response_DASH_channels,cljs.core.cst$kw$reconciler,cljs.core.cst$kw$read_DASH_local,cljs.core.cst$kw$parser,cljs.core.cst$kw$mounted_QMARK_,cljs.core.cst$kw$reconciler_DASH_options], null),(cljs.core.truth_(self__.__extmap)?cljs.core._iterator(self__.__extmap):cljs.core.nil_iter())));
 });
 
 
@@ -949,12 +949,12 @@ var h__10868__auto__ = self__.__hash;
 if(!((h__10868__auto__ == null))){
 return h__10868__auto__;
 } else {
-var h__10868__auto____$1 = (function (){var fexpr__48691 = ((function (h__10868__auto__,this__11096__auto____$1){
+var h__10868__auto____$1 = (function (){var fexpr__48739 = ((function (h__10868__auto__,this__11096__auto____$1){
 return (function (coll__11097__auto__){
 return (1262984183 ^ cljs.core.hash_unordered_coll(coll__11097__auto__));
 });})(h__10868__auto__,this__11096__auto____$1))
 ;
-return fexpr__48691(this__11096__auto____$1);
+return fexpr__48739(this__11096__auto____$1);
 })();
 self__.__hash = h__10868__auto____$1;
 
@@ -963,10 +963,10 @@ return h__10868__auto____$1;
 });
 
 
-fulcro.client.core.Application.prototype.cljs$core$IEquiv$_equiv$arity$2 = (function (this48687,other48688){
+fulcro.client.core.Application.prototype.cljs$core$IEquiv$_equiv$arity$2 = (function (this48729,other48730){
 var self__ = this;
-var this48687__$1 = this;
-return (!((other48688 == null))) && ((this48687__$1.constructor === other48688.constructor)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.initial_state,other48688.initial_state)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.mutation_merge,other48688.mutation_merge)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.started_callback,other48688.started_callback)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.remotes,other48688.remotes)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.networking,other48688.networking)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.send_queues,other48688.send_queues)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.response_channels,other48688.response_channels)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.reconciler,other48688.reconciler)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.read_local,other48688.read_local)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.parser,other48688.parser)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.mounted_QMARK_,other48688.mounted_QMARK_)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.reconciler_options,other48688.reconciler_options)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48687__$1.__extmap,other48688.__extmap));
+var this48729__$1 = this;
+return (!((other48730 == null))) && ((this48729__$1.constructor === other48730.constructor)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.initial_state,other48730.initial_state)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.mutation_merge,other48730.mutation_merge)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.started_callback,other48730.started_callback)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.remotes,other48730.remotes)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.networking,other48730.networking)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.send_queues,other48730.send_queues)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.response_channels,other48730.response_channels)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.reconciler,other48730.reconciler)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.read_local,other48730.read_local)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.parser,other48730.parser)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.mounted_QMARK_,other48730.mounted_QMARK_)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.reconciler_options,other48730.reconciler_options)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(this48729__$1.__extmap,other48730.__extmap));
 });
 
 
@@ -1023,51 +1023,51 @@ var self__ = this;
 var this$__$1 = this;
 var remotes__$2 = (((remotes__$1 == null))?cljs.core.keys(self__.send_queues):(((remotes__$1 instanceof cljs.core.Keyword))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [remotes__$1], null):remotes__$1
 ));
-var seq__48692 = cljs.core.seq(remotes__$2);
-var chunk__48693 = null;
-var count__48694 = (0);
-var i__48695 = (0);
+var seq__48752 = cljs.core.seq(remotes__$2);
+var chunk__48753 = null;
+var count__48754 = (0);
+var i__48755 = (0);
 while(true){
-if((i__48695 < count__48694)){
-var r = chunk__48693.cljs$core$IIndexed$_nth$arity$2(null,i__48695);
+if((i__48755 < count__48754)){
+var r = chunk__48753.cljs$core$IIndexed$_nth$arity$2(null,i__48755);
 fulcro.client.core.clear_queue(cljs.core.get.cljs$core$IFn$_invoke$arity$2(self__.send_queues,r));
 
-var G__48728 = seq__48692;
-var G__48729 = chunk__48693;
-var G__48730 = count__48694;
-var G__48731 = (i__48695 + (1));
-seq__48692 = G__48728;
-chunk__48693 = G__48729;
-count__48694 = G__48730;
-i__48695 = G__48731;
+var G__48814 = seq__48752;
+var G__48815 = chunk__48753;
+var G__48816 = count__48754;
+var G__48817 = (i__48755 + (1));
+seq__48752 = G__48814;
+chunk__48753 = G__48815;
+count__48754 = G__48816;
+i__48755 = G__48817;
 continue;
 } else {
-var temp__5459__auto__ = cljs.core.seq(seq__48692);
+var temp__5459__auto__ = cljs.core.seq(seq__48752);
 if(temp__5459__auto__){
-var seq__48692__$1 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(seq__48692__$1)){
-var c__11343__auto__ = cljs.core.chunk_first(seq__48692__$1);
-var G__48732 = cljs.core.chunk_rest(seq__48692__$1);
-var G__48733 = c__11343__auto__;
-var G__48734 = cljs.core.count(c__11343__auto__);
-var G__48735 = (0);
-seq__48692 = G__48732;
-chunk__48693 = G__48733;
-count__48694 = G__48734;
-i__48695 = G__48735;
+var seq__48752__$1 = temp__5459__auto__;
+if(cljs.core.chunked_seq_QMARK_(seq__48752__$1)){
+var c__11343__auto__ = cljs.core.chunk_first(seq__48752__$1);
+var G__48818 = cljs.core.chunk_rest(seq__48752__$1);
+var G__48819 = c__11343__auto__;
+var G__48820 = cljs.core.count(c__11343__auto__);
+var G__48821 = (0);
+seq__48752 = G__48818;
+chunk__48753 = G__48819;
+count__48754 = G__48820;
+i__48755 = G__48821;
 continue;
 } else {
-var r = cljs.core.first(seq__48692__$1);
+var r = cljs.core.first(seq__48752__$1);
 fulcro.client.core.clear_queue(cljs.core.get.cljs$core$IFn$_invoke$arity$2(self__.send_queues,r));
 
-var G__48736 = cljs.core.next(seq__48692__$1);
-var G__48737 = null;
-var G__48738 = (0);
-var G__48739 = (0);
-seq__48692 = G__48736;
-chunk__48693 = G__48737;
-count__48694 = G__48738;
-i__48695 = G__48739;
+var G__48822 = cljs.core.next(seq__48752__$1);
+var G__48823 = null;
+var G__48824 = (0);
+var G__48825 = (0);
+seq__48752 = G__48822;
+chunk__48753 = G__48823;
+count__48754 = G__48824;
+i__48755 = G__48825;
 continue;
 }
 } else {
@@ -1085,10 +1085,10 @@ var this$__$1 = this;
 var history_steps = cljs.core.cst$kw$history.cljs$core$IFn$_invoke$arity$1(cljs.core.cst$kw$config.cljs$core$IFn$_invoke$arity$1(self__.reconciler)).arr;
 var history_map = cljs.core.deref(cljs.core.cst$kw$history.cljs$core$IFn$_invoke$arity$1(cljs.core.cst$kw$config.cljs$core$IFn$_invoke$arity$1(self__.reconciler)).index);
 return new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$steps,history_steps,cljs.core.cst$kw$history,cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (history_steps,history_map,this$__$1){
-return (function (p__48696){
-var vec__48697 = p__48696;
-var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48697,(0),null);
-var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48697,(1),null);
+return (function (p__48758){
+var vec__48759 = p__48758;
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48759,(0),null);
+var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48759,(1),null);
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(v,cljs.core.cst$kw$fulcro_SLASH_meta,cljs.core.meta(v))], null);
 });})(history_steps,history_map,this$__$1))
 ,history_map))], null);
@@ -1122,84 +1122,84 @@ return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_
 });
 
 
-fulcro.client.core.Application.prototype.cljs$core$IAssociative$_assoc$arity$3 = (function (this__11107__auto__,k__11108__auto__,G__48685){
+fulcro.client.core.Application.prototype.cljs$core$IAssociative$_assoc$arity$3 = (function (this__11107__auto__,k__11108__auto__,G__48727){
 var self__ = this;
 var this__11107__auto____$1 = this;
-var pred__48700 = cljs.core.keyword_identical_QMARK_;
-var expr__48701 = k__11108__auto__;
-if(cljs.core.truth_((function (){var G__48703 = cljs.core.cst$kw$initial_DASH_state;
-var G__48704 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48703,G__48704) : pred__48700.call(null,G__48703,G__48704));
+var pred__48764 = cljs.core.keyword_identical_QMARK_;
+var expr__48765 = k__11108__auto__;
+if(cljs.core.truth_((function (){var G__48767 = cljs.core.cst$kw$initial_DASH_state;
+var G__48768 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48767,G__48768) : pred__48764.call(null,G__48767,G__48768));
 })())){
-return (new fulcro.client.core.Application(G__48685,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(G__48727,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48705 = cljs.core.cst$kw$mutation_DASH_merge;
-var G__48706 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48705,G__48706) : pred__48700.call(null,G__48705,G__48706));
+if(cljs.core.truth_((function (){var G__48769 = cljs.core.cst$kw$mutation_DASH_merge;
+var G__48770 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48769,G__48770) : pred__48764.call(null,G__48769,G__48770));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,G__48685,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,G__48727,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48707 = cljs.core.cst$kw$started_DASH_callback;
-var G__48708 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48707,G__48708) : pred__48700.call(null,G__48707,G__48708));
+if(cljs.core.truth_((function (){var G__48773 = cljs.core.cst$kw$started_DASH_callback;
+var G__48774 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48773,G__48774) : pred__48764.call(null,G__48773,G__48774));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,G__48685,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,G__48727,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48709 = cljs.core.cst$kw$remotes;
-var G__48710 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48709,G__48710) : pred__48700.call(null,G__48709,G__48710));
+if(cljs.core.truth_((function (){var G__48775 = cljs.core.cst$kw$remotes;
+var G__48776 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48775,G__48776) : pred__48764.call(null,G__48775,G__48776));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,G__48685,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,G__48727,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48711 = cljs.core.cst$kw$networking;
-var G__48712 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48711,G__48712) : pred__48700.call(null,G__48711,G__48712));
+if(cljs.core.truth_((function (){var G__48777 = cljs.core.cst$kw$networking;
+var G__48779 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48777,G__48779) : pred__48764.call(null,G__48777,G__48779));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,G__48685,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,G__48727,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48713 = cljs.core.cst$kw$send_DASH_queues;
-var G__48714 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48713,G__48714) : pred__48700.call(null,G__48713,G__48714));
+if(cljs.core.truth_((function (){var G__48780 = cljs.core.cst$kw$send_DASH_queues;
+var G__48781 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48780,G__48781) : pred__48764.call(null,G__48780,G__48781));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,G__48685,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,G__48727,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48715 = cljs.core.cst$kw$response_DASH_channels;
-var G__48716 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48715,G__48716) : pred__48700.call(null,G__48715,G__48716));
+if(cljs.core.truth_((function (){var G__48782 = cljs.core.cst$kw$response_DASH_channels;
+var G__48783 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48782,G__48783) : pred__48764.call(null,G__48782,G__48783));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,G__48685,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,G__48727,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48717 = cljs.core.cst$kw$reconciler;
-var G__48718 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48717,G__48718) : pred__48700.call(null,G__48717,G__48718));
+if(cljs.core.truth_((function (){var G__48784 = cljs.core.cst$kw$reconciler;
+var G__48785 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48784,G__48785) : pred__48764.call(null,G__48784,G__48785));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,G__48685,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,G__48727,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48719 = cljs.core.cst$kw$read_DASH_local;
-var G__48720 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48719,G__48720) : pred__48700.call(null,G__48719,G__48720));
+if(cljs.core.truth_((function (){var G__48786 = cljs.core.cst$kw$read_DASH_local;
+var G__48787 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48786,G__48787) : pred__48764.call(null,G__48786,G__48787));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,G__48685,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,G__48727,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48721 = cljs.core.cst$kw$parser;
-var G__48722 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48721,G__48722) : pred__48700.call(null,G__48721,G__48722));
+if(cljs.core.truth_((function (){var G__48788 = cljs.core.cst$kw$parser;
+var G__48789 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48788,G__48789) : pred__48764.call(null,G__48788,G__48789));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,G__48685,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,G__48727,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48723 = cljs.core.cst$kw$mounted_QMARK_;
-var G__48724 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48723,G__48724) : pred__48700.call(null,G__48723,G__48724));
+if(cljs.core.truth_((function (){var G__48790 = cljs.core.cst$kw$mounted_QMARK_;
+var G__48791 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48790,G__48791) : pred__48764.call(null,G__48790,G__48791));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,G__48685,self__.reconciler_options,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,G__48727,self__.reconciler_options,self__.__meta,self__.__extmap,null));
 } else {
-if(cljs.core.truth_((function (){var G__48725 = cljs.core.cst$kw$reconciler_DASH_options;
-var G__48726 = expr__48701;
-return (pred__48700.cljs$core$IFn$_invoke$arity$2 ? pred__48700.cljs$core$IFn$_invoke$arity$2(G__48725,G__48726) : pred__48700.call(null,G__48725,G__48726));
+if(cljs.core.truth_((function (){var G__48792 = cljs.core.cst$kw$reconciler_DASH_options;
+var G__48793 = expr__48765;
+return (pred__48764.cljs$core$IFn$_invoke$arity$2 ? pred__48764.cljs$core$IFn$_invoke$arity$2(G__48792,G__48793) : pred__48764.call(null,G__48792,G__48793));
 })())){
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,G__48685,self__.__meta,self__.__extmap,null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,G__48727,self__.__meta,self__.__extmap,null));
 } else {
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(self__.__extmap,k__11108__auto__,G__48685),null));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,self__.__meta,cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(self__.__extmap,k__11108__auto__,G__48727),null));
 }
 }
 }
@@ -1222,10 +1222,10 @@ return cljs.core.seq(cljs.core.concat.cljs$core$IFn$_invoke$arity$2(new cljs.cor
 });
 
 
-fulcro.client.core.Application.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (this__11099__auto__,G__48685){
+fulcro.client.core.Application.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (this__11099__auto__,G__48727){
 var self__ = this;
 var this__11099__auto____$1 = this;
-return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,G__48685,self__.__extmap,self__.__hash));
+return (new fulcro.client.core.Application(self__.initial_state,self__.mutation_merge,self__.started_callback,self__.remotes,self__.networking,self__.send_queues,self__.response_channels,self__.reconciler,self__.read_local,self__.parser,self__.mounted_QMARK_,self__.reconciler_options,G__48727,self__.__extmap,self__.__hash));
 });
 
 
@@ -1257,8 +1257,8 @@ fulcro.client.core.__GT_Application = (function fulcro$client$core$__GT_Applicat
 return (new fulcro.client.core.Application(initial_state,mutation_merge,started_callback,remotes,networking,send_queues,response_channels,reconciler,read_local,parser,mounted_QMARK_,reconciler_options,null,null,null));
 });
 
-fulcro.client.core.map__GT_Application = (function fulcro$client$core$map__GT_Application(G__48689){
-return (new fulcro.client.core.Application(cljs.core.cst$kw$initial_DASH_state.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$mutation_DASH_merge.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$started_DASH_callback.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$remotes.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$networking.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$send_DASH_queues.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$response_DASH_channels.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$read_DASH_local.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$parser.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$mounted_QMARK_.cljs$core$IFn$_invoke$arity$1(G__48689),cljs.core.cst$kw$reconciler_DASH_options.cljs$core$IFn$_invoke$arity$1(G__48689),null,cljs.core.not_empty(cljs.core.dissoc.cljs$core$IFn$_invoke$arity$variadic(G__48689,cljs.core.cst$kw$initial_DASH_state,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$mutation_DASH_merge,cljs.core.cst$kw$started_DASH_callback,cljs.core.cst$kw$remotes,cljs.core.cst$kw$networking,cljs.core.cst$kw$send_DASH_queues,cljs.core.cst$kw$response_DASH_channels,cljs.core.cst$kw$reconciler,cljs.core.cst$kw$read_DASH_local,cljs.core.cst$kw$parser,cljs.core.cst$kw$mounted_QMARK_,cljs.core.cst$kw$reconciler_DASH_options], 0))),null));
+fulcro.client.core.map__GT_Application = (function fulcro$client$core$map__GT_Application(G__48731){
+return (new fulcro.client.core.Application(cljs.core.cst$kw$initial_DASH_state.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$mutation_DASH_merge.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$started_DASH_callback.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$remotes.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$networking.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$send_DASH_queues.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$response_DASH_channels.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$read_DASH_local.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$parser.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$mounted_QMARK_.cljs$core$IFn$_invoke$arity$1(G__48731),cljs.core.cst$kw$reconciler_DASH_options.cljs$core$IFn$_invoke$arity$1(G__48731),null,cljs.core.not_empty(cljs.core.dissoc.cljs$core$IFn$_invoke$arity$variadic(G__48731,cljs.core.cst$kw$initial_DASH_state,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$mutation_DASH_merge,cljs.core.cst$kw$started_DASH_callback,cljs.core.cst$kw$remotes,cljs.core.cst$kw$networking,cljs.core.cst$kw$send_DASH_queues,cljs.core.cst$kw$response_DASH_channels,cljs.core.cst$kw$reconciler,cljs.core.cst$kw$read_DASH_local,cljs.core.cst$kw$parser,cljs.core.cst$kw$mounted_QMARK_,cljs.core.cst$kw$reconciler_DASH_options], 0))),null));
 });
 
 /**
@@ -1266,14 +1266,14 @@ return (new fulcro.client.core.Application(cljs.core.cst$kw$initial_DASH_state.c
  */
 fulcro.client.core.new_fulcro_test_client = (function fulcro$client$core$new_fulcro_test_client(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___48744 = arguments.length;
-var i__11692__auto___48745 = (0);
+var len__11691__auto___48832 = arguments.length;
+var i__11692__auto___48833 = (0);
 while(true){
-if((i__11692__auto___48745 < len__11691__auto___48744)){
-args__11698__auto__.push((arguments[i__11692__auto___48745]));
+if((i__11692__auto___48833 < len__11691__auto___48832)){
+args__11698__auto__.push((arguments[i__11692__auto___48833]));
 
-var G__48746 = (i__11692__auto___48745 + (1));
-i__11692__auto___48745 = G__48746;
+var G__48834 = (i__11692__auto___48833 + (1));
+i__11692__auto___48833 = G__48834;
 continue;
 } else {
 }
@@ -1284,19 +1284,19 @@ var argseq__11699__auto__ = ((((0) < args__11698__auto__.length))?(new cljs.core
 return fulcro.client.core.new_fulcro_test_client.cljs$core$IFn$_invoke$arity$variadic(argseq__11699__auto__);
 });
 
-fulcro.client.core.new_fulcro_test_client.cljs$core$IFn$_invoke$arity$variadic = (function (p__48741){
-var map__48742 = p__48741;
-var map__48742__$1 = ((((!((map__48742 == null)))?((((map__48742.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48742.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48742):map__48742);
-var initial_state = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48742__$1,cljs.core.cst$kw$initial_DASH_state,cljs.core.PersistentArrayMap.EMPTY);
-var started_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48742__$1,cljs.core.cst$kw$started_DASH_callback,null);
-var reconciler_options = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48742__$1,cljs.core.cst$kw$reconciler_DASH_options);
+fulcro.client.core.new_fulcro_test_client.cljs$core$IFn$_invoke$arity$variadic = (function (p__48829){
+var map__48830 = p__48829;
+var map__48830__$1 = ((((!((map__48830 == null)))?((((map__48830.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48830.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48830):map__48830);
+var initial_state = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48830__$1,cljs.core.cst$kw$initial_DASH_state,cljs.core.PersistentArrayMap.EMPTY);
+var started_callback = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__48830__$1,cljs.core.cst$kw$started_DASH_callback,null);
+var reconciler_options = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48830__$1,cljs.core.cst$kw$reconciler_DASH_options);
 return fulcro.client.core.map__GT_Application(new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$initial_DASH_state,initial_state,cljs.core.cst$kw$started_DASH_callback,started_callback,cljs.core.cst$kw$reconciler_DASH_options,reconciler_options,cljs.core.cst$kw$networking,fulcro.client.network.mock_network()], null));
 });
 
 fulcro.client.core.new_fulcro_test_client.cljs$lang$maxFixedArity = (0);
 
-fulcro.client.core.new_fulcro_test_client.cljs$lang$applyTo = (function (seq48740){
-return fulcro.client.core.new_fulcro_test_client.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq48740));
+fulcro.client.core.new_fulcro_test_client.cljs$lang$applyTo = (function (seq48828){
+return fulcro.client.core.new_fulcro_test_client.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq48828));
 });
 
 /**
@@ -1309,8 +1309,8 @@ return window.location.href;
  * Get the current URI parameters from the browser url or one you supply
  */
 fulcro.client.core.uri_params = (function fulcro$client$core$uri_params(var_args){
-var G__48748 = arguments.length;
-switch (G__48748) {
+var G__48836 = arguments.length;
+switch (G__48836) {
 case 0:
 return fulcro.client.core.uri_params.cljs$core$IFn$_invoke$arity$0();
 
@@ -1332,26 +1332,26 @@ return fulcro.client.core.uri_params.cljs$core$IFn$_invoke$arity$1(fulcro.client
 fulcro.client.core.uri_params.cljs$core$IFn$_invoke$arity$1 = (function (url){
 var query_data = (new goog.Uri(url)).getQueryData();
 return cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.EMPTY,(function (){var iter__11294__auto__ = ((function (query_data){
-return (function fulcro$client$core$iter__48749(s__48750){
+return (function fulcro$client$core$iter__48837(s__48838){
 return (new cljs.core.LazySeq(null,((function (query_data){
 return (function (){
-var s__48750__$1 = s__48750;
+var s__48838__$1 = s__48838;
 while(true){
-var temp__5459__auto__ = cljs.core.seq(s__48750__$1);
+var temp__5459__auto__ = cljs.core.seq(s__48838__$1);
 if(temp__5459__auto__){
-var s__48750__$2 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__48750__$2)){
-var c__11292__auto__ = cljs.core.chunk_first(s__48750__$2);
+var s__48838__$2 = temp__5459__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__48838__$2)){
+var c__11292__auto__ = cljs.core.chunk_first(s__48838__$2);
 var size__11293__auto__ = cljs.core.count(c__11292__auto__);
-var b__48752 = cljs.core.chunk_buffer(size__11293__auto__);
-if((function (){var i__48751 = (0);
+var b__48840 = cljs.core.chunk_buffer(size__11293__auto__);
+if((function (){var i__48839 = (0);
 while(true){
-if((i__48751 < size__11293__auto__)){
-var k = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__11292__auto__,i__48751);
-cljs.core.chunk_append(b__48752,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,query_data.get(k)], null));
+if((i__48839 < size__11293__auto__)){
+var k = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__11292__auto__,i__48839);
+cljs.core.chunk_append(b__48840,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,query_data.get(k)], null));
 
-var G__48754 = (i__48751 + (1));
-i__48751 = G__48754;
+var G__48842 = (i__48839 + (1));
+i__48839 = G__48842;
 continue;
 } else {
 return true;
@@ -1359,13 +1359,13 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__48752),fulcro$client$core$iter__48749(cljs.core.chunk_rest(s__48750__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__48840),fulcro$client$core$iter__48837(cljs.core.chunk_rest(s__48838__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__48752),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__48840),null);
 }
 } else {
-var k = cljs.core.first(s__48750__$2);
-return cljs.core.cons(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,query_data.get(k)], null),fulcro$client$core$iter__48749(cljs.core.rest(s__48750__$2)));
+var k = cljs.core.first(s__48838__$2);
+return cljs.core.cons(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,query_data.get(k)], null),fulcro$client$core$iter__48837(cljs.core.rest(s__48838__$2)));
 }
 } else {
 return null;
@@ -1386,8 +1386,8 @@ fulcro.client.core.uri_params.cljs$lang$maxFixedArity = 1;
  * Get the value of the named parameter from the browser URL (or an explicit one)
  */
 fulcro.client.core.get_url_param = (function fulcro$client$core$get_url_param(var_args){
-var G__48756 = arguments.length;
-switch (G__48756) {
+var G__48844 = arguments.length;
+switch (G__48844) {
 case 1:
 return fulcro.client.core.get_url_param.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -1458,14 +1458,14 @@ return (x instanceof cljs.core.Atom);
  */
 fulcro.client.core.integrate_ident = (function fulcro$client$core$integrate_ident(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___48768 = arguments.length;
-var i__11692__auto___48769 = (0);
+var len__11691__auto___48856 = arguments.length;
+var i__11692__auto___48857 = (0);
 while(true){
-if((i__11692__auto___48769 < len__11691__auto___48768)){
-args__11698__auto__.push((arguments[i__11692__auto___48769]));
+if((i__11692__auto___48857 < len__11691__auto___48856)){
+args__11698__auto__.push((arguments[i__11692__auto___48857]));
 
-var G__48770 = (i__11692__auto___48769 + (1));
-i__11692__auto___48769 = G__48770;
+var G__48858 = (i__11692__auto___48857 + (1));
+i__11692__auto___48857 = G__48858;
 continue;
 } else {
 }
@@ -1484,22 +1484,22 @@ throw (new Error("Assert failed: (map? state)"));
 
 var actions = cljs.core.partition.cljs$core$IFn$_invoke$arity$2((2),named_parameters);
 return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(((function (actions){
-return (function (state__$1,p__48763){
-var vec__48764 = p__48763;
-var command = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48764,(0),null);
-var data_path = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48764,(1),null);
-var already_has_ident_at_path_QMARK_ = ((function (vec__48764,command,data_path,actions){
+return (function (state__$1,p__48851){
+var vec__48852 = p__48851;
+var command = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48852,(0),null);
+var data_path = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48852,(1),null);
+var already_has_ident_at_path_QMARK_ = ((function (vec__48852,command,data_path,actions){
 return (function (data_path__$1){
-return cljs.core.some(((function (vec__48764,command,data_path,actions){
-return (function (p1__48758_SHARP_){
-return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(p1__48758_SHARP_,ident);
-});})(vec__48764,command,data_path,actions))
+return cljs.core.some(((function (vec__48852,command,data_path,actions){
+return (function (p1__48846_SHARP_){
+return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(p1__48846_SHARP_,ident);
+});})(vec__48852,command,data_path,actions))
 ,cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(state__$1,data_path__$1));
-});})(vec__48764,command,data_path,actions))
+});})(vec__48852,command,data_path,actions))
 ;
-var G__48767 = command;
-var G__48767__$1 = (((G__48767 instanceof cljs.core.Keyword))?G__48767.fqn:null);
-switch (G__48767__$1) {
+var G__48855 = command;
+var G__48855__$1 = (((G__48855 instanceof cljs.core.Keyword))?G__48855.fqn:null);
+switch (G__48855__$1) {
 case "prepend":
 if(cljs.core.truth_(already_has_ident_at_path_QMARK_(data_path))){
 return state__$1;
@@ -1509,10 +1509,10 @@ if(cljs.core.vector_QMARK_(cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(state_
 throw (new Error(["Assert failed: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(["Path ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(data_path)," for prepend must target an app-state vector."].join('')),"\n","(vector? (get-in state data-path))"].join('')));
 }
 
-return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(state__$1,data_path,((function (G__48767,G__48767__$1,already_has_ident_at_path_QMARK_,vec__48764,command,data_path,actions){
-return (function (p1__48759_SHARP_){
-return cljs.core.into.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [ident], null),p1__48759_SHARP_);
-});})(G__48767,G__48767__$1,already_has_ident_at_path_QMARK_,vec__48764,command,data_path,actions))
+return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(state__$1,data_path,((function (G__48855,G__48855__$1,already_has_ident_at_path_QMARK_,vec__48852,command,data_path,actions){
+return (function (p1__48847_SHARP_){
+return cljs.core.into.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [ident], null),p1__48847_SHARP_);
+});})(G__48855,G__48855__$1,already_has_ident_at_path_QMARK_,vec__48852,command,data_path,actions))
 );
 }
 
@@ -1571,12 +1571,12 @@ throw cljs.core.ex_info.cljs$core$IFn$_invoke$arity$2("Unknown post-op to merge-
 
 fulcro.client.core.integrate_ident.cljs$lang$maxFixedArity = (2);
 
-fulcro.client.core.integrate_ident.cljs$lang$applyTo = (function (seq48760){
-var G__48761 = cljs.core.first(seq48760);
-var seq48760__$1 = cljs.core.next(seq48760);
-var G__48762 = cljs.core.first(seq48760__$1);
-var seq48760__$2 = cljs.core.next(seq48760__$1);
-return fulcro.client.core.integrate_ident.cljs$core$IFn$_invoke$arity$variadic(G__48761,G__48762,seq48760__$2);
+fulcro.client.core.integrate_ident.cljs$lang$applyTo = (function (seq48848){
+var G__48849 = cljs.core.first(seq48848);
+var seq48848__$1 = cljs.core.next(seq48848);
+var G__48850 = cljs.core.first(seq48848__$1);
+var seq48848__$2 = cljs.core.next(seq48848__$1);
+return fulcro.client.core.integrate_ident.cljs$core$IFn$_invoke$arity$variadic(G__48849,G__48850,seq48848__$2);
 });
 
 /**
@@ -1595,14 +1595,14 @@ return fulcro.client.core.integrate_ident.cljs$core$IFn$_invoke$arity$variadic(G
  */
 fulcro.client.core.integrate_ident_BANG_ = (function fulcro$client$core$integrate_ident_BANG_(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___48775 = arguments.length;
-var i__11692__auto___48776 = (0);
+var len__11691__auto___48863 = arguments.length;
+var i__11692__auto___48864 = (0);
 while(true){
-if((i__11692__auto___48776 < len__11691__auto___48775)){
-args__11698__auto__.push((arguments[i__11692__auto___48776]));
+if((i__11692__auto___48864 < len__11691__auto___48863)){
+args__11698__auto__.push((arguments[i__11692__auto___48864]));
 
-var G__48777 = (i__11692__auto___48776 + (1));
-i__11692__auto___48776 = G__48777;
+var G__48865 = (i__11692__auto___48864 + (1));
+i__11692__auto___48864 = G__48865;
 continue;
 } else {
 }
@@ -1624,12 +1624,12 @@ return cljs.core.apply.cljs$core$IFn$_invoke$arity$5(cljs.core.swap_BANG_,state,
 
 fulcro.client.core.integrate_ident_BANG_.cljs$lang$maxFixedArity = (2);
 
-fulcro.client.core.integrate_ident_BANG_.cljs$lang$applyTo = (function (seq48772){
-var G__48773 = cljs.core.first(seq48772);
-var seq48772__$1 = cljs.core.next(seq48772);
-var G__48774 = cljs.core.first(seq48772__$1);
-var seq48772__$2 = cljs.core.next(seq48772__$1);
-return fulcro.client.core.integrate_ident_BANG_.cljs$core$IFn$_invoke$arity$variadic(G__48773,G__48774,seq48772__$2);
+fulcro.client.core.integrate_ident_BANG_.cljs$lang$applyTo = (function (seq48860){
+var G__48861 = cljs.core.first(seq48860);
+var seq48860__$1 = cljs.core.next(seq48860);
+var G__48862 = cljs.core.first(seq48860__$1);
+var seq48860__$2 = cljs.core.next(seq48860__$1);
+return fulcro.client.core.integrate_ident_BANG_.cljs$core$IFn$_invoke$arity$variadic(G__48861,G__48862,seq48860__$2);
 });
 
 /**
@@ -1661,14 +1661,14 @@ return fulcro.client.core.integrate_ident_BANG_.cljs$core$IFn$_invoke$arity$vari
  */
 fulcro.client.core.merge_state_BANG_ = (function fulcro$client$core$merge_state_BANG_(var_args){
 var args__11698__auto__ = [];
-var len__11691__auto___48785 = arguments.length;
-var i__11692__auto___48786 = (0);
+var len__11691__auto___48873 = arguments.length;
+var i__11692__auto___48874 = (0);
 while(true){
-if((i__11692__auto___48786 < len__11691__auto___48785)){
-args__11698__auto__.push((arguments[i__11692__auto___48786]));
+if((i__11692__auto___48874 < len__11691__auto___48873)){
+args__11698__auto__.push((arguments[i__11692__auto___48874]));
 
-var G__48787 = (i__11692__auto___48786 + (1));
-i__11692__auto___48786 = G__48787;
+var G__48875 = (i__11692__auto___48874 + (1));
+i__11692__auto___48874 = G__48875;
 continue;
 } else {
 }
@@ -1689,10 +1689,10 @@ var ident = fulcro.client.util.get_ident(component,object_data);
 var reconciler = ((((!((app_or_reconciler == null)))?(((false) || ((cljs.core.PROTOCOL_SENTINEL === app_or_reconciler.fulcro$client$core$FulcroApplication$)))?true:false):false))?cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(app_or_reconciler):app_or_reconciler);
 var state = om.next.app_state(reconciler);
 var data_path_keys = cljs.core.vec(cljs.core.set(cljs.core.filter.cljs$core$IFn$_invoke$arity$2(cljs.core.keyword_QMARK_,cljs.core.flatten(cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.second,cljs.core.partition.cljs$core$IFn$_invoke$arity$2((2),named_parameters))))));
-var map__48782 = fulcro.client.core.preprocess_merge(state,component,object_data);
-var map__48782__$1 = ((((!((map__48782 == null)))?((((map__48782.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48782.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48782):map__48782);
-var merge_data = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48782__$1,cljs.core.cst$kw$merge_DASH_data);
-var merge_query = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48782__$1,cljs.core.cst$kw$merge_DASH_query);
+var map__48870 = fulcro.client.core.preprocess_merge(state,component,object_data);
+var map__48870__$1 = ((((!((map__48870 == null)))?((((map__48870.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__48870.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__48870):map__48870);
+var merge_data = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48870__$1,cljs.core.cst$kw$merge_DASH_data);
+var merge_query = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__48870__$1,cljs.core.cst$kw$merge_DASH_query);
 om.next.merge_BANG_.cljs$core$IFn$_invoke$arity$3(reconciler,merge_data,merge_query);
 
 cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$3(state,cljs.core.dissoc,cljs.core.cst$kw$fulcro_SLASH_merge);
@@ -1706,14 +1706,14 @@ return cljs.core.deref(state);
 
 fulcro.client.core.merge_state_BANG_.cljs$lang$maxFixedArity = (3);
 
-fulcro.client.core.merge_state_BANG_.cljs$lang$applyTo = (function (seq48778){
-var G__48779 = cljs.core.first(seq48778);
-var seq48778__$1 = cljs.core.next(seq48778);
-var G__48780 = cljs.core.first(seq48778__$1);
-var seq48778__$2 = cljs.core.next(seq48778__$1);
-var G__48781 = cljs.core.first(seq48778__$2);
-var seq48778__$3 = cljs.core.next(seq48778__$2);
-return fulcro.client.core.merge_state_BANG_.cljs$core$IFn$_invoke$arity$variadic(G__48779,G__48780,G__48781,seq48778__$3);
+fulcro.client.core.merge_state_BANG_.cljs$lang$applyTo = (function (seq48866){
+var G__48867 = cljs.core.first(seq48866);
+var seq48866__$1 = cljs.core.next(seq48866);
+var G__48868 = cljs.core.first(seq48866__$1);
+var seq48866__$2 = cljs.core.next(seq48866__$1);
+var G__48869 = cljs.core.first(seq48866__$2);
+var seq48866__$3 = cljs.core.next(seq48866__$2);
+return fulcro.client.core.merge_state_BANG_.cljs$core$IFn$_invoke$arity$variadic(G__48867,G__48868,G__48869,seq48866__$3);
 });
 
 /**
@@ -1729,11 +1729,11 @@ return cljs.core.contains_QMARK_(join_keys,k);
 });})(join_keys,init_keys))
 ;
 var value_of = ((function (join_keys,init_keys,is_child_QMARK_){
-return (function fulcro$client$core$make_state_map_$_value_of_STAR_(p__48790){
-var vec__48791 = p__48790;
-var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48791,(0),null);
-var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48791,(1),null);
-var param_name = ((function (vec__48791,k,v,join_keys,init_keys,is_child_QMARK_){
+return (function fulcro$client$core$make_state_map_$_value_of_STAR_(p__48878){
+var vec__48879 = p__48878;
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48879,(0),null);
+var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__48879,(1),null);
+var param_name = ((function (vec__48879,k,v,join_keys,init_keys,is_child_QMARK_){
 return (function (v__$1){
 var and__10400__auto__ = (v__$1 instanceof cljs.core.Keyword);
 if(and__10400__auto__){
@@ -1746,9 +1746,9 @@ return and__10400__auto____$1;
 } else {
 return and__10400__auto__;
 }
-});})(vec__48791,k,v,join_keys,init_keys,is_child_QMARK_))
+});})(vec__48879,k,v,join_keys,init_keys,is_child_QMARK_))
 ;
-var substitute = ((function (param_name,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_){
+var substitute = ((function (param_name,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_){
 return (function (ele){
 var temp__5457__auto__ = param_name(ele);
 if(cljs.core.truth_(temp__5457__auto__)){
@@ -1757,7 +1757,7 @@ return cljs.core.get.cljs$core$IFn$_invoke$arity$2(params,k__$1);
 } else {
 return ele;
 }
-});})(param_name,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_))
+});})(param_name,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_))
 ;
 var param_key = param_name(v);
 var param_exists_QMARK_ = cljs.core.contains_QMARK_(params,param_key);
@@ -1791,10 +1791,10 @@ return is_child_QMARK_(k);
 return and__10400__auto__;
 }
 })())){
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_){
 return (function (m){
 return fulcro.client.core.get_initial_state(child_class,cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.EMPTY,cljs.core.keep.cljs$core$IFn$_invoke$arity$2(fulcro$client$core$make_state_map_$_value_of_STAR_,m)));
-});})(param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_))
+});})(param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_))
 ,v)], null);
 } else {
 if(cljs.core.truth_((function (){var and__10400__auto__ = cljs.core.vector_QMARK_(param_value);
@@ -1804,17 +1804,17 @@ return is_child_QMARK_(k);
 return and__10400__auto__;
 }
 })())){
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_){
 return (function (params__$1){
 return fulcro.client.core.get_initial_state(child_class,params__$1);
-});})(param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_))
+});})(param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_))
 ,param_value)], null);
 } else {
 if(cljs.core.vector_QMARK_(v)){
-return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,cljs.core.mapv.cljs$core$IFn$_invoke$arity$2(((function (param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_){
 return (function (ele){
 return substitute(ele);
-});})(param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48791,k,v,join_keys,init_keys,is_child_QMARK_))
+});})(param_name,substitute,param_key,param_exists_QMARK_,param_value,child_class,vec__48879,k,v,join_keys,init_keys,is_child_QMARK_))
 ,v)], null);
 } else {
 if(cljs.core.truth_((function (){var and__10400__auto__ = param_key;
