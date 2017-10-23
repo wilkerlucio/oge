@@ -211,7 +211,8 @@
 
       (if (and (= "atom" (gobj/get token "type"))
                (= "attr-list" (gobj/getValueByKeys token #js ["state" "mode"]))
-               (seq (get words (str->keyword (gobj/get token "string")))))
+               (or (seq (get words (str->keyword (gobj/get token "string"))))
+                   (= ">" (namespace (str->keyword (gobj/get token "string"))))))
         (let [line       (.-line cur)
               start      (.Pos js/CodeMirror line (gobj/get token "start"))
               end        (.Pos js/CodeMirror line (gobj/get token "end"))
