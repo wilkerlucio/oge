@@ -12,6 +12,12 @@ The easiest way is to use the OgE Public version at https://wilkerlucio.github.i
 lein figwheel dev
 ```
 
+Then open:
+
+```
+http://localhost:3450/index-dev.html
+```
+
 ## As a library
 
 Docs will be here...
