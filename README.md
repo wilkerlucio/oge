@@ -18,6 +18,10 @@ Then open:
 http://localhost:3450/index-dev.html
 ```
 
+## Demo
+
+For a demo/tutorial on how to implement a graph that can be auto-completed with OgE, see: https://www.youtube.com/watch?v=60i9uStI9As
+
 ## As a library
 
 Docs will be here...
