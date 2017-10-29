@@ -50,7 +50,7 @@
 
   static om/IQuery
   (query [_] [:oge/id :oge/query :oge/result :oge/profile
-              {::p.connect/indexes [::p.connect/idents ::p.connect/index-io :ui/fetch-state]}
+              {::p.connect/indexes [::p.connect/idents ::p.connect/index-io ::p.connect/autocomplete-ignore :ui/fetch-state]}
               {:oge/result' [:ui/fetch-state]}])
 
   static om/Ident

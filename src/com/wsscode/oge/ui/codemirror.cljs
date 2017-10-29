@@ -72,7 +72,7 @@
 
       ; there is a race condition that happens when user types something, react updates state and try to update
       ; the state back to the editor, which moves the cursor in the editor in weird ways. the workaround is to
-      ; stop accepting external values after a short period after user types.
+      ; stop accepting external values after a short period after user key strokes.
       (if-not (gobj/get this "editorHold")
         (let [cur-value (.getValue cm)]
           (if (and cm value (not= value cur-value))
@@ -138,7 +138,7 @@
                         (let [key (str->keyword (gobj/getValueByKeys s #js ["key" "key"]))]
                           {:type :attribute :context (conj ctx key)})
 
-                        ; ident join: [{[:ident x] [|]}]
+                        ; join: [{:child [|]}]
                         (and (= "join" (gobj/get s "mode"))
                              (= (string? (gobj/get s "key"))))
                         (let [key (str->keyword (gobj/get s "key"))]
@@ -193,6 +193,7 @@
     (if words
       (let [fuzzy (if blank? #".*" (fuzzy-re reg))]
         #js {:list (->> words
+                        (remove (get index ::p.connect/autocomplete-ignore #{}))
                         (map str)
                         (filter #(re-find fuzzy %))
                         sort
