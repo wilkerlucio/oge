@@ -115,7 +115,7 @@
               "Run Query")))
         (codemirror/oge {:className           (:editor css)
                          :value               (or (str query) "")
-                         ::p.connect/indexes  indexes
+                         ::p.connect/indexes  (p/elide-not-found indexes)
                          ::codemirror/options {::codemirror/extraKeys
                                                {"Cmd-Enter"   (fn [_] (oge-query this (-> this om/props :oge/query)))
                                                 "Ctrl-Enter"  (fn [_] (oge-query this (-> this om/props :oge/query)))
