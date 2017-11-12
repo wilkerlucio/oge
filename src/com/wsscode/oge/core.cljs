@@ -97,6 +97,10 @@
                               :background "#f6f7f8"}]])
   (include-children [_] [ui/CSS])
 
+  static css/Global
+  (global-rules [_]
+    [[:.cm-atom-composed {:color "#129810"}]])
+
   Object
   (render [this]
     (let [{:oge/keys        [query result profile result']

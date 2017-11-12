@@ -65,9 +65,9 @@
   (componentWillReceiveProps [this {:keys            [value]
                                     ::p.connect/keys [indexes]}]
     (let [cm (gobj/get this "codemirror")]
-      (when (not= indexes (gobj/get cm "ogeIndex"))
+      (when (not= indexes (gobj/getValueByKeys cm #js ["options" "ogeIndex"]))
         (reset! oge-cache {})
-        (gobj/set cm "ogeIndex" indexes)
+        (gobj/set (gobj/get cm "options") "ogeIndex" indexes)
         (gobj/set (gobj/getValueByKeys cm #js ["options" "hintOptions"]) "hint" (partial autocomplete indexes)))
 
       ; there is a race condition that happens when user types something, react updates state and try to update
@@ -121,10 +121,8 @@
 
 (defn str->keyword [s] (keyword (subs s 1)))
 
-(defn token-context [{::p.connect/keys [index-io]} editor]
-  (let [cur        (.getCursor editor)
-        token      (.getTokenAt editor cur)
-        state      (gobj/get token "state")
+(defn token-context [{::p.connect/keys [index-io]} token]
+  (let [state      (gobj/get token "state")
         mode       (gobj/get state "mode")
         path-stack (gobj/get state "pathStack")
 
@@ -166,18 +164,21 @@
         ; no stack, empty context
         {:type :attribute :context []}))))
 
-(defn completions [index cm]
-  (let [cur   (.getCursor cm)
-        ch    (.-ch cur)
-        token (.getTokenAt cm cur)
-        reg   (subs (.-string token) 0 (- ch (.-start token)))
-        ctx   (token-context index cm)]
+(defn ^:export completions [index token reg]
+  (let [ctx (token-context index token)]
     (when reg
       (case (:type ctx)
         :attribute (->> (p.connect/discover-attrs (assoc index ::p.connect/cache oge-cache)
                           (->> ctx :context (remove (comp #{">"} namespace)))))
         :ident (into {} (map #(hash-map % {})) (-> index ::p.connect/idents))
         {}))))
+
+(defn cm-completions [index cm]
+  (let [cur   (.getCursor cm)
+        ch    (.-ch cur)
+        token (.getTokenAt cm cur)
+        reg   (subs (.-string token) 0 (- ch (.-start token)))]
+    (completions index token reg)))
 
 (defn autocomplete [index cm options]
   (let [cur    (.getCursor cm)
@@ -188,7 +189,7 @@
         blank? (#{"[" "{" " "} reg)
         start  (if blank? cur (-> js/CodeMirror (.Pos line (- ch (count reg)))))
         end    (if blank? cur (-> js/CodeMirror (.Pos line (gobj/get token "end"))))
-        words  (->> (completions index cm) (mapv first))]
+        words  (->> (cm-completions index cm) (mapv first))]
 
     (if words
       (let [fuzzy (if blank? #".*" (fuzzy-re reg))]
@@ -204,16 +205,19 @@
 (defn def-cm-command [name f]
   (gobj/set (gobj/get js/CodeMirror "commands") name f))
 
+(defn ^:export key-has-children? [completions token]
+  (let [reg (str->keyword (gobj/get token "string"))]
+    (and (= "atom" (gobj/get token "type"))
+         (or (seq (get completions reg))
+             (= ">" (namespace reg))))))
+
 (def-cm-command "ogeJoin"
   (fn [cm]
     (let [cur   (.getCursor cm)
-          token (.getTokenAt cm cur)
-          words (completions (gobj/get cm "ogeIndex") cm)]
+          token (.getTokenAt cm cur)]
 
-      (if (and (= "atom" (gobj/get token "type"))
-               (= "attr-list" (gobj/getValueByKeys token #js ["state" "mode"]))
-               (or (seq (get words (str->keyword (gobj/get token "string"))))
-                   (= ">" (namespace (str->keyword (gobj/get token "string"))))))
+      (if (and (= "attr-list" (gobj/getValueByKeys token #js ["state" "mode"]))
+               (= "atom-composed" (gobj/get token "type")))
         (let [line       (.-line cur)
               start      (.Pos js/CodeMirror line (gobj/get token "start"))
               end        (.Pos js/CodeMirror line (gobj/get token "end"))
@@ -236,13 +240,13 @@
                  ::hintOptions               {:hint           (partial autocomplete indexes)
                                               :completeSingle false}
                  ::extraKeys                 {"Ctrl-Space" "autocomplete"}
-                 ::gutters                   ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]}]
+                 ::gutters                   ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
+                 :ogeIndex                   indexes}]
     (editor (-> props
                 (assoc ::process (fn [cm]
                                    (.on cm "keyup" (fn [cm e] (when (and (not (gobj/getValueByKeys cm #js ["state" "completionActive"]))
                                                                          (= 1 (-> (gobj/get e "key") (count))))
                                                                 (js/CodeMirror.showHint cm))))
-                                   (gobj/set cm "ogeIndex" indexes)
                                    ((gobj/get js/parinferCodeMirror "init") cm "smart" #js {:forceBalance true})))
                 (update ::options #(merge options %))))))
 
