@@ -22,7 +22,8 @@
             [codemirror.oge]
             [codemirror.parinfer]
             [cljs.spec.alpha :as s]
-            [cljs.reader :refer [read-string]]))
+            [cljs.reader :refer [read-string]]
+            [clojure.string :as str]))
 
 (s/def ::mode (s/or :string string? :obj map?))
 (s/def ::theme string?)
@@ -64,10 +65,11 @@
   Object
   (componentWillReceiveProps [this {:keys            [value]
                                     ::p.connect/keys [indexes]}]
-    (let [cm (gobj/get this "codemirror")]
-      (when (not= indexes (gobj/getValueByKeys cm #js ["options" "ogeIndex"]))
+    (let [cm        (gobj/get this "codemirror")
+          cur-index (gobj/getValueByKeys cm #js ["options" "ogeIndex"])]
+      (when (and cur-index (not= indexes @cur-index))
         (reset! oge-cache {})
-        (gobj/set (gobj/get cm "options") "ogeIndex" indexes)
+        (reset! cur-index indexes)
         (gobj/set (gobj/getValueByKeys cm #js ["options" "hintOptions"]) "hint" (partial autocomplete indexes)))
 
       ; there is a race condition that happens when user types something, react updates state and try to update
@@ -173,6 +175,8 @@
         :ident (into {} (map #(hash-map % {})) (-> index ::p.connect/idents))
         {}))))
 
+(gobj/set js/window "cljsDeref" deref)
+
 (defn cm-completions [index cm]
   (let [cur   (.getCursor cm)
         ch    (.-ch cur)
@@ -211,21 +215,32 @@
          (or (seq (get completions reg))
              (= ">" (namespace reg))))))
 
+(defn str-repeat [s n]
+  (str/join (repeat n s)))
+
 (def-cm-command "ogeJoin"
   (fn [cm]
-    (let [cur   (.getCursor cm)
-          token (.getTokenAt cm cur)]
+    (let [cur    (.getCursor cm)
+          token  (.getTokenAt cm cur)
+          indent (or (gobj/getValueByKeys token #js ["state" "pathStack" "indent"])
+                     0)]
 
       (if (and (= "attr-list" (gobj/getValueByKeys token #js ["state" "mode"]))
                (= "atom-composed" (gobj/get token "type")))
-        (let [line       (.-line cur)
-              start      (.Pos js/CodeMirror line (gobj/get token "start"))
-              end        (.Pos js/CodeMirror line (gobj/get token "end"))
-              s          (gobj/get token "string")
-              cursor-end (.Pos js/CodeMirror line (+ (gobj/get token "start")
-                                                    (count s)
-                                                    3))
-              joined     (str "{" s " []}")]
+        (let [line  (.-line cur)
+              start (.Pos js/CodeMirror line (gobj/get token "start"))
+              end   (.Pos js/CodeMirror line (gobj/get token "end"))
+              s     (gobj/get token "string")
+
+              [cursor-end joined]
+              (if (= (.-ch start) indent)
+                [(.Pos js/CodeMirror (inc line) (+ 2 indent))
+                 (str "{" s "\n" (str-repeat " " (inc indent)) "[]}")]
+
+                [(.Pos js/CodeMirror line (+ (gobj/get token "start")
+                                            (count s)
+                                            3))
+                 (str "{" s " []}")])]
           (.replaceRange cm joined start end)
           (.setCursor cm cursor-end)
           (.showHint cm))))))
@@ -241,7 +256,7 @@
                                               :completeSingle false}
                  ::extraKeys                 {"Ctrl-Space" "autocomplete"}
                  ::gutters                   ["CodeMirror-linenumbers" "CodeMirror-foldgutter"]
-                 :ogeIndex                   indexes}]
+                 :ogeIndex                   (atom indexes)}]
     (editor (-> props
                 (assoc ::process (fn [cm]
                                    (.on cm "keyup" (fn [cm e] (when (and (not (gobj/getValueByKeys cm #js ["state" "completionActive"]))
