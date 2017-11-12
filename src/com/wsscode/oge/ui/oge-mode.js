@@ -204,7 +204,7 @@
 
                 stack.key = stream.current();
 
-                return ATOM;
+                return atomOrComp(stream, state);
               }
 
               if (ch == "[") {
