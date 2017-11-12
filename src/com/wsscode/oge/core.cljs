@@ -99,7 +99,7 @@
 
   static css/Global
   (global-rules [_]
-    [[:.cm-atom-composed {:color "#129810"}]])
+    [[:.cm-atom-composed {:color "#ab890d"}]])
 
   Object
   (render [this]
