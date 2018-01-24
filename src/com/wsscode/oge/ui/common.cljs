@@ -1,8 +1,8 @@
 (ns com.wsscode.oge.ui.common
-  (:require [om.next :as om]
+  (:require [fulcro.client.primitives :as fp]
             [com.wsscode.oge.ui.helpers :as helpers]
             [fulcro-css.css :as css]
-            [om.dom :as dom]))
+            [fulcro.client.dom :as dom]))
 
 (def css-button
   {:color            "#fff"
@@ -27,7 +27,7 @@
    :background-color "#025aa5"
    :border-color     "#01549b"})
 
-(om/defui ^:once Button
+(fp/defui ^:once Button
   static css/CSS
   (local-rules [_] [[:.button css-button
                      [:&:hover css-button-hover]]])
@@ -35,12 +35,12 @@
 
   Object
   (render [this]
-    (let [props (om/props this)
+    (let [props (fp/props this)
           css   (css/get-classnames Button)]
       (dom/button (helpers/props->html {:className (:button css)} props)
-        (om/children this)))))
+        (fp/children this)))))
 
-(def button (helpers/container-factory Button))
+(def button (fp/factory Button))
 
 (def css-input
   {:display          "block"
@@ -62,7 +62,7 @@
    :border-color     "#5cb3fd"
    :outline          "0"})
 
-(om/defui ^:once TextField
+(fp/defui ^:once TextField
   static css/CSS
   (local-rules [_] [[:.input css-input
                      [:&:focus css-input-focus]
@@ -72,16 +72,16 @@
 
   Object
   (render [this]
-    (let [props (om/props this)
+    (let [props (fp/props this)
           css   (css/get-classnames TextField)]
       (dom/input (helpers/props->html {:className (:input css)
                                        :type      "text"}
                    (helpers/expand-classes css (::classes props))
                    props)))))
 
-(def text-field (om/factory TextField))
+(def text-field (fp/factory TextField))
 
-(om/defui ^:once CSS
+(fp/defui ^:once CSS
   static css/CSS
   (local-rules [_] [])
   (include-children [_] [Button TextField]))

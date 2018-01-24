@@ -10,6 +10,7 @@
                  [spec-coerce "1.0.0-alpha5"]
                  [fulcrologic/fulcro "2.1.2"]
                  [fulcrologic/fulcro-css "2.0.0"]
+                 [fulcrologic/fulcro-inspect "2.0.0-alpha4"]
                  [com.wsscode/pathom "2.0.0-beta1"]
 
                  [cljsjs/codemirror "5.24.0-1"]
@@ -19,7 +20,7 @@
   :source-paths ["src"]
 
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-figwheel "0.5.13"]]
+            [lein-figwheel "0.5.14"]]
 
   :jar-exclusions [#"public/js/.*"]
 
@@ -33,7 +34,7 @@
                                        :asset-path           "/js/dev"
                                        :output-to            "resources/public/js/dev/main.js"
                                        :output-dir           "resources/public/js/dev"
-                                       :preloads             [devtools.preload]
+                                       :preloads             [devtools.preload fulcro.inspect.preload]
                                        :parallel-build       true
                                        :verbose              false}}
 
@@ -48,5 +49,5 @@
                                        :parallel-build       true
                                        :verbose              false}}]}
 
-  :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.13"]
+  :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.14"]
                                   [binaryage/devtools "0.9.4"]]}})

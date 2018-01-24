@@ -1,17 +1,16 @@
 (ns com.wsscode.oge.ui.network
   (:require [cljsjs.d3]
-            [fulcro.client.core :as fulcro]
-            [om.dom :as dom]
-            [om.next :as om]))
+            [fulcro.client.dom :as dom]
+            [fulcro.client.primitives :as fp]))
 
-(om/defui ^:once RelationGraph
+(fp/defui ^:once RelationGraph
   Object
   (componentDidMount [_]
     )
 
   (render [this]
-    (let [{:keys []} (om/props this)]
+    (let [{:keys []} (fp/props this)]
       (dom/div nil
         ))))
 
-(def relation-graph (om/factory RelationGraph))
+(def relation-graph (fp/factory RelationGraph))

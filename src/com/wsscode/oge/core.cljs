@@ -1,6 +1,5 @@
 (ns com.wsscode.oge.core
-  (:require [fulcro.client.core :as fulcro]
-            [fulcro.client.data-fetch :as fetch]
+  (:require [fulcro.client.data-fetch :as fetch]
             [fulcro.client.mutations :as mutations]
             [fulcro-css.css :as css]
             [com.wsscode.pathom.core :as p]
@@ -9,31 +8,30 @@
             [com.wsscode.oge.ui.codemirror :as codemirror]
             [com.wsscode.oge.ui.flame-graph :as ui.flame]
             [com.wsscode.oge.ui.helpers :as helpers]
-            [om.next :as om]
-            [om.dom :as dom]
+            [fulcro.client.primitives :as om]
+            [fulcro.client.dom :as dom]
             [cljs.pprint :refer [pprint]]
             [cljs.reader :refer [read-string]]
-            [com.wsscode.oge.ui.common :as ui]))
+            [com.wsscode.oge.ui.common :as ui]
+            [fulcro.client.primitives :as fp]))
 
-(defmethod mutations/mutate `clear-errors [{:keys [state]} _ _]
-  {:action
-   (fn []
-     (swap! state dissoc ::p/errors))})
+(mutations/defmutation clear-errors [_]
+  (action [{:keys [state]}]
+    (swap! state dissoc ::p/errors)))
 
-(defmethod mutations/mutate `normalize-result [{:keys [ref state]} _ _]
-  {:action
-   (fn []
-     (let [result' (cond-> (-> @state (get-in ref) :oge/result')
-                     (get @state ::p/errors) (assoc ::p/errors (->> (get @state ::p/errors)
-                                                                    (into {} (map (fn [[k v]] [(vec (next k)) v]))))))
-           profile (some-> result' ::p.profile/profile :>/oge)
-           result  (with-out-str (cljs.pprint/pprint (dissoc result' ::p.profile/profile)))]
-       (swap! state update-in ref merge {:oge/result  result
-                                         :oge/profile profile})))})
+(mutations/defmutation normalize-result [_]
+  (action [{:keys [ref state]}]
+    (let [result' (cond-> (-> @state (get-in ref) :oge/result')
+                    (get @state ::p/errors) (assoc ::p/errors (->> (get @state ::p/errors)
+                                                                   (into {} (map (fn [[k v]] [(vec (next k)) v]))))))
+          profile (some-> result' ::p.profile/profile :>/oge)
+          result  (with-out-str (cljs.pprint/pprint (dissoc result' ::p.profile/profile)))]
+      (swap! state update-in ref merge {:oge/result  result
+                                        :oge/profile profile}))))
 
 (defn oge-query [this query]
   (try
-    (om/transact! this [`(clear-errors)
+    (om/transact! this [`(clear-errors {})
                         (list 'fulcro/load {:target        (conj (om/get-ident this) :oge/result')
                                             :query         [{:>/oge (conj (read-string query) ::p.profile/profile)}]
                                             :refresh       [:oge/result]
@@ -42,7 +40,7 @@
       (js/console.error "Invalid query" e))))
 
 (om/defui ^:once Oge
-  static fulcro/InitialAppState
+  static fp/InitialAppState
   (initial-state [_ _] {:oge/id      "editor"
                         :oge/query   "[]"
                         :oge/result  "{}"

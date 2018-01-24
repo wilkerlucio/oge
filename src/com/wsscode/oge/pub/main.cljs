@@ -1,5 +1,5 @@
 (ns com.wsscode.oge.pub.main
-  (:require [fulcro.client.core :as fulcro]
+  (:require [fulcro.client :as fulcro]
             [fulcro.client.mutations :as mutations]
             [fulcro-css.css :as css]
             [com.wsscode.pathom.connect :as p.connect]
@@ -7,14 +7,14 @@
             [com.wsscode.oge.ui.common :as ui]
             [com.wsscode.oge.pub.network :as network]
             [goog.functions :as gfun]
-            [om.next :as om]
-            [om.dom :as dom]
+            [fulcro.client.primitives :as fp]
+            [fulcro.client.dom :as dom]
             [fulcro.client.data-fetch :as fetch]))
 
 (defn update-index [reconciler]
-  (om/transact! reconciler
+  (fp/transact! reconciler
     [(list 'fulcro/load {:target  [:oge/id "editor" ::p.connect/indexes]
-                         :query   (-> oge/Oge om/get-query (om/focus-query [::p.connect/indexes]))
+                         :query   (-> oge/Oge fp/get-query (fp/focus-query [::p.connect/indexes]))
                          :refresh #{:ui/editor}})]))
 
 (def debounced-update-index
@@ -28,15 +28,15 @@
      (js/localStorage.setItem "oge-pub-last-url" url)
      (debounced-update-index reconciler))})
 
-(om/defui ^:once OgeMain
-  static fulcro/InitialAppState
-  (initial-state [_ _] {:ui/editor     (fulcro/get-initial-state oge/Oge {})
+(fp/defui ^:once OgeMain
+  static fp/InitialAppState
+  (initial-state [_ _] {:ui/editor     (fp/get-initial-state oge/Oge {})
                         :ui/target-url (or (js/localStorage.getItem "oge-pub-last-url") "")})
 
-  static om/IQuery
-  (query [_] [{:ui/editor (om/get-query oge/Oge)} :ui/target-url])
+  static fp/IQuery
+  (query [_] [{:ui/editor (fp/get-query oge/Oge)} :ui/target-url])
 
-  static om/Ident
+  static fp/Ident
   (ident [_ props] [:oge-app "main"])
 
   static css/Global
@@ -56,31 +56,31 @@
 
   Object
   (render [this]
-    (let [{:keys [ui/editor ui/target-url]} (om/props this)
+    (let [{:keys [ui/editor ui/target-url]} (fp/props this)
           css (css/get-classnames OgeMain)
           fs  (-> editor ::p.connect/indexes :ui/fetch-state)]
       (dom/div #js {:className (:container css)}
         (ui/text-field {:value       target-url
                         :className   (:input css)
                         :placeholder "https://your-endpoint.here.com"
-                        :onChange    #(om/transact! this [`(update-endpoint {::url ~(.. % -target -value)})])
+                        :onChange    #(fp/transact! this [`(update-endpoint {::url ~(.. % -target -value)})])
                         ::ui/classes (cond
                                        (-> editor ::p.connect/indexes ::p.connect/index-io)
                                        [:success]
 
                                        (fetch/failed? fs)
                                        [:warning])})
-        (oge/oge (om/computed editor {:style {:flex 1}}))))))
+        (oge/oge (fp/computed editor {:style {:flex 1}}))))))
 
-(def oge-main (om/factory OgeMain))
+(def oge-main (fp/factory OgeMain))
 
-(om/defui ^:once Root
-  static fulcro/InitialAppState
+(fp/defui ^:once Root
+  static fp/InitialAppState
   (initial-state [_ _] {:ui/react-key (random-uuid)
-                        :ui/root      (fulcro/get-initial-state OgeMain {})})
+                        :ui/root      (fp/get-initial-state OgeMain {})})
 
-  static om/IQuery
-  (query [_] [{:ui/root (om/get-query OgeMain)} :ui/react-key])
+  static fp/IQuery
+  (query [_] [{:ui/root (fp/get-query OgeMain)} :ui/react-key])
 
   static css/CSS
   (local-rules [_] [])
@@ -88,7 +88,7 @@
 
   Object
   (render [this]
-    (let [{:keys [ui/react-key ui/root]} (om/props this)]
+    (let [{:keys [ui/react-key ui/root]} (fp/props this)]
       (dom/div #js {:key react-key}
         (oge-main root)))))
 
@@ -108,4 +108,4 @@
 (init)
 
 (defn log-state []
-  (-> @app :reconciler om/app-state deref))
+  (-> @app :reconciler fp/app-state deref))

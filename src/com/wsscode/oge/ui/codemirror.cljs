@@ -1,6 +1,6 @@
 (ns com.wsscode.oge.ui.codemirror
-  (:require [om.next :as om]
-            [om.dom :as dom]
+  (:require [fulcro.client.primitives :as fp]
+            [fulcro.client.dom :as dom]
             [goog.object :as gobj]
             [com.wsscode.pathom.connect :as p.connect]
             [cljsjs.codemirror]
@@ -48,7 +48,7 @@
   (s/map-of string? (s/or :str string? :fn fn?)))
 
 (defn prop-call [comp name & args]
-  (when-let [f (-> comp om/props name)]
+  (when-let [f (-> comp fp/props name)]
     (apply f args)))
 
 (defn html-props [props]
@@ -61,7 +61,7 @@
 
 (declare autocomplete)
 
-(om/defui ^:once Editor
+(fp/defui ^:once Editor
   Object
   (componentWillReceiveProps [this {:keys            [value]
                                     ::p.connect/keys [indexes]}]
@@ -82,8 +82,8 @@
 
   (componentDidMount [this]
     (let [textarea   (gobj/get this "textNode")
-          options    (-> this om/props ::options (or {}) clj->js)
-          process    (-> this om/props ::process)
+          options    (-> this fp/props ::options (or {}) clj->js)
+          process    (-> this fp/props ::process)
           codemirror (js/CodeMirror.fromTextArea textarea options)]
 
       (try
@@ -95,7 +95,7 @@
                                           (gobj/set this "editorHold" false))
                                         800))
                                     (prop-call this :onChange (.getValue %))))
-        (.setValue codemirror (-> this om/props :value))
+        (.setValue codemirror (-> this fp/props :value))
         (if process (process codemirror))
         (catch :default e (js/console.warn "Error setting up CodeMirror" e)))
       (gobj/set this "codemirror" codemirror)))
@@ -105,13 +105,13 @@
       (.toTextArea cm)))
 
   (render [this]
-    (let [props (om/props this)]
+    (let [props (fp/props this)]
       (dom/div (-> props (dissoc :value :onChange) (html-props))
         (js/React.createElement "textarea"
           #js {:ref          #(gobj/set this "textNode" %)
                :defaultValue (:value props)})))))
 
-(def editor (om/factory Editor))
+(def editor (fp/factory Editor))
 
 (defn escape-re [input]
   (let [re (js/RegExp. "([.*+?^=!:${}()|[\\]\\/\\\\])" "g")]

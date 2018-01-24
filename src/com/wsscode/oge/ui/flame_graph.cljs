@@ -1,6 +1,6 @@
 (ns com.wsscode.oge.ui.flame-graph
-  (:require [om.next :as om]
-            [om.dom :as dom]
+  (:require [fulcro.client.primitives :as om]
+            [fulcro.client.dom :as dom]
             [com.wsscode.pathom.profile :as p.profile]
             [d3.flamegraph]
             [goog.object :as gobj]))
