@@ -20,57 +20,42 @@
 (def debounced-update-index
   (gfun/debounce update-index 600))
 
-(defmethod mutations/mutate `update-endpoint [{:keys [state ref reconciler shared]} _ {::keys [url]}]
-  {:action
-   (fn []
-     (reset! (::endpoint* shared) url)
-     (swap! state assoc-in (conj ref :ui/target-url) url)
-     (js/localStorage.setItem "oge-pub-last-url" url)
-     (debounced-update-index reconciler))})
+(mutations/defmutation update-endpoint [{::keys [url]}]
+  (action [{:keys [state ref reconciler shared]}]
+    (reset! (::endpoint* shared) url)
+    (swap! state assoc-in (conj ref :ui/target-url) url)
+    (js/localStorage.setItem "oge-pub-last-url" url)
+    (debounced-update-index reconciler)))
 
-(fp/defui ^:once OgeMain
-  static fp/InitialAppState
-  (initial-state [_ _] {:ui/editor     (fp/get-initial-state oge/Oge {})
-                        :ui/target-url (or (js/localStorage.getItem "oge-pub-last-url") "")})
+(fp/defsc OgeMain [this {:keys [ui/editor ui/target-url]} _ css]
+  {:initial-state (fn [_] {:ui/editor     (fp/get-initial-state oge/Oge {})
+                           :ui/target-url (or (js/localStorage.getItem "oge-pub-last-url") "")})
+   :ident         (fn [] [:oge-app "main"])
+   :query         [{:ui/editor (fp/get-query oge/Oge)} :ui/target-url]
+   :css           [[:body {:padding  "0"
+                           :overflow "hidden"}]
+                   [:$flex {:flex "1"}]
+                   [:.container {:box-sizing     "border-box"
+                                 :display        "flex"
+                                 :flex-direction "column"
+                                 :padding        "20px"
+                                 :width          "100vw"
+                                 :height         "100vh"}]
+                   [:.input {:margin-bottom "10px"}]]
+   :css-include   [oge/Oge]}
+  (let [fs (-> editor ::p.connect/indexes :ui/fetch-state)]
+    (dom/div #js {:className (:container css)}
+      (ui/text-field {:value       target-url
+                      :className   (:input css)
+                      :placeholder "https://your-endpoint.here.com"
+                      :onChange    #(fp/transact! this [`(update-endpoint {::url ~(.. % -target -value)})])
+                      ::ui/classes (cond
+                                     (-> editor ::p.connect/indexes ::p.connect/index-io)
+                                     [:success]
 
-  static fp/IQuery
-  (query [_] [{:ui/editor (fp/get-query oge/Oge)} :ui/target-url])
-
-  static fp/Ident
-  (ident [_ props] [:oge-app "main"])
-
-  static css/Global
-  (global-rules [_] [[:body {:padding  "0"
-                             :overflow "hidden"}]
-                     [:.flex {:flex "1"}]])
-
-  static css/CSS
-  (local-rules [_] [[:.container {:box-sizing     "border-box"
-                                  :display        "flex"
-                                  :flex-direction "column"
-                                  :padding        "20px"
-                                  :width          "100vw"
-                                  :height         "100vh"}]
-                    [:.input {:margin-bottom "10px"}]])
-  (include-children [_] [oge/Oge])
-
-  Object
-  (render [this]
-    (let [{:keys [ui/editor ui/target-url]} (fp/props this)
-          css (css/get-classnames OgeMain)
-          fs  (-> editor ::p.connect/indexes :ui/fetch-state)]
-      (dom/div #js {:className (:container css)}
-        (ui/text-field {:value       target-url
-                        :className   (:input css)
-                        :placeholder "https://your-endpoint.here.com"
-                        :onChange    #(fp/transact! this [`(update-endpoint {::url ~(.. % -target -value)})])
-                        ::ui/classes (cond
-                                       (-> editor ::p.connect/indexes ::p.connect/index-io)
-                                       [:success]
-
-                                       (fetch/failed? fs)
-                                       [:warning])})
-        (oge/oge (fp/computed editor {:style {:flex 1}}))))))
+                                     (fetch/failed? fs)
+                                     [:warning])})
+      (oge/oge (fp/computed editor {:style {:flex 1}})))))
 
 (def oge-main (fp/factory OgeMain))
 
