@@ -18,7 +18,7 @@
 
   CodeMirror.defineMode("oge", function (options) {
     var BUILTIN = "builtin", COMMENT = "comment", STRING = "string", CHARACTER = "string-2",
-      ATOM = "atom", ATOM_IDENT = "atom-ident", NUMBER = "number", BRACKET = "bracket", KEYWORD = "keyword", VAR = "variable";
+      ATOM = "atom", ATOM_IDENT = "atom-ident", ATOM_COMP = "atom-composed", NUMBER = "number", BRACKET = "bracket", KEYWORD = "keyword", VAR = "variable";
     var INDENT_WORD_SKIP = options.indentUnit || 2;
     var NORMAL_INDENT_UNIT = options.indentUnit || 2;
 
@@ -104,6 +104,29 @@
       return stream.column() + stream.current().length;
     }
 
+    function makeToken(stream, state) {
+      const string = stream.current();
+      const start = stream.column();
+      const end = start + string.length;
+
+      return {state: state, string: string, type: "atom", start: start, end: end};
+    }
+
+    const ogeCm = com.wsscode.oge.ui.codemirror;
+
+    function atomOrComp(stream, state) {
+      if (!options.ogeIndex) return ATOM;
+
+      const token = makeToken(stream, state);
+      const words = ogeCm.completions(cljsDeref(options.ogeIndex), token, token.string);
+
+      if (ogeCm.key_has_children_QMARK_(words, token)) {
+        return ATOM_COMP;
+      } else {
+        return ATOM;
+      }
+    }
+
     return {
       startState: function () {
         return {
@@ -143,7 +166,9 @@
             ch = stream.next();
 
             if (ch == ":") {
-              return readSymbol(stream);
+              readSymbol(stream);
+
+              return atomOrComp(stream, state);
             }
 
             if (ch == "*") {
@@ -179,7 +204,7 @@
 
                 stack.key = stream.current();
 
-                return ATOM;
+                return atomOrComp(stream, state);
               }
 
               if (ch == "[") {
@@ -257,7 +282,7 @@
       },
 
       closeBrackets: {pairs: "()[]{}\"\""},
-      lineComment: ";;"
+      lineComment: ";"
     };
   });
 });

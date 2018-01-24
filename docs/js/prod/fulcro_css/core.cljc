@@ -4,7 +4,7 @@
             [clojure.string :as str]
             [com.rpl.specter :as sp]
             [garden.core :as g]
-            [om.next :as om]
+            [fulcro.client.primitives :as prim]
             [cljs.core]))
 
 

@@ -6,7 +6,7 @@ goog.require('cljs.tagged_literals');
 goog.require('clojure.string');
 goog.require('com.rpl.specter');
 goog.require('garden.core');
-goog.require('om.next');
+goog.require('fulcro.client.primitives');
 goog.require('cljs.core');
 
 /**
@@ -21,14 +21,14 @@ fulcro_css.core.css = (function fulcro_css$core$css(this$){
 if((!((this$ == null))) && (!((this$.fulcro_css$core$CSS$css$arity$1 == null)))){
 return this$.fulcro_css$core$CSS$css$arity$1(this$);
 } else {
-var x__11145__auto__ = (((this$ == null))?null:this$);
-var m__11146__auto__ = (fulcro_css.core.css[goog.typeOf(x__11145__auto__)]);
-if(!((m__11146__auto__ == null))){
-return (m__11146__auto__.cljs$core$IFn$_invoke$arity$1 ? m__11146__auto__.cljs$core$IFn$_invoke$arity$1(this$) : m__11146__auto__.call(null,this$));
+var x__11538__auto__ = (((this$ == null))?null:this$);
+var m__11539__auto__ = (fulcro_css.core.css[goog.typeOf(x__11538__auto__)]);
+if(!((m__11539__auto__ == null))){
+return (m__11539__auto__.cljs$core$IFn$_invoke$arity$1 ? m__11539__auto__.cljs$core$IFn$_invoke$arity$1(this$) : m__11539__auto__.call(null,this$));
 } else {
-var m__11146__auto____$1 = (fulcro_css.core.css["_"]);
-if(!((m__11146__auto____$1 == null))){
-return (m__11146__auto____$1.cljs$core$IFn$_invoke$arity$1 ? m__11146__auto____$1.cljs$core$IFn$_invoke$arity$1(this$) : m__11146__auto____$1.call(null,this$));
+var m__11539__auto____$1 = (fulcro_css.core.css["_"]);
+if(!((m__11539__auto____$1 == null))){
+return (m__11539__auto____$1.cljs$core$IFn$_invoke$arity$1 ? m__11539__auto____$1.cljs$core$IFn$_invoke$arity$1(this$) : m__11539__auto____$1.call(null,this$));
 } else {
 throw cljs.core.missing_protocol("CSS.css",this$);
 }
@@ -50,9 +50,9 @@ return null;
 }
 });
 fulcro_css.core.fq_component = (function fulcro_css$core$fq_component(comp_class){
-var temp__5457__auto__ = comp_class.displayName;
-if(cljs.core.truth_(temp__5457__auto__)){
-var nm = temp__5457__auto__;
+var temp__5455__auto__ = comp_class.displayName;
+if(cljs.core.truth_(temp__5455__auto__)){
+var nm = temp__5455__auto__;
 return nm;
 } else {
 return "unknown/unknown";
@@ -62,8 +62,8 @@ return "unknown/unknown";
  * Generate a keyword for a localized CSS class for use in Garden CSS syntax as a localized component classname keyword.
  */
 fulcro_css.core.local_kw = (function fulcro_css$core$local_kw(var_args){
-var G__48614 = arguments.length;
-switch (G__48614) {
+var G__39984 = arguments.length;
+switch (G__39984) {
 case 1:
 return fulcro_css.core.local_kw.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -93,8 +93,8 @@ fulcro_css.core.local_kw.cljs$lang$maxFixedArity = 2;
  *   with the (optional) specified name.
  */
 fulcro_css.core.local_class = (function fulcro_css$core$local_class(var_args){
-var G__48619 = arguments.length;
-switch (G__48619) {
+var G__39990 = arguments.length;
+switch (G__39990) {
 case 1:
 return fulcro_css.core.local_class.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -134,9 +134,9 @@ return false;
  * Remove the given element from the DOM by ID
  */
 fulcro_css.core.remove_from_dom = (function fulcro_css$core$remove_from_dom(id){
-var temp__5457__auto__ = document.getElementById(id);
-if(cljs.core.truth_(temp__5457__auto__)){
-var old_element = temp__5457__auto__;
+var temp__5455__auto__ = document.getElementById(id);
+if(cljs.core.truth_(temp__5455__auto__)){
+var old_element = temp__5455__auto__;
 var parent = old_element.parentNode;
 return parent.removeChild(old_element);
 } else {

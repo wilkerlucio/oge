@@ -2,18 +2,19 @@
   (:require [cljs.tagged-literals]
             [clojure.string :as str]
             [com.rpl.specter :as sp]
-            [om.next :as om]
+            [fulcro.client.primitives :as prim]
             [garden.core :as g]
             [garden.selectors :as gs]
             [cljs.core]
-            [fulcro-css.core :as oc]))
+            [fulcro-css.core :as oc]
+            [fulcro.client.dom :as dom]))
 
 (defprotocol CSS
   (local-rules [this] "Specifies the component's local CSS rules")
   (include-children [this] "Specifies the components (typically direct children) whose CSS should be included."))
 
 (defprotocol Global
-  (global-rules [this] "Specifies the component's global CSS rules"))
+  (global-rules [this] "DEPRECATED. Will be removed in a future release. Do not use for new applications. Use the `$` prefix instead."))
 
 #?(:clj (defn implements-protocol?
           [x protocol protocol-key]
@@ -174,6 +175,12 @@
         local-classnames (zipmap (map remove-prefix-kw local-class-keys) (map #(local-class comp %) local-class-keys))
         global-classnames (zipmap global-class-keys (map name global-class-keys))]
     (merge local-classnames global-classnames)))
+
+#?(:cljs
+   (defn style-element
+     "Returns a React Style element with the (recursive) CSS of the given component. Useful for directly embedding in your UI VDOM."
+     [component]
+     (dom/style (clj->js {:dangerouslySetInnerHTML {:__html (g/css (get-css component))}})) ))
 
 #?(:cljs
    (defn upsert-css

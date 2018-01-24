@@ -2,16 +2,73 @@
 goog.provide('fulcro.client.impl.data_fetch');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
-goog.require('om.next.impl.parser');
-goog.require('om.next');
-goog.require('om.next.protocols');
-goog.require('om.util');
+goog.require('fulcro.client.primitives');
+goog.require('fulcro.client.impl.data_targeting');
+goog.require('fulcro.util');
+goog.require('fulcro.client.util');
 goog.require('clojure.walk');
 goog.require('clojure.set');
 goog.require('fulcro.client.logging');
-goog.require('fulcro.client.util');
+goog.require('fulcro.history');
 goog.require('fulcro.client.mutations');
-goog.require('fulcro.client.impl.om_plumbing');
+goog.require('fulcro.client.impl.protocols');
+goog.require('cljs.spec.alpha');
+fulcro.client.impl.data_fetch.optional = (function fulcro$client$impl$data_fetch$optional(pred){
+return cljs.spec.alpha.or_spec_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$nothing,cljs.core.cst$kw$value], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_,cljs.core.cst$sym$pred], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.nil_QMARK_,pred], null),null);
+});
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.keyword_QMARK_);
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$sym$cljs$core_SLASH_string_QMARK_,cljs.core.string_QMARK_);
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.vector_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.keyword_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_symbol_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.symbol_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.map_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.vector_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$kw,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$bool,cljs.core.cst$sym$cljs$core_SLASH_boolean_QMARK_,cljs.core.cst$kw$nothing,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_),cljs.spec.alpha.or_spec_impl(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$kw,cljs.core.cst$kw$bool,cljs.core.cst$kw$nothing], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_boolean_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,cljs.core.boolean_QMARK_,cljs.core.nil_QMARK_], null),null));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_boolean_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.boolean_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback,cljs.core.list(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_optional,cljs.core.cst$sym$cljs$core_SLASH_symbol_QMARK_),fulcro.client.impl.data_fetch.optional(cljs.core.symbol_QMARK_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.map_QMARK_);
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_marker,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$req,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 10, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote,cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__41267){
+return cljs.core.map_QMARK_(G__41267);
+}),(function (G__41267){
+return cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type);
+}),(function (G__41267){
+return cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid);
+}),(function (G__41267){
+return cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query);
+}),(function (G__41267){
+return cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env);
+}),(function (G__41267){
+return cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time);
+})], null),(function (G__41267){
+return (cljs.core.map_QMARK_(G__41267)) && (cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type)) && (cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid)) && (cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query)) && (cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env)) && (cljs.core.contains_QMARK_(G__41267,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time));
+}),new cljs.core.PersistentVector(null, 10, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote,cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),new cljs.core.PersistentVector(null, 10, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote,cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback], null),new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$sym$_PERCENT_)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time))], null),new cljs.core.PersistentVector(null, 10, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote,cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback], null)])));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,cljs.core.cst$sym$cljs$core_SLASH_fn_QMARK_,cljs.core.fn_QMARK_);
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,cljs.core.cst$sym$cljs$core_SLASH_fn_QMARK_,cljs.core.fn_QMARK_);
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_coll_DASH_of,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_marker),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_marker,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,null,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__41297){
+return cljs.core.coll_QMARK_(G__41297);
+}),cljs.core.cst$kw$cljs$spec$alpha_SLASH_conform_DASH_all,true,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_coll_DASH_of,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_marker)], null),null));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_payload,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$req,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__41300){
+return cljs.core.map_QMARK_(G__41300);
+}),(function (G__41300){
+return cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query);
+}),(function (G__41300){
+return cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load);
+}),(function (G__41300){
+return cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error);
+}),(function (G__41300){
+return cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom);
+}),(function (G__41300){
+return cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time);
+})], null),(function (G__41300){
+return (cljs.core.map_QMARK_(G__41300)) && (cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query)) && (cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load)) && (cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error)) && (cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom)) && (cljs.core.contains_QMARK_(G__41300,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time));
+}),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors], null),new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$sym$_PERCENT_)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time))], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors], null)])));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_error,cljs.core.cst$sym$cljs$core_SLASH_any_QMARK_,cljs.core.any_QMARK_);
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_result,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_error], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__41316){
+return cljs.core.map_QMARK_(G__41316);
+})], null),(function (G__41316){
+return cljs.core.map_QMARK_(G__41316);
+}),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_error], null),cljs.core.PersistentVector.EMPTY,null,cljs.core.PersistentVector.EMPTY,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_error], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$sym$_PERCENT_))], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_error], null)])));
+
 
 
 
@@ -27,7 +84,7 @@ goog.require('fulcro.client.impl.om_plumbing');
  * Test if the given bit of state is a data fetch state-tracking marker
  */
 fulcro.client.impl.data_fetch.data_state_QMARK_ = (function fulcro$client$impl$data_fetch$data_state_QMARK_(state){
-return cljs.core.contains_QMARK_(state,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type);
+return (cljs.core.map_QMARK_(state)) && (cljs.core.contains_QMARK_(state,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type));
 });
 var is_kind_QMARK_ = (function fulcro$client$impl$data_fetch$is_kind_QMARK_(state,type){
 if(cljs.core.truth_(fulcro.client.impl.data_fetch.data_state_QMARK_(state))){
@@ -57,10 +114,15 @@ fulcro.client.impl.data_fetch.failed_QMARK_ = (function fulcro$client$impl$data_
 return is_kind_QMARK_(state,cljs.core.cst$kw$failed);
 });
 fulcro.client.impl.data_fetch.is_direct_table_load_QMARK_ = (function fulcro$client$impl$data_fetch$is_direct_table_load_QMARK_(load_marker){
-return (cljs.core.not((fulcro.client.impl.data_fetch.data_field.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_field.cljs$core$IFn$_invoke$arity$1(load_marker) : fulcro.client.impl.data_fetch.data_field.call(null,load_marker)))) && (om.util.ident_QMARK_((fulcro.client.impl.data_fetch.data_query_key.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_query_key.cljs$core$IFn$_invoke$arity$1(load_marker) : fulcro.client.impl.data_fetch.data_query_key.call(null,load_marker))));
+return (cljs.core.not((fulcro.client.impl.data_fetch.data_field.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_field.cljs$core$IFn$_invoke$arity$1(load_marker) : fulcro.client.impl.data_fetch.data_field.call(null,load_marker)))) && (fulcro.util.ident_QMARK_((fulcro.client.impl.data_fetch.data_query_key.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_query_key.cljs$core$IFn$_invoke$arity$1(load_marker) : fulcro.client.impl.data_fetch.data_query_key.call(null,load_marker))));
 });
+fulcro.client.impl.data_fetch.marker_table = cljs.core.cst$kw$ui$fulcro$client$data_DASH_fetch$load_DASH_markers_SLASH_by_DASH_id;
 fulcro.client.impl.data_fetch.place_load_marker = (function fulcro$client$impl$data_fetch$place_load_marker(state_map,marker){
-return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(state_map,(fulcro.client.impl.data_fetch.data_path.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_path.cljs$core$IFn$_invoke$arity$1(marker) : fulcro.client.impl.data_fetch.data_path.call(null,marker)),(function (current_val){
+var marker_id = (fulcro.client.impl.data_fetch.data_marker.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_marker.cljs$core$IFn$_invoke$arity$1(marker) : fulcro.client.impl.data_fetch.data_marker.call(null,marker));
+var legacy_marker_QMARK_ = !((marker_id instanceof cljs.core.Keyword));
+if(legacy_marker_QMARK_){
+return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(state_map,(fulcro.client.impl.data_fetch.data_path.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_path.cljs$core$IFn$_invoke$arity$1(marker) : fulcro.client.impl.data_fetch.data_path.call(null,marker)),((function (marker_id,legacy_marker_QMARK_){
+return (function (current_val){
 if(cljs.core.truth_(fulcro.client.impl.data_fetch.is_direct_table_load_QMARK_(marker))){
 if(cljs.core.map_QMARK_(current_val)){
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(current_val,cljs.core.cst$kw$ui_SLASH_fetch_DASH_state,marker);
@@ -70,23 +132,33 @@ return null;
 } else {
 return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$ui_SLASH_fetch_DASH_state,marker], null);
 }
-}));
+});})(marker_id,legacy_marker_QMARK_))
+);
+} else {
+return cljs.core.assoc_in(state_map,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [fulcro.client.impl.data_fetch.marker_table,marker_id], null),marker);
+}
 });
 /**
  * Place load markers in the app state at their data paths so that UI rendering can see them.
  */
-fulcro.client.impl.data_fetch.place_load_markers = (function fulcro$client$impl$data_fetch$place_load_markers(state_atom,items_to_load){
-return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state_atom,(function (state_map){
+fulcro.client.impl.data_fetch.place_load_markers = (function fulcro$client$impl$data_fetch$place_load_markers(state_map,items_to_load){
 return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (s,item){
 var i = (fulcro.client.impl.data_fetch.set_loading_BANG_.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.set_loading_BANG_.cljs$core$IFn$_invoke$arity$1(item) : fulcro.client.impl.data_fetch.set_loading_BANG_.call(null,item));
-var G__45449 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(s,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.fnil.cljs$core$IFn$_invoke$arity$2(cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),(fulcro.client.impl.data_fetch.data_uuid.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_uuid.cljs$core$IFn$_invoke$arity$1(i) : fulcro.client.impl.data_fetch.data_uuid.call(null,i)));
+var G__41331 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(s,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.fnil.cljs$core$IFn$_invoke$arity$2(cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),(fulcro.client.impl.data_fetch.data_uuid.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_uuid.cljs$core$IFn$_invoke$arity$1(i) : fulcro.client.impl.data_fetch.data_uuid.call(null,i)));
 if(cljs.core.truth_((fulcro.client.impl.data_fetch.data_marker_QMARK_.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_marker_QMARK_.cljs$core$IFn$_invoke$arity$1(i) : fulcro.client.impl.data_fetch.data_marker_QMARK_.call(null,i)))){
-return fulcro.client.impl.data_fetch.place_load_marker(G__45449,i);
+return fulcro.client.impl.data_fetch.place_load_marker(G__41331,i);
 } else {
-return G__45449;
+return G__41331;
 }
 }),state_map,items_to_load);
-}));
+});
+cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_place_DASH_load_DASH_markers,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$state,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$items,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors),cljs.core.cst$kw$ret,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$state,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$items,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$state,cljs.core.cst$kw$items], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.map_QMARK_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$state,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$items,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.map_QMARK_,null,null),cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,null,null,null));
+/**
+ * Given a sequence of load markers, returns the history tx-time of the earliest one. Returns hist/max-tx-time if there
+ *   are no markers or none have a time.
+ */
+fulcro.client.impl.data_fetch.earliest_load_time = (function fulcro$client$impl$data_fetch$earliest_load_time(load_markers){
+return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(cljs.core.min,fulcro.history.max_tx_time,cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time,load_markers));
 });
 /**
  * Marks all of the items in the ready-to-load state as loading, places the loading markers in the appropriate locations
@@ -102,53 +174,59 @@ return G__45449;
  *   response-channel will have the response posted to it when the request is done.
  *   .
  */
-fulcro.client.impl.data_fetch.mark_parallel_loading = (function fulcro$client$impl$data_fetch$mark_parallel_loading(remote_name,reconciler){
-var state = om.next.app_state(reconciler);
+fulcro.client.impl.data_fetch.mark_parallel_loading_BANG_ = (function fulcro$client$impl$data_fetch$mark_parallel_loading_BANG_(remote_name,reconciler){
+var state = fulcro.client.primitives.app_state(reconciler);
 var queued_items = cljs.core.get.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(state),cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load);
 var is_eligible_QMARK_ = ((function (state,queued_items){
 return (function (item){
-var and__10400__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(and__10400__auto__)){
+var and__10793__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(and__10793__auto__)){
 return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(remote_name,(fulcro.client.impl.data_fetch.data_remote.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_remote.cljs$core$IFn$_invoke$arity$1(item) : fulcro.client.impl.data_fetch.data_remote.call(null,item)));
 } else {
-return and__10400__auto__;
+return and__10793__auto__;
 }
 });})(state,queued_items))
 ;
 var other_items_loading_QMARK_ = cljs.core.boolean$(cljs.core.seq(cljs.core.get.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(state),cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress)));
 var items_to_load = cljs.core.filter.cljs$core$IFn$_invoke$arity$2(is_eligible_QMARK_,queued_items);
 var remaining_items = cljs.core.filter.cljs$core$IFn$_invoke$arity$2(cljs.core.comp.cljs$core$IFn$_invoke$arity$2(cljs.core.not,is_eligible_QMARK_),queued_items);
-var loading_QMARK_ = (cljs.core.seq(items_to_load)) || (other_items_loading_QMARK_);
+var loading_QMARK_ = (cljs.core.boolean$(cljs.core.seq(items_to_load))) || (other_items_loading_QMARK_);
+var history_atom = fulcro.client.primitives.get_history(reconciler);
+var ok = (fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.loaded_callback.call(null,reconciler));
+var error = (fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.error_callback.call(null,reconciler));
+var tx_time = fulcro.client.impl.data_fetch.earliest_load_time(items_to_load);
 if(cljs.core.empty_QMARK_(items_to_load)){
 return null;
 } else {
-fulcro.client.impl.data_fetch.place_load_markers(state,items_to_load);
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state,((function (state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_,history_atom,ok,error,tx_time){
+return (function (s){
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(fulcro.client.impl.data_fetch.place_load_markers(s,items_to_load),cljs.core.cst$kw$ui_SLASH_loading_DASH_data,loading_QMARK_,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load,remaining_items], 0));
+});})(state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_,history_atom,ok,error,tx_time))
+);
 
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$variadic(state,cljs.core.assoc,cljs.core.cst$kw$ui_SLASH_loading_DASH_data,loading_QMARK_,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load,remaining_items], 0));
-
-var iter__11294__auto__ = ((function (state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_){
-return (function fulcro$client$impl$data_fetch$mark_parallel_loading_$_iter__45459(s__45460){
-return (new cljs.core.LazySeq(null,((function (state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_){
+var iter__11687__auto__ = ((function (state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_,history_atom,ok,error,tx_time){
+return (function fulcro$client$impl$data_fetch$mark_parallel_loading_BANG__$_iter__41340(s__41341){
+return (new cljs.core.LazySeq(null,((function (state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_,history_atom,ok,error,tx_time){
 return (function (){
-var s__45460__$1 = s__45460;
+var s__41341__$1 = s__41341;
 while(true){
-var temp__5459__auto__ = cljs.core.seq(s__45460__$1);
-if(temp__5459__auto__){
-var s__45460__$2 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__45460__$2)){
-var c__11292__auto__ = cljs.core.chunk_first(s__45460__$2);
-var size__11293__auto__ = cljs.core.count(c__11292__auto__);
-var b__45462 = cljs.core.chunk_buffer(size__11293__auto__);
-if((function (){var i__45461 = (0);
+var temp__5457__auto__ = cljs.core.seq(s__41341__$1);
+if(temp__5457__auto__){
+var s__41341__$2 = temp__5457__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__41341__$2)){
+var c__11685__auto__ = cljs.core.chunk_first(s__41341__$2);
+var size__11686__auto__ = cljs.core.count(c__11685__auto__);
+var b__41343 = cljs.core.chunk_buffer(size__11686__auto__);
+if((function (){var i__41342 = (0);
 while(true){
-if((i__45461 < size__11293__auto__)){
-var item = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__11292__auto__,i__45461);
-cljs.core.chunk_append(b__45462,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$query,(function (){var G__45463 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null);
-return (fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1(G__45463) : fulcro.client.impl.data_fetch.full_query.call(null,G__45463));
-})(),cljs.core.cst$kw$on_DASH_load,(fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.loaded_callback.call(null,reconciler)),cljs.core.cst$kw$on_DASH_error,(fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.error_callback.call(null,reconciler)),cljs.core.cst$kw$load_DASH_descriptors,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null)], null));
+if((i__41342 < size__11686__auto__)){
+var item = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__11685__auto__,i__41342);
+cljs.core.chunk_append(b__41343,new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,(function (){var G__41346 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null);
+return (fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1(G__41346) : fulcro.client.impl.data_fetch.full_query.call(null,G__41346));
+})(),cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time,tx_time,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,history_atom,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,ok,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,error,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null)], null));
 
-var G__45486 = (i__45461 + (1));
-i__45461 = G__45486;
+var G__41356 = (i__41342 + (1));
+i__41342 = G__41356;
 continue;
 } else {
 return true;
@@ -156,28 +234,29 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__45462),fulcro$client$impl$data_fetch$mark_parallel_loading_$_iter__45459(cljs.core.chunk_rest(s__45460__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__41343),fulcro$client$impl$data_fetch$mark_parallel_loading_BANG__$_iter__41340(cljs.core.chunk_rest(s__41341__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__45462),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__41343),null);
 }
 } else {
-var item = cljs.core.first(s__45460__$2);
-return cljs.core.cons(new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$query,(function (){var G__45466 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null);
-return (fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1(G__45466) : fulcro.client.impl.data_fetch.full_query.call(null,G__45466));
-})(),cljs.core.cst$kw$on_DASH_load,(fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.loaded_callback.call(null,reconciler)),cljs.core.cst$kw$on_DASH_error,(fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.error_callback.call(null,reconciler)),cljs.core.cst$kw$load_DASH_descriptors,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null)], null),fulcro$client$impl$data_fetch$mark_parallel_loading_$_iter__45459(cljs.core.rest(s__45460__$2)));
+var item = cljs.core.first(s__41341__$2);
+return cljs.core.cons(new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,(function (){var G__41347 = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null);
+return (fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1(G__41347) : fulcro.client.impl.data_fetch.full_query.call(null,G__41347));
+})(),cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time,tx_time,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,history_atom,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,ok,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,error,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [item], null)], null),fulcro$client$impl$data_fetch$mark_parallel_loading_BANG__$_iter__41340(cljs.core.rest(s__41341__$2)));
 }
 } else {
 return null;
 }
 break;
 }
-});})(state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_))
+});})(state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_,history_atom,ok,error,tx_time))
 ,null,null));
-});})(state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_))
+});})(state,queued_items,is_eligible_QMARK_,other_items_loading_QMARK_,items_to_load,remaining_items,loading_QMARK_,history_atom,ok,error,tx_time))
 ;
-return iter__11294__auto__(items_to_load);
+return iter__11687__auto__(items_to_load);
 }
 });
+cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_mark_DASH_parallel_DASH_loading_BANG_,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$remote,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$reconciler,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_),cljs.core.cst$kw$ret,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$remote,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$reconciler,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$remote,cljs.core.cst$kw$reconciler], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,fulcro.client.primitives.reconciler_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$remote,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$reconciler,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,null,null),cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,null,null,null));
 /**
  * Returns a lazy sequence of the elements of coll with dupes removed.
  * An element is a duplicate IFF (keys-fn element) has key collision with any prior element
@@ -185,8 +264,8 @@ return iter__11294__auto__(items_to_load);
  * Returns a stateful transducer when no collection is provided.
  */
 fulcro.client.impl.data_fetch.dedupe_by = (function fulcro$client$impl$data_fetch$dedupe_by(var_args){
-var G__45493 = arguments.length;
-switch (G__45493) {
+var G__41364 = arguments.length;
+switch (G__41364) {
 case 1:
 return fulcro.client.impl.data_fetch.dedupe_by.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -206,14 +285,14 @@ return (function (rf){
 var keys_seen = cljs.core.volatile_BANG_(cljs.core.PersistentHashSet.EMPTY);
 return ((function (keys_seen){
 return (function() {
-var G__45495 = null;
-var G__45495__0 = (function (){
+var G__41368 = null;
+var G__41368__0 = (function (){
 return (rf.cljs$core$IFn$_invoke$arity$0 ? rf.cljs$core$IFn$_invoke$arity$0() : rf.call(null));
 });
-var G__45495__1 = (function (result){
+var G__41368__1 = (function (result){
 return (rf.cljs$core$IFn$_invoke$arity$1 ? rf.cljs$core$IFn$_invoke$arity$1(result) : rf.call(null,result));
 });
-var G__45495__2 = (function (result,input){
+var G__41368__2 = (function (result,input){
 var input_keys = cljs.core.set((keys_fn.cljs$core$IFn$_invoke$arity$1 ? keys_fn.cljs$core$IFn$_invoke$arity$1(input) : keys_fn.call(null,input)));
 if(cljs.core.empty_QMARK_(clojure.set.intersection.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(keys_seen),input_keys))){
 cljs.core._vreset_BANG_(keys_seen,clojure.set.union.cljs$core$IFn$_invoke$arity$2(cljs.core._deref(keys_seen),input_keys));
@@ -223,21 +302,21 @@ return (rf.cljs$core$IFn$_invoke$arity$2 ? rf.cljs$core$IFn$_invoke$arity$2(resu
 return result;
 }
 });
-G__45495 = function(result,input){
+G__41368 = function(result,input){
 switch(arguments.length){
 case 0:
-return G__45495__0.call(this);
+return G__41368__0.call(this);
 case 1:
-return G__45495__1.call(this,result);
+return G__41368__1.call(this,result);
 case 2:
-return G__45495__2.call(this,result,input);
+return G__41368__2.call(this,result,input);
 }
 throw(new Error('Invalid arity: ' + (arguments.length - 1)));
 };
-G__45495.cljs$core$IFn$_invoke$arity$0 = G__45495__0;
-G__45495.cljs$core$IFn$_invoke$arity$1 = G__45495__1;
-G__45495.cljs$core$IFn$_invoke$arity$2 = G__45495__2;
-return G__45495;
+G__41368.cljs$core$IFn$_invoke$arity$0 = G__41368__0;
+G__41368.cljs$core$IFn$_invoke$arity$1 = G__41368__1;
+G__41368.cljs$core$IFn$_invoke$arity$2 = G__41368__2;
+return G__41368;
 })()
 ;})(keys_seen))
 });
@@ -250,9 +329,9 @@ return cljs.core.sequence.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_
 fulcro.client.impl.data_fetch.dedupe_by.cljs$lang$maxFixedArity = 2;
 
 fulcro.client.impl.data_fetch.join_key_or_nil = (function fulcro$client$impl$data_fetch$join_key_or_nil(expr){
-if(cljs.core.truth_(om.util.join_QMARK_(expr))){
-var join_key_or_ident = om.util.join_key(expr);
-if(om.util.ident_QMARK_(join_key_or_ident)){
+if(cljs.core.truth_(fulcro.util.join_QMARK_(expr))){
+var join_key_or_ident = fulcro.util.join_key(expr);
+if(fulcro.util.ident_QMARK_(join_key_or_ident)){
 return cljs.core.first(join_key_or_ident);
 } else {
 return join_key_or_ident;
@@ -295,7 +374,7 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
  *   .
  */
 fulcro.client.impl.data_fetch.mark_loading = (function fulcro$client$impl$data_fetch$mark_loading(remote,reconciler){
-var state = om.next.app_state(reconciler);
+var state = fulcro.client.primitives.app_state(reconciler);
 var is_eligible_QMARK_ = ((function (state){
 return (function (item){
 return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(remote,(fulcro.client.impl.data_fetch.data_remote.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.data_remote.cljs$core$IFn$_invoke$arity$1(item) : fulcro.client.impl.data_fetch.data_remote.call(null,item)));
@@ -305,29 +384,39 @@ var all_items = cljs.core.get.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(stat
 var items_ready_to_load = cljs.core.filter.cljs$core$IFn$_invoke$arity$2(is_eligible_QMARK_,all_items);
 var items_for_other_remotes = cljs.core.filter.cljs$core$IFn$_invoke$arity$2(cljs.core.comp.cljs$core$IFn$_invoke$arity$2(cljs.core.not,is_eligible_QMARK_),all_items);
 var other_items_loading_QMARK_ = cljs.core.boolean$(cljs.core.seq(cljs.core.get.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(state),cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress)));
-var vec__45501 = fulcro.client.impl.data_fetch.split_items_ready_to_load(items_ready_to_load);
-var items_to_load_now = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__45501,(0),null);
-var items_to_defer = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__45501,(1),null);
+var vec__41377 = fulcro.client.impl.data_fetch.split_items_ready_to_load(items_ready_to_load);
+var items_to_load_now = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__41377,(0),null);
+var items_to_defer = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__41377,(1),null);
 var remaining_items = cljs.core.concat.cljs$core$IFn$_invoke$arity$2(items_for_other_remotes,items_to_defer);
-var loading_QMARK_ = (cljs.core.seq(items_to_load_now)) || (other_items_loading_QMARK_);
+var loading_QMARK_ = (cljs.core.boolean$(cljs.core.seq(items_to_load_now))) || (other_items_loading_QMARK_);
+var tx_time = fulcro.client.impl.data_fetch.earliest_load_time(all_items);
 if(cljs.core.empty_QMARK_(items_to_load_now)){
 return null;
 } else {
-fulcro.client.impl.data_fetch.place_load_markers(state,items_to_load_now);
+var history_atom = fulcro.client.primitives.get_history(reconciler);
+if(cljs.core.truth_(history_atom)){
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(history_atom,fulcro.history.remote_activity_started,remote,tx_time);
+} else {
+}
 
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$variadic(state,cljs.core.assoc,cljs.core.cst$kw$ui_SLASH_loading_DASH_data,loading_QMARK_,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load,remaining_items], 0));
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state,((function (history_atom,state,is_eligible_QMARK_,all_items,items_ready_to_load,items_for_other_remotes,other_items_loading_QMARK_,vec__41377,items_to_load_now,items_to_defer,remaining_items,loading_QMARK_,tx_time){
+return (function (s){
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(fulcro.client.impl.data_fetch.place_load_markers(s,items_to_load_now),cljs.core.cst$kw$ui_SLASH_loading_DASH_data,loading_QMARK_,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load,remaining_items], 0));
+});})(history_atom,state,is_eligible_QMARK_,all_items,items_ready_to_load,items_for_other_remotes,other_items_loading_QMARK_,vec__41377,items_to_load_now,items_to_defer,remaining_items,loading_QMARK_,tx_time))
+);
 
-return new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$query,(fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1(items_to_load_now) : fulcro.client.impl.data_fetch.full_query.call(null,items_to_load_now)),cljs.core.cst$kw$on_DASH_load,(fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.loaded_callback.call(null,reconciler)),cljs.core.cst$kw$on_DASH_error,(fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.error_callback.call(null,reconciler)),cljs.core.cst$kw$load_DASH_descriptors,items_to_load_now], null);
+return new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,(fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.full_query.cljs$core$IFn$_invoke$arity$1(items_to_load_now) : fulcro.client.impl.data_fetch.full_query.call(null,items_to_load_now)),cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,fulcro.client.primitives.get_history(reconciler),cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time,tx_time,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_load,(fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.loaded_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.loaded_callback.call(null,reconciler)),cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_on_DASH_error,(fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1 ? fulcro.client.impl.data_fetch.error_callback.cljs$core$IFn$_invoke$arity$1(reconciler) : fulcro.client.impl.data_fetch.error_callback.call(null,reconciler)),cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,items_to_load_now], null);
 }
 });
+cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$client$impl$data_DASH_fetch_SLASH_mark_DASH_loading,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$remote,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$reconciler,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_),cljs.core.cst$kw$ret,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_payload),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$remote,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$reconciler,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$remote,cljs.core.cst$kw$reconciler], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,fulcro.client.primitives.reconciler_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$remote,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$kw$reconciler,cljs.core.cst$sym$fulcro$client$primitives_SLASH_reconciler_QMARK_),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_payload,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_payload,null,null),cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_payload,null,null,null));
 fulcro.client.impl.data_fetch.valid_types = new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$ready,null,cljs.core.cst$kw$loading,null,cljs.core.cst$kw$failed,null], null), null);
 /**
  * This is just a testing function -- using ready-state as public interface and call the
  *   `set-{type}!` functions to change it as needed.
  */
 fulcro.client.impl.data_fetch.make_data_state = (function fulcro$client$impl$data_fetch$make_data_state(var_args){
-var G__45519 = arguments.length;
-switch (G__45519) {
+var G__41393 = arguments.length;
+switch (G__41393) {
 case 1:
 return fulcro.client.impl.data_fetch.make_data_state.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -359,30 +448,30 @@ fulcro.client.impl.data_fetch.make_data_state.cljs$lang$maxFixedArity = 2;
 /**
  * Remove items from a query (AST) that have a key listed in the elision-set
  */
-fulcro.client.impl.data_fetch.elide_ast_nodes = (function fulcro$client$impl$data_fetch$elide_ast_nodes(p__45525,elision_set){
-var map__45527 = p__45525;
-var map__45527__$1 = ((((!((map__45527 == null)))?((((map__45527.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__45527.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__45527):map__45527);
-var ast = map__45527__$1;
-var key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45527__$1,cljs.core.cst$kw$key);
-var union_key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45527__$1,cljs.core.cst$kw$union_DASH_key);
-var children = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45527__$1,cljs.core.cst$kw$children);
+fulcro.client.impl.data_fetch.elide_ast_nodes = (function fulcro$client$impl$data_fetch$elide_ast_nodes(p__41398,elision_set){
+var map__41399 = p__41398;
+var map__41399__$1 = ((((!((map__41399 == null)))?((((map__41399.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__41399.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__41399):map__41399);
+var ast = map__41399__$1;
+var key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41399__$1,cljs.core.cst$kw$key);
+var union_key = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41399__$1,cljs.core.cst$kw$union_DASH_key);
+var children = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41399__$1,cljs.core.cst$kw$children);
 var union_elision_QMARK_ = cljs.core.contains_QMARK_(elision_set,union_key);
 if((union_elision_QMARK_) || (cljs.core.contains_QMARK_(elision_set,key))){
 return null;
 } else {
 if((union_elision_QMARK_) && ((cljs.core.count(children) <= (2)))){
-fulcro.client.logging.warn.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Om unions are not designed to be used with fewer than two children. Check your calls to Fulcro\n        load functions where the :without set contains ",cljs.core.pr_str.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([union_key], 0))], 0));
+fulcro.client.logging.warn.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Unions are not designed to be used with fewer than two children. Check your calls to Fulcro\n        load functions where the :without set contains ",cljs.core.pr_str.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([union_key], 0))], 0));
 } else {
 }
 
-return cljs.core.update.cljs$core$IFn$_invoke$arity$3(ast,cljs.core.cst$kw$children,((function (union_elision_QMARK_,map__45527,map__45527__$1,ast,key,union_key,children){
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(ast,cljs.core.cst$kw$children,((function (union_elision_QMARK_,map__41399,map__41399__$1,ast,key,union_key,children){
 return (function (c){
-return cljs.core.vec(cljs.core.keep.cljs$core$IFn$_invoke$arity$2(((function (union_elision_QMARK_,map__45527,map__45527__$1,ast,key,union_key,children){
-return (function (p1__45524_SHARP_){
-return (fulcro.client.impl.data_fetch.elide_ast_nodes.cljs$core$IFn$_invoke$arity$2 ? fulcro.client.impl.data_fetch.elide_ast_nodes.cljs$core$IFn$_invoke$arity$2(p1__45524_SHARP_,elision_set) : fulcro.client.impl.data_fetch.elide_ast_nodes.call(null,p1__45524_SHARP_,elision_set));
-});})(union_elision_QMARK_,map__45527,map__45527__$1,ast,key,union_key,children))
+return cljs.core.vec(cljs.core.keep.cljs$core$IFn$_invoke$arity$2(((function (union_elision_QMARK_,map__41399,map__41399__$1,ast,key,union_key,children){
+return (function (p1__41397_SHARP_){
+return (fulcro.client.impl.data_fetch.elide_ast_nodes.cljs$core$IFn$_invoke$arity$2 ? fulcro.client.impl.data_fetch.elide_ast_nodes.cljs$core$IFn$_invoke$arity$2(p1__41397_SHARP_,elision_set) : fulcro.client.impl.data_fetch.elide_ast_nodes.call(null,p1__41397_SHARP_,elision_set));
+});})(union_elision_QMARK_,map__41399,map__41399__$1,ast,key,union_key,children))
 ,c));
-});})(union_elision_QMARK_,map__45527,map__45527__$1,ast,key,union_key,children))
+});})(union_elision_QMARK_,map__41399,map__41399__$1,ast,key,union_key,children))
 );
 }
 });
@@ -403,54 +492,43 @@ return (fulcro.client.impl.data_fetch.elide_ast_nodes.cljs$core$IFn$_invoke$arit
  *   
  */
 fulcro.client.impl.data_fetch.inject_query_params = (function fulcro$client$impl$data_fetch$inject_query_params(ast,params){
-var top_level_keys = cljs.core.set(cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$dispatch_DASH_key,cljs.core.cst$kw$children.cljs$core$IFn$_invoke$arity$1(ast)));
-var param_keys = cljs.core.set(cljs.core.keys(params));
-var unknown_keys = clojure.set.difference.cljs$core$IFn$_invoke$arity$2(param_keys,top_level_keys);
-if(!(cljs.core.empty_QMARK_(unknown_keys))){
-fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([["Error: You attempted to add parameters for ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.pr_str.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([unknown_keys], 0)))," to top-level key(s) of ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.pr_str.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([om.next.ast__GT_query(ast)], 0)))].join('')], 0));
-} else {
-}
-
-return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(ast,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$children], null),((function (top_level_keys,param_keys,unknown_keys){
-return (function (p1__45534_SHARP_){
-return cljs.core.map.cljs$core$IFn$_invoke$arity$2(((function (top_level_keys,param_keys,unknown_keys){
-return (function (c){
-var temp__5457__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(params,cljs.core.cst$kw$dispatch_DASH_key.cljs$core$IFn$_invoke$arity$1(c));
-if(cljs.core.truth_(temp__5457__auto__)){
-var new_params = temp__5457__auto__;
+return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(ast,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$children], null),(function (p1__41407_SHARP_){
+return cljs.core.map.cljs$core$IFn$_invoke$arity$2((function (c){
+var temp__5455__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(params,cljs.core.cst$kw$dispatch_DASH_key.cljs$core$IFn$_invoke$arity$1(c));
+if(cljs.core.truth_(temp__5455__auto__)){
+var new_params = temp__5455__auto__;
 return cljs.core.update.cljs$core$IFn$_invoke$arity$4(c,cljs.core.cst$kw$params,cljs.core.merge,new_params);
 } else {
 return c;
 }
-});})(top_level_keys,param_keys,unknown_keys))
-,p1__45534_SHARP_);
-});})(top_level_keys,param_keys,unknown_keys))
-);
+}),p1__41407_SHARP_);
+}));
 });
 /**
  * Generate a ready-to-load state with all of the necessary details to do
  *   remoting and merging.
  */
-fulcro.client.impl.data_fetch.ready_state = (function fulcro$client$impl$data_fetch$ready_state(p__45538){
-var map__45539 = p__45538;
-var map__45539__$1 = ((((!((map__45539 == null)))?((((map__45539.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__45539.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__45539):map__45539);
-var target = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$target);
-var query = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$query);
-var remote = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__45539__$1,cljs.core.cst$kw$remote,cljs.core.cst$kw$remote);
-var refresh = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__45539__$1,cljs.core.cst$kw$refresh,cljs.core.PersistentVector.EMPTY);
-var parallel = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$parallel);
-var fallback = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$fallback);
-var marker = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__45539__$1,cljs.core.cst$kw$marker,true);
-var params = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$params);
-var field = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$field);
-var env = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$env);
-var post_mutation = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$post_DASH_mutation);
-var without = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__45539__$1,cljs.core.cst$kw$without,cljs.core.PersistentHashSet.EMPTY);
-var ident = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$ident);
-var post_mutation_params = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45539__$1,cljs.core.cst$kw$post_DASH_mutation_DASH_params);
-if(cljs.core.truth_((function (){var or__10412__auto__ = field;
-if(cljs.core.truth_(or__10412__auto__)){
-return or__10412__auto__;
+fulcro.client.impl.data_fetch.ready_state = (function fulcro$client$impl$data_fetch$ready_state(p__41412){
+var map__41413 = p__41412;
+var map__41413__$1 = ((((!((map__41413 == null)))?((((map__41413.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__41413.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__41413):map__41413);
+var target = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$target);
+var query = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$query);
+var remote = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__41413__$1,cljs.core.cst$kw$remote,cljs.core.cst$kw$remote);
+var refresh = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__41413__$1,cljs.core.cst$kw$refresh,cljs.core.PersistentVector.EMPTY);
+var parallel = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$parallel);
+var fallback = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$fallback);
+var marker = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__41413__$1,cljs.core.cst$kw$marker,true);
+var params = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$params);
+var field = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$field);
+var env = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$env);
+var post_mutation = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$post_DASH_mutation);
+var without = cljs.core.get.cljs$core$IFn$_invoke$arity$3(map__41413__$1,cljs.core.cst$kw$without,cljs.core.PersistentHashSet.EMPTY);
+var initialize = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$initialize);
+var ident = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$ident);
+var post_mutation_params = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41413__$1,cljs.core.cst$kw$post_DASH_mutation_DASH_params);
+if(cljs.core.truth_((function (){var or__10805__auto__ = field;
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
 } else {
 return query;
 }
@@ -459,15 +537,15 @@ return query;
 throw (new Error(["Assert failed: ","You must supply a query or a field/ident pair","\n","(or field query)"].join('')));
 }
 
-if(cljs.core.truth_((function (){var or__10412__auto__ = cljs.core.not(field);
-if(or__10412__auto__){
-return or__10412__auto__;
+if(cljs.core.truth_((function (){var or__10805__auto__ = cljs.core.not(field);
+if(or__10805__auto__){
+return or__10805__auto__;
 } else {
-var and__10400__auto__ = field;
-if(cljs.core.truth_(and__10400__auto__)){
-return om.util.ident_QMARK_(ident);
+var and__10793__auto__ = field;
+if(cljs.core.truth_(and__10793__auto__)){
+return fulcro.util.ident_QMARK_(ident);
 } else {
-return and__10400__auto__;
+return and__10793__auto__;
 }
 }
 })())){
@@ -475,24 +553,47 @@ return and__10400__auto__;
 throw (new Error(["Assert failed: ","Field requires ident","\n","(or (not field) (and field (util/ident? ident)))"].join('')));
 }
 
-var old_ast = om.next.query__GT_ast(query);
-var ast = (function (){var G__45546 = old_ast;
-var G__45546__$1 = (cljs.core.truth_(cljs.core.not_empty(without))?fulcro.client.impl.data_fetch.elide_ast_nodes(G__45546,without):G__45546);
-if(cljs.core.truth_(params)){
-return fulcro.client.impl.data_fetch.inject_query_params(G__45546__$1,params);
+var old_ast = fulcro.client.primitives.query__GT_ast(query);
+var ast = (function (){var G__41419 = old_ast;
+var G__41419__$1 = (cljs.core.truth_(cljs.core.not_empty(without))?fulcro.client.impl.data_fetch.elide_ast_nodes(G__41419,without):G__41419);
+var G__41419__$2 = (cljs.core.truth_((function (){var and__10793__auto__ = field;
+if(cljs.core.truth_(and__10793__auto__)){
+var and__10793__auto____$1 = params;
+if(cljs.core.truth_(and__10793__auto____$1)){
+return !(cljs.core.contains_QMARK_(params,field));
 } else {
-return G__45546__$1;
+return and__10793__auto____$1;
+}
+} else {
+return and__10793__auto__;
+}
+})())?fulcro.client.impl.data_fetch.inject_query_params(G__41419__$1,cljs.core.PersistentArrayMap.createAsIfByAssoc([field,params])):G__41419__$1);
+if(cljs.core.truth_(params)){
+return fulcro.client.impl.data_fetch.inject_query_params(G__41419__$2,params);
+} else {
+return G__41419__$2;
 }
 })();
 var query_field = cljs.core.first(query);
-var key = (cljs.core.truth_(om.util.join_QMARK_(query_field))?om.util.join_key(query_field):query_field);
-var query_SINGLEQUOTE_ = om.next.ast__GT_query(ast);
+var key = (cljs.core.truth_(fulcro.util.join_QMARK_(query_field))?fulcro.util.join_key(query_field):query_field);
+var query_SINGLEQUOTE_ = fulcro.client.primitives.ast__GT_query(ast);
 if((cljs.core.not(field)) || (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(field,key))){
 } else {
 throw (new Error(["Assert failed: ","Component fetch query does not match supplied field.","\n","(or (not field) (= field key))"].join('')));
 }
 
-return cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_remote,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_ident,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field],[[cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.random_uuid())].join(''),parallel,target,cljs.core.with_meta(cljs.core.PersistentArrayMap.EMPTY,env),remote,query_SINGLEQUOTE_,refresh,ident,cljs.core.cst$kw$ready,post_mutation_params,fallback,marker,post_mutation,field]);
+return cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_initialize,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env,cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field],[initialize,(cljs.core.truth_((function (){var G__41422 = env;
+if((G__41422 == null)){
+return null;
+} else {
+return cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(G__41422);
+}
+})())?fulcro.client.primitives.get_current_time(cljs.core.cst$kw$reconciler.cljs$core$IFn$_invoke$arity$1(env)):(function (){
+fulcro.client.logging.warn.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Data fetch request created without a reconciler. No history time available. This could affect auto-error recovery operation."], 0));
+
+return fulcro.history.max_tx_time;
+})()
+),[cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.random_uuid())].join(''),parallel,target,cljs.core.with_meta(cljs.core.PersistentArrayMap.EMPTY,env),ident,remote,query_SINGLEQUOTE_,refresh,cljs.core.cst$kw$ready,post_mutation_params,fallback,marker,post_mutation,field]);
 });
 /**
  * Place a ready-to-load marker into the application state. This should be done from
@@ -500,23 +601,23 @@ return cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$fulcro$client$im
  * 
  *   See the `load` and `load-field` functions in `fulcro.client.data-fetch` for the public API.
  */
-fulcro.client.impl.data_fetch.mark_ready = (function fulcro$client$impl$data_fetch$mark_ready(p__45561){
-var map__45562 = p__45561;
-var map__45562__$1 = ((((!((map__45562 == null)))?((((map__45562.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__45562.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__45562):map__45562);
-var config = map__45562__$1;
-var env = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45562__$1,cljs.core.cst$kw$env);
+fulcro.client.impl.data_fetch.mark_ready = (function fulcro$client$impl$data_fetch$mark_ready(p__41431){
+var map__41434 = p__41431;
+var map__41434__$1 = ((((!((map__41434 == null)))?((((map__41434.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__41434.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__41434):map__41434);
+var config = map__41434__$1;
+var env = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41434__$1,cljs.core.cst$kw$env);
 var state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(env,cljs.core.cst$kw$state);
 var marker_QMARK_ = !((false === cljs.core.cst$kw$marker.cljs$core$IFn$_invoke$arity$1(config)));
 var load_request = fulcro.client.impl.data_fetch.ready_state(cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$marker,true,cljs.core.cst$kw$refresh,cljs.core.PersistentVector.EMPTY,cljs.core.cst$kw$without,cljs.core.PersistentHashSet.EMPTY,cljs.core.cst$kw$env,env], null),config], 0)));
-return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state,((function (state,marker_QMARK_,load_request,map__45562,map__45562__$1,config,env){
+return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state,((function (state,marker_QMARK_,load_request,map__41434,map__41434__$1,config,env){
 return (function (s){
-var G__45564 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(s,cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load,cljs.core.fnil.cljs$core$IFn$_invoke$arity$2(cljs.core.conj,cljs.core.PersistentVector.EMPTY),load_request);
+var G__41436 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(s,cljs.core.cst$kw$fulcro_SLASH_ready_DASH_to_DASH_load,cljs.core.fnil.cljs$core$IFn$_invoke$arity$2(cljs.core.conj,cljs.core.PersistentVector.EMPTY),load_request);
 if(marker_QMARK_){
-return fulcro.client.impl.data_fetch.place_load_marker(G__45564,load_request);
+return fulcro.client.impl.data_fetch.place_load_marker(G__41436,load_request);
 } else {
-return G__45564;
+return G__41436;
 }
-});})(state,marker_QMARK_,load_request,map__45562,map__45562__$1,config,env))
+});})(state,marker_QMARK_,load_request,map__41434,map__41434__$1,config,env))
 );
 });
 /**
@@ -531,16 +632,16 @@ return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target.cljs$cor
  *   to be present if the marker is targeting a field.
  */
 fulcro.client.impl.data_fetch.data_ident = (function fulcro$client$impl$data_fetch$data_ident(state){
-return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_ident.cljs$core$IFn$_invoke$arity$1(state);
+return cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident.cljs$core$IFn$_invoke$arity$1(state);
 });
 /**
  * Get the query that will be sent to the server as a result of the given data state marker
  */
 fulcro.client.impl.data_fetch.data_query = (function fulcro$client$impl$data_fetch$data_query(state){
 if(cljs.core.truth_(fulcro.client.impl.data_fetch.data_ident(state))){
-return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.PersistentArrayMap.createAsIfByAssoc([fulcro.client.impl.data_fetch.data_ident(state),cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_query.cljs$core$IFn$_invoke$arity$1(state)])], null);
+return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.PersistentArrayMap.createAsIfByAssoc([fulcro.client.impl.data_fetch.data_ident(state),cljs.core.cst$kw$fulcro$client$primitives_SLASH_query.cljs$core$IFn$_invoke$arity$1(state)])], null);
 } else {
-return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_query.cljs$core$IFn$_invoke$arity$1(state);
+return cljs.core.cst$kw$fulcro$client$primitives_SLASH_query.cljs$core$IFn$_invoke$arity$1(state);
 }
 });
 /**
@@ -556,10 +657,17 @@ fulcro.client.impl.data_fetch.data_uuid = (function fulcro$client$impl$data_fetc
 return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_uuid.cljs$core$IFn$_invoke$arity$1(state);
 });
 /**
+ * Returns the ID of the data marker, or nil/false if there isn't one. True means to use the old marker behavior of
+ *   replacing the data in app state with a marker (DEPRECATED)
+ */
+fulcro.client.impl.data_fetch.data_marker = (function fulcro$client$impl$data_fetch$data_marker(state){
+return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker.cljs$core$IFn$_invoke$arity$1(state);
+});
+/**
  * Test if the user desires a copy of the state marker to appear in the app state at the data path of the target data.
  */
 fulcro.client.impl.data_fetch.data_marker_QMARK_ = (function fulcro$client$impl$data_fetch$data_marker_QMARK_(state){
-return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker.cljs$core$IFn$_invoke$arity$1(state);
+return cljs.core.boolean$(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker.cljs$core$IFn$_invoke$arity$1(state));
 });
 /**
  * Get the list of query keywords that should be refreshed (re-rendered) when this load completes.
@@ -571,14 +679,14 @@ return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh.cljs$co
  * Get the remote that this marker is meant to talk to
  */
 fulcro.client.impl.data_fetch.data_remote = (function fulcro$client$impl$data_fetch$data_remote(state){
-return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_remote.cljs$core$IFn$_invoke$arity$1(state);
+return cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote.cljs$core$IFn$_invoke$arity$1(state);
 });
 /**
  * Get the 'primary' query key of the data fetch. This is defined as the first keyword of the overall query (which might
  *   be a simple prop or join key for example)
  */
 fulcro.client.impl.data_fetch.data_query_key = (function fulcro$client$impl$data_fetch$data_query_key(state){
-var ast = om.next.query__GT_ast(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_query.cljs$core$IFn$_invoke$arity$1(state));
+var ast = fulcro.client.primitives.query__GT_ast(cljs.core.cst$kw$fulcro$client$primitives_SLASH_query.cljs$core$IFn$_invoke$arity$1(state));
 var node = cljs.core.first(cljs.core.cst$kw$children.cljs$core$IFn$_invoke$arity$1(ast));
 return cljs.core.cst$kw$key.cljs$core$IFn$_invoke$arity$1(node);
 });
@@ -587,16 +695,16 @@ return cljs.core.cst$kw$key.cljs$core$IFn$_invoke$arity$1(node);
  */
 fulcro.client.impl.data_fetch.data_path = (function fulcro$client$impl$data_fetch$data_path(state){
 var target = fulcro.client.impl.data_fetch.data_target(state);
-if(cljs.core.truth_((function (){var and__10400__auto__ = (fulcro.client.impl.data_fetch.data_field(state) == null);
-if(and__10400__auto__){
-var and__10400__auto____$1 = cljs.core.vector_QMARK_(target);
-if(and__10400__auto____$1){
+if(cljs.core.truth_((function (){var and__10793__auto__ = (fulcro.client.impl.data_fetch.data_field(state) == null);
+if(and__10793__auto__){
+var and__10793__auto____$1 = cljs.core.vector_QMARK_(target);
+if(and__10793__auto____$1){
 return cljs.core.not_empty(target);
 } else {
-return and__10400__auto____$1;
+return and__10793__auto____$1;
 }
 } else {
-return and__10400__auto__;
+return and__10793__auto__;
 }
 })())){
 return target;
@@ -604,7 +712,7 @@ return target;
 if((cljs.core.vector_QMARK_(fulcro.client.impl.data_fetch.data_ident(state))) && ((fulcro.client.impl.data_fetch.data_field(state) instanceof cljs.core.Keyword))){
 return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.data_ident(state),fulcro.client.impl.data_fetch.data_field(state));
 } else {
-if(om.util.ident_QMARK_(fulcro.client.impl.data_fetch.data_query_key(state))){
+if(fulcro.util.ident_QMARK_(fulcro.client.impl.data_fetch.data_query_key(state))){
 return fulcro.client.impl.data_fetch.data_query_key(state);
 } else {
 return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [fulcro.client.impl.data_fetch.data_query_key(state)], null);
@@ -619,12 +727,6 @@ return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMP
 fulcro.client.impl.data_fetch.data_params = (function fulcro$client$impl$data_fetch$data_params(state){
 return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_params.cljs$core$IFn$_invoke$arity$1(state);
 });
-/**
- * Get the keywords that should be (recursively) removed from the query that will be sent to the server.
- */
-fulcro.client.impl.data_fetch.data_exclusions = (function fulcro$client$impl$data_fetch$data_exclusions(state){
-return cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_without.cljs$core$IFn$_invoke$arity$1(state);
-});
 var set_type = (function fulcro$client$impl$data_fetch$set_type(state,type,params){
 return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([state,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_type,type,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_params,params], null)], 0));
 });
@@ -632,8 +734,8 @@ return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.c
  * Returns a state (based on the input state) that is in the 'ready' to load state.
  */
 fulcro.client.impl.data_fetch.set_ready_BANG_ = (function fulcro$client$impl$data_fetch$set_ready_BANG_(var_args){
-var G__45596 = arguments.length;
-switch (G__45596) {
+var G__41456 = arguments.length;
+switch (G__41456) {
 case 1:
 return fulcro.client.impl.data_fetch.set_ready_BANG_.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -663,8 +765,8 @@ fulcro.client.impl.data_fetch.set_ready_BANG_.cljs$lang$maxFixedArity = 2;
  * Returns a marker (based on the input state) that is in the loading state (and ensures that it has a UUID)
  */
 fulcro.client.impl.data_fetch.set_loading_BANG_ = (function fulcro$client$impl$data_fetch$set_loading_BANG_(var_args){
-var G__45598 = arguments.length;
-switch (G__45598) {
+var G__41458 = arguments.length;
+switch (G__41458) {
 case 1:
 return fulcro.client.impl.data_fetch.set_loading_BANG_.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -695,8 +797,8 @@ fulcro.client.impl.data_fetch.set_loading_BANG_.cljs$lang$maxFixedArity = 2;
  * Returns a marker (based on the input state) that is in the error state
  */
 fulcro.client.impl.data_fetch.set_failed_BANG_ = (function fulcro$client$impl$data_fetch$set_failed_BANG_(var_args){
-var G__45600 = arguments.length;
-switch (G__45600) {
+var G__41462 = arguments.length;
+switch (G__41462) {
 case 1:
 return fulcro.client.impl.data_fetch.set_failed_BANG_.cljs$core$IFn$_invoke$arity$1((arguments[(0)]));
 
@@ -729,41 +831,51 @@ return cljs.core.vec(cljs.core.mapcat.cljs$core$IFn$_invoke$arity$variadic((func
 return fulcro.client.impl.data_fetch.data_query(item);
 }),cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([items], 0)));
 });
-fulcro.client.impl.data_fetch.set_global_loading = (function fulcro$client$impl$data_fetch$set_global_loading(reconciler){
+fulcro.client.impl.data_fetch.set_global_loading_BANG_ = (function fulcro$client$impl$data_fetch$set_global_loading_BANG_(reconciler){
 
-var state_atom = om.next.app_state(reconciler);
+var state_atom = fulcro.client.primitives.app_state(reconciler);
 var loading_QMARK_ = cljs.core.boolean$(cljs.core.seq(cljs.core.get.cljs$core$IFn$_invoke$arity$2(cljs.core.deref(state_atom),cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress)));
 return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(state_atom,cljs.core.assoc,cljs.core.cst$kw$ui_SLASH_loading_DASH_data,loading_QMARK_);
 });
+fulcro.client.impl.data_fetch.replacement_target_QMARK_ = (function fulcro$client$impl$data_fetch$replacement_target_QMARK_(t){
+return fulcro.client.impl.data_targeting.replacement_target_QMARK_(t);
+});
+fulcro.client.impl.data_fetch.prepend_target_QMARK_ = (function fulcro$client$impl$data_fetch$prepend_target_QMARK_(t){
+return fulcro.client.impl.data_targeting.prepend_target_QMARK_(t);
+});
+fulcro.client.impl.data_fetch.append_target_QMARK_ = (function fulcro$client$impl$data_fetch$append_target_QMARK_(t){
+return fulcro.client.impl.data_targeting.append_target_QMARK_(t);
+});
+fulcro.client.impl.data_fetch.multiple_targets_QMARK_ = (function fulcro$client$impl$data_fetch$multiple_targets_QMARK_(t){
+return fulcro.client.impl.data_targeting.multiple_targets_QMARK_(t);
+});
+fulcro.client.impl.data_fetch.special_target_QMARK_ = (function fulcro$client$impl$data_fetch$special_target_QMARK_(t){
+return fulcro.client.impl.data_targeting.special_target_QMARK_(t);
+});
+fulcro.client.impl.data_fetch.process_target = fulcro.client.impl.data_targeting.process_target;
 /**
  * For items that are manually targeted, move them in app state from their result location to their target location.
  */
-fulcro.client.impl.data_fetch.relocate_targeted_results = (function fulcro$client$impl$data_fetch$relocate_targeted_results(state_atom,items){
+fulcro.client.impl.data_fetch.relocate_targeted_results_BANG_ = (function fulcro$client$impl$data_fetch$relocate_targeted_results_BANG_(state_atom,items){
 return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state_atom,(function (state_map){
 return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (state,item){
 var default_target = fulcro.client.impl.data_fetch.data_query_key(item);
-var explicit_target = (function (){var or__10412__auto__ = fulcro.client.impl.data_fetch.data_target(item);
-if(cljs.core.truth_(or__10412__auto__)){
-return or__10412__auto__;
+var explicit_target = (function (){var or__10805__auto__ = fulcro.client.impl.data_fetch.data_target(item);
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
 } else {
 return cljs.core.PersistentVector.EMPTY;
 }
 })();
-var relocate_QMARK_ = (function (){var and__10400__auto__ = (fulcro.client.impl.data_fetch.data_field(item) == null);
-if(and__10400__auto__){
-var and__10400__auto____$1 = (fulcro.client.impl.data_fetch.data_query_key(item) instanceof cljs.core.Keyword);
-if(and__10400__auto____$1){
+var relocate_QMARK_ = (function (){var and__10793__auto__ = (fulcro.client.impl.data_fetch.data_field(item) == null);
+if(and__10793__auto__){
 return cljs.core.not_empty(explicit_target);
 } else {
-return and__10400__auto____$1;
-}
-} else {
-return and__10400__auto__;
+return and__10793__auto__;
 }
 })();
 if(cljs.core.truth_(relocate_QMARK_)){
-var value = cljs.core.get.cljs$core$IFn$_invoke$arity$2(state,default_target);
-return cljs.core.assoc_in(cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(state,fulcro.client.impl.data_fetch.data_query_key(item)),explicit_target,value);
+return (fulcro.client.impl.data_fetch.process_target.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.impl.data_fetch.process_target.cljs$core$IFn$_invoke$arity$3(state,default_target,explicit_target) : fulcro.client.impl.data_fetch.process_target.call(null,state,default_target,explicit_target));
 } else {
 return state;
 }
@@ -774,6 +886,9 @@ return state;
  * Returns app-state without the load marker for the given item.
  */
 fulcro.client.impl.data_fetch.remove_marker = (function fulcro$client$impl$data_fetch$remove_marker(app_state,item){
+var marker_id = fulcro.client.impl.data_fetch.data_marker(item);
+var legacy_marker_QMARK_ = !((marker_id instanceof cljs.core.Keyword));
+if(legacy_marker_QMARK_){
 var path = fulcro.client.impl.data_fetch.data_path(item);
 var data = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(app_state,path);
 if((cljs.core.map_QMARK_(data)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$ui_SLASH_fetch_DASH_state,null], null), null),cljs.core.set(cljs.core.keys(data))))){
@@ -786,126 +901,172 @@ return cljs.core.assoc_in(app_state,path,null);
 
 }
 }
+} else {
+return cljs.core.update.cljs$core$IFn$_invoke$arity$4(app_state,fulcro.client.impl.data_fetch.marker_table,cljs.core.dissoc,marker_id);
+}
 });
 /**
  * Build a callback env for post mutations and fallbacks
  */
 fulcro.client.impl.data_fetch.callback_env = (function fulcro$client$impl$data_fetch$callback_env(reconciler,load_request,original_env){
-var state = om.next.app_state(reconciler);
-var map__45624 = load_request;
-var map__45624__$1 = ((((!((map__45624 == null)))?((((map__45624.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__45624.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__45624):map__45624);
-var parallel = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel);
-var target = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target);
-var remote = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_remote);
-var query = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_query);
-var refresh = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh);
-var ident = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_ident);
-var post_mutation_params = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params);
-var fallback = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback);
-var marker = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker);
-var post_mutation = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation);
-var field = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__45624__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field);
-return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([original_env,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$state,state,cljs.core.cst$kw$load_DASH_request,(function (){var G__45629 = new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$target,target,cljs.core.cst$kw$remote,remote,cljs.core.cst$kw$marker,marker,cljs.core.cst$kw$server_DASH_query,query,cljs.core.cst$kw$parallel,cljs.core.boolean$(parallel)], null);
-var G__45629__$1 = (cljs.core.truth_(post_mutation)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__45629,cljs.core.cst$kw$post_DASH_mutation,post_mutation):G__45629);
-var G__45629__$2 = (cljs.core.truth_(post_mutation_params)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__45629__$1,cljs.core.cst$kw$post_DASH_mutation_DASH_params,post_mutation_params):G__45629__$1);
-var G__45629__$3 = (cljs.core.truth_(refresh)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__45629__$2,cljs.core.cst$kw$refresh,refresh):G__45629__$2);
+var state = fulcro.client.primitives.app_state(reconciler);
+var map__41490 = load_request;
+var map__41490__$1 = ((((!((map__41490 == null)))?((((map__41490.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__41490.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__41490):map__41490);
+var parallel = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_parallel);
+var target = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_target);
+var ident = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$primitives_SLASH_ident);
+var remote = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote);
+var query = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$primitives_SLASH_query);
+var refresh = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_refresh);
+var post_mutation_params = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params);
+var fallback = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback);
+var marker = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_marker);
+var post_mutation = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation);
+var field = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41490__$1,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_field);
+return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([original_env,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$state,state,cljs.core.cst$kw$load_DASH_request,(function (){var G__41495 = new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$target,target,cljs.core.cst$kw$remote,remote,cljs.core.cst$kw$marker,marker,cljs.core.cst$kw$server_DASH_query,query,cljs.core.cst$kw$parallel,cljs.core.boolean$(parallel)], null);
+var G__41495__$1 = (cljs.core.truth_(post_mutation)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__41495,cljs.core.cst$kw$post_DASH_mutation,post_mutation):G__41495);
+var G__41495__$2 = (cljs.core.truth_(post_mutation_params)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__41495__$1,cljs.core.cst$kw$post_DASH_mutation_DASH_params,post_mutation_params):G__41495__$1);
+var G__41495__$3 = (cljs.core.truth_(refresh)?cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__41495__$2,cljs.core.cst$kw$refresh,refresh):G__41495__$2);
 if(cljs.core.truth_(fallback)){
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__45629__$3,cljs.core.cst$kw$fallback,fallback);
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(G__41495__$3,cljs.core.cst$kw$fallback,fallback);
 } else {
-return G__45629__$3;
+return G__41495__$3;
 }
 })()], null)], 0));
 });
 /**
- * Generates a callback that processes all of the post-processing steps once a remote load has completed. This includes:
+ * Update the history atom with a new history that does not include activity for the given load markers
+ */
+fulcro.client.impl.data_fetch.clear_history_activity_BANG_ = (function fulcro$client$impl$data_fetch$clear_history_activity_BANG_(history_atom,load_markers){
+if(cljs.core.truth_(history_atom)){
+return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(history_atom,(function (h){
+return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (hist,p__41504){
+var map__41506 = p__41504;
+var map__41506__$1 = ((((!((map__41506 == null)))?((((map__41506.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__41506.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__41506):map__41506);
+var remote = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41506__$1,cljs.core.cst$kw$fulcro$client$primitives_SLASH_remote);
+var tx_time = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__41506__$1,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time);
+return fulcro.history.remote_activity_finished(hist,(function (){var or__10805__auto__ = remote;
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
+} else {
+return cljs.core.cst$kw$remote;
+}
+})(),tx_time);
+}),h,load_markers);
+}));
+} else {
+return null;
+}
+});
+/**
+ * Ability to mock in tests
+ */
+fulcro.client.impl.data_fetch.tick_BANG_ = (function fulcro$client$impl$data_fetch$tick_BANG_(r){
+return fulcro.client.impl.protocols.tick_BANG_(r);
+});
+/**
+ * Generates a callback that processes all of the post-processing steps once a remote ***load*** has completed. This includes:
  * 
- *   - Marking the items that were queries for but not returned as 'missing' (see documentation on mark and sweep of db)
+ *   - Marking the items that were queried for but not returned as 'missing' (see documentation on mark and sweep of db)
  *   - Refreshing elements of the UI that were included in the data fetch :refresh option
  *   - Removing loading markers related to the executed loads that were not overwritten by incoming data
  *   - Merging the incoming data into the normalized database
  *   - Running post-mutations for any fetches that completed
  *   - Updating the global loading marker
  *   - Triggering re-render for all data item refresh lists
+ *   - Removing the activity from history tracking
  *   
  */
 fulcro.client.impl.data_fetch.loaded_callback = (function fulcro$client$impl$data_fetch$loaded_callback(reconciler){
 return (function (response,items){
 var query = fulcro.client.impl.data_fetch.full_query(items);
+var base_merge = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(((function (query){
+return (function (initial_state,item){
+var temp__5455__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_initialize.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(temp__5455__auto__)){
+var item_tree = temp__5455__auto__;
+return cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([initial_state,item_tree], 0));
+} else {
+return initial_state;
+}
+});})(query))
+,cljs.core.PersistentArrayMap.EMPTY,items);
+var response__$1 = fulcro.util.deep_merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([base_merge,response], 0));
 var loading_items = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentHashSet.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.set_loading_BANG_,items));
-var refresh_set = cljs.core.into.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$ui_SLASH_loading_DASH_data,null], null), null),cljs.core.mapcat.cljs$core$IFn$_invoke$arity$variadic(fulcro.client.impl.data_fetch.data_refresh,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([items], 0)));
-var to_refresh = cljs.core.vec(refresh_set);
-var marked_response = fulcro.client.impl.om_plumbing.mark_missing(response,query);
-var app_state = om.next.app_state(reconciler);
+var refresh_set = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentHashSet.createAsIfByAssoc([cljs.core.cst$kw$ui_SLASH_fetch_DASH_state,fulcro.client.impl.data_fetch.marker_table,cljs.core.cst$kw$ui_SLASH_loading_DASH_data]),cljs.core.mapcat.cljs$core$IFn$_invoke$arity$variadic(fulcro.client.impl.data_fetch.data_refresh,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([items], 0)));
+var marked_response = fulcro.client.primitives.mark_missing(response__$1,query);
+var to_refresh = cljs.core.into.cljs$core$IFn$_invoke$arity$3(cljs.core.vec(refresh_set),cljs.core.remove.cljs$core$IFn$_invoke$arity$1(cljs.core.symbol_QMARK_),cljs.core.keys(marked_response));
+var app_state = fulcro.client.primitives.app_state(reconciler);
 var ran_mutations = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(false);
-var remove_markers = ((function (query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations){
+var remove_markers_BANG_ = ((function (query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations){
 return (function (){
-var seq__45652 = cljs.core.seq(loading_items);
-var chunk__45653 = null;
-var count__45654 = (0);
-var i__45655 = (0);
+var seq__41514 = cljs.core.seq(loading_items);
+var chunk__41515 = null;
+var count__41516 = (0);
+var i__41517 = (0);
 while(true){
-if((i__45655 < count__45654)){
-var item = chunk__45653.cljs$core$IIndexed$_nth$arity$2(null,i__45655);
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__45652,chunk__45653,count__45654,i__45655,item,query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations){
+if((i__41517 < count__41516)){
+var item = chunk__41515.cljs$core$IIndexed$_nth$arity$2(null,i__41517);
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__41514,chunk__41515,count__41516,i__41517,item,query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations){
 return (function (s){
-var G__45656 = s;
-var G__45656__$1 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__45656,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item))
+var G__41521 = s;
+var G__41521__$1 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__41521,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item))
 ;
 if(cljs.core.truth_(fulcro.client.impl.data_fetch.data_marker_QMARK_(item))){
-return fulcro.client.impl.data_fetch.remove_marker(G__45656__$1,item);
+return fulcro.client.impl.data_fetch.remove_marker(G__41521__$1,item);
 } else {
-return G__45656__$1;
+return G__41521__$1;
 }
-});})(seq__45652,chunk__45653,count__45654,i__45655,item,query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations))
+});})(seq__41514,chunk__41515,count__41516,i__41517,item,query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations))
 );
 
-var G__45692 = seq__45652;
-var G__45693 = chunk__45653;
-var G__45694 = count__45654;
-var G__45695 = (i__45655 + (1));
-seq__45652 = G__45692;
-chunk__45653 = G__45693;
-count__45654 = G__45694;
-i__45655 = G__45695;
+var G__41547 = seq__41514;
+var G__41548 = chunk__41515;
+var G__41549 = count__41516;
+var G__41550 = (i__41517 + (1));
+seq__41514 = G__41547;
+chunk__41515 = G__41548;
+count__41516 = G__41549;
+i__41517 = G__41550;
 continue;
 } else {
-var temp__5459__auto__ = cljs.core.seq(seq__45652);
-if(temp__5459__auto__){
-var seq__45652__$1 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(seq__45652__$1)){
-var c__11343__auto__ = cljs.core.chunk_first(seq__45652__$1);
-var G__45705 = cljs.core.chunk_rest(seq__45652__$1);
-var G__45706 = c__11343__auto__;
-var G__45707 = cljs.core.count(c__11343__auto__);
-var G__45708 = (0);
-seq__45652 = G__45705;
-chunk__45653 = G__45706;
-count__45654 = G__45707;
-i__45655 = G__45708;
+var temp__5457__auto__ = cljs.core.seq(seq__41514);
+if(temp__5457__auto__){
+var seq__41514__$1 = temp__5457__auto__;
+if(cljs.core.chunked_seq_QMARK_(seq__41514__$1)){
+var c__11736__auto__ = cljs.core.chunk_first(seq__41514__$1);
+var G__41554 = cljs.core.chunk_rest(seq__41514__$1);
+var G__41555 = c__11736__auto__;
+var G__41556 = cljs.core.count(c__11736__auto__);
+var G__41557 = (0);
+seq__41514 = G__41554;
+chunk__41515 = G__41555;
+count__41516 = G__41556;
+i__41517 = G__41557;
 continue;
 } else {
-var item = cljs.core.first(seq__45652__$1);
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__45652,chunk__45653,count__45654,i__45655,item,seq__45652__$1,temp__5459__auto__,query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations){
+var item = cljs.core.first(seq__41514__$1);
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__41514,chunk__41515,count__41516,i__41517,item,seq__41514__$1,temp__5457__auto__,query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations){
 return (function (s){
-var G__45660 = s;
-var G__45660__$1 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__45660,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item))
+var G__41522 = s;
+var G__41522__$1 = cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__41522,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item))
 ;
 if(cljs.core.truth_(fulcro.client.impl.data_fetch.data_marker_QMARK_(item))){
-return fulcro.client.impl.data_fetch.remove_marker(G__45660__$1,item);
+return fulcro.client.impl.data_fetch.remove_marker(G__41522__$1,item);
 } else {
-return G__45660__$1;
+return G__41522__$1;
 }
-});})(seq__45652,chunk__45653,count__45654,i__45655,item,seq__45652__$1,temp__5459__auto__,query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations))
+});})(seq__41514,chunk__41515,count__41516,i__41517,item,seq__41514__$1,temp__5457__auto__,query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations))
 );
 
-var G__45722 = cljs.core.next(seq__45652__$1);
-var G__45723 = null;
-var G__45724 = (0);
-var G__45725 = (0);
-seq__45652 = G__45722;
-chunk__45653 = G__45723;
-count__45654 = G__45724;
-i__45655 = G__45725;
+var G__41560 = cljs.core.next(seq__41514__$1);
+var G__41561 = null;
+var G__41562 = (0);
+var G__41563 = (0);
+seq__41514 = G__41560;
+chunk__41515 = G__41561;
+count__41516 = G__41562;
+i__41517 = G__41563;
 continue;
 }
 } else {
@@ -914,103 +1075,104 @@ return null;
 }
 break;
 }
-});})(query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations))
+});})(query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations))
 ;
-var run_post_mutations = ((function (query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations,remove_markers){
+var history = fulcro.client.primitives.get_history(reconciler);
+var run_post_mutations_BANG_ = ((function (query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations,remove_markers_BANG_,history){
 return (function (){
-var seq__45663 = cljs.core.seq(loading_items);
-var chunk__45664 = null;
-var count__45665 = (0);
-var i__45666 = (0);
+var seq__41523 = cljs.core.seq(loading_items);
+var chunk__41524 = null;
+var count__41525 = (0);
+var i__41526 = (0);
 while(true){
-if((i__45666 < count__45665)){
-var item = chunk__45664.cljs$core$IIndexed$_nth$arity$2(null,i__45666);
-var temp__5459__auto___45739 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(temp__5459__auto___45739)){
-var mutation_symbol_45742 = temp__5459__auto___45739;
+if((i__41526 < count__41525)){
+var item = chunk__41524.cljs$core$IIndexed$_nth$arity$2(null,i__41526);
+var temp__5457__auto___41565 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(temp__5457__auto___41565)){
+var mutation_symbol_41566 = temp__5457__auto___41565;
 cljs.core.reset_BANG_(ran_mutations,true);
 
-var params_45745 = (function (){var or__10412__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(or__10412__auto__)){
-return or__10412__auto__;
+var params_41568 = (function (){var or__10805__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
 } else {
 return cljs.core.PersistentArrayMap.EMPTY;
 }
 })();
-var original_env_45746 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
-var G__45669_45747 = (function (){var G__45670 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_45746);
-var G__45671 = mutation_symbol_45742;
-var G__45672 = params_45745;
-return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__45670,G__45671,G__45672) : fulcro.client.mutations.mutate.call(null,G__45670,G__45671,G__45672));
+var original_env_41569 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
+var G__41530_41572 = (function (){var G__41531 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_41569);
+var G__41532 = mutation_symbol_41566;
+var G__41533 = params_41568;
+return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__41531,G__41532,G__41533) : fulcro.client.mutations.mutate.call(null,G__41531,G__41532,G__41533));
 })();
-var G__45669_45748__$1 = (((G__45669_45747 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__45669_45747));
-if((G__45669_45748__$1 == null)){
+var G__41530_41573__$1 = (((G__41530_41572 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__41530_41572));
+if((G__41530_41573__$1 == null)){
 } else {
-cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__45669_45748__$1,cljs.core.PersistentVector.EMPTY);
+cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__41530_41573__$1,cljs.core.PersistentVector.EMPTY);
 }
 } else {
 }
 
-var G__45753 = seq__45663;
-var G__45754 = chunk__45664;
-var G__45755 = count__45665;
-var G__45756 = (i__45666 + (1));
-seq__45663 = G__45753;
-chunk__45664 = G__45754;
-count__45665 = G__45755;
-i__45666 = G__45756;
+var G__41574 = seq__41523;
+var G__41575 = chunk__41524;
+var G__41576 = count__41525;
+var G__41577 = (i__41526 + (1));
+seq__41523 = G__41574;
+chunk__41524 = G__41575;
+count__41525 = G__41576;
+i__41526 = G__41577;
 continue;
 } else {
-var temp__5459__auto__ = cljs.core.seq(seq__45663);
-if(temp__5459__auto__){
-var seq__45663__$1 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(seq__45663__$1)){
-var c__11343__auto__ = cljs.core.chunk_first(seq__45663__$1);
-var G__45759 = cljs.core.chunk_rest(seq__45663__$1);
-var G__45760 = c__11343__auto__;
-var G__45761 = cljs.core.count(c__11343__auto__);
-var G__45762 = (0);
-seq__45663 = G__45759;
-chunk__45664 = G__45760;
-count__45665 = G__45761;
-i__45666 = G__45762;
+var temp__5457__auto__ = cljs.core.seq(seq__41523);
+if(temp__5457__auto__){
+var seq__41523__$1 = temp__5457__auto__;
+if(cljs.core.chunked_seq_QMARK_(seq__41523__$1)){
+var c__11736__auto__ = cljs.core.chunk_first(seq__41523__$1);
+var G__41578 = cljs.core.chunk_rest(seq__41523__$1);
+var G__41579 = c__11736__auto__;
+var G__41580 = cljs.core.count(c__11736__auto__);
+var G__41581 = (0);
+seq__41523 = G__41578;
+chunk__41524 = G__41579;
+count__41525 = G__41580;
+i__41526 = G__41581;
 continue;
 } else {
-var item = cljs.core.first(seq__45663__$1);
-var temp__5459__auto___45766__$1 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(temp__5459__auto___45766__$1)){
-var mutation_symbol_45767 = temp__5459__auto___45766__$1;
+var item = cljs.core.first(seq__41523__$1);
+var temp__5457__auto___41585__$1 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(temp__5457__auto___41585__$1)){
+var mutation_symbol_41586 = temp__5457__auto___41585__$1;
 cljs.core.reset_BANG_(ran_mutations,true);
 
-var params_45770 = (function (){var or__10412__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(or__10412__auto__)){
-return or__10412__auto__;
+var params_41587 = (function (){var or__10805__auto__ = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_post_DASH_mutation_DASH_params.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
 } else {
 return cljs.core.PersistentArrayMap.EMPTY;
 }
 })();
-var original_env_45771 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
-var G__45677_45777 = (function (){var G__45678 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_45771);
-var G__45679 = mutation_symbol_45767;
-var G__45680 = params_45770;
-return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__45678,G__45679,G__45680) : fulcro.client.mutations.mutate.call(null,G__45678,G__45679,G__45680));
+var original_env_41588 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
+var G__41537_41589 = (function (){var G__41538 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_41588);
+var G__41539 = mutation_symbol_41586;
+var G__41540 = params_41587;
+return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__41538,G__41539,G__41540) : fulcro.client.mutations.mutate.call(null,G__41538,G__41539,G__41540));
 })();
-var G__45677_45778__$1 = (((G__45677_45777 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__45677_45777));
-if((G__45677_45778__$1 == null)){
+var G__41537_41590__$1 = (((G__41537_41589 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__41537_41589));
+if((G__41537_41590__$1 == null)){
 } else {
-cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__45677_45778__$1,cljs.core.PersistentVector.EMPTY);
+cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__41537_41590__$1,cljs.core.PersistentVector.EMPTY);
 }
 } else {
 }
 
-var G__45787 = cljs.core.next(seq__45663__$1);
-var G__45788 = null;
-var G__45789 = (0);
-var G__45790 = (0);
-seq__45663 = G__45787;
-chunk__45664 = G__45788;
-count__45665 = G__45789;
-i__45666 = G__45790;
+var G__41592 = cljs.core.next(seq__41523__$1);
+var G__41593 = null;
+var G__41594 = (0);
+var G__41595 = (0);
+seq__41523 = G__41592;
+chunk__41524 = G__41593;
+count__41525 = G__41594;
+i__41526 = G__41595;
 continue;
 }
 } else {
@@ -1019,24 +1181,42 @@ return null;
 }
 break;
 }
-});})(query,loading_items,refresh_set,to_refresh,marked_response,app_state,ran_mutations,remove_markers))
+});})(query,base_merge,response__$1,loading_items,refresh_set,marked_response,to_refresh,app_state,ran_mutations,remove_markers_BANG_,history))
 ;
-remove_markers();
+remove_markers_BANG_();
 
-om.next.merge_BANG_.cljs$core$IFn$_invoke$arity$3(reconciler,marked_response,query);
+fulcro.client.impl.data_fetch.clear_history_activity_BANG_(history,loading_items);
 
-fulcro.client.impl.data_fetch.relocate_targeted_results(app_state,loading_items);
+fulcro.client.primitives.merge_BANG_.cljs$core$IFn$_invoke$arity$3(reconciler,marked_response,query);
 
-run_post_mutations();
+fulcro.client.impl.data_fetch.relocate_targeted_results_BANG_(app_state,loading_items);
 
-fulcro.client.impl.data_fetch.set_global_loading(reconciler);
+run_post_mutations_BANG_();
+
+fulcro.client.impl.data_fetch.set_global_loading_BANG_(reconciler);
+
+fulcro.client.impl.data_fetch.tick_BANG_(reconciler);
 
 if(cljs.core.contains_QMARK_(refresh_set,cljs.core.cst$kw$fulcro_SLASH_force_DASH_root)){
-return om.next.force_root_render_BANG_(reconciler);
+return fulcro.client.primitives.force_root_render_BANG_(reconciler);
 } else {
 return fulcro.client.util.force_render.cljs$core$IFn$_invoke$arity$2(reconciler,to_refresh);
 }
 });
+});
+/**
+ * Record a network error in history
+ */
+fulcro.client.impl.data_fetch.record_network_error_BANG_ = (function fulcro$client$impl$data_fetch$record_network_error_BANG_(reconciler,items,error){
+var temp__5457__auto__ = fulcro.client.primitives.get_history(reconciler);
+if(cljs.core.truth_(temp__5457__auto__)){
+var history = temp__5457__auto__;
+fulcro.client.impl.data_fetch.tick_BANG_(reconciler);
+
+return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(history,fulcro.history.record_history_step,fulcro.client.impl.protocols.basis_t(reconciler),new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before,cljs.core.deref(fulcro.client.primitives.app_state(reconciler)),cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_result,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_load_DASH_descriptors,items,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_error,error], null),cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after,cljs.core.deref(fulcro.client.primitives.app_state(reconciler))], null));
+} else {
+return null;
+}
 });
 /**
  * Generates a callback that is used whenever a hard server error occurs (status code 400+ or network error).
@@ -1051,74 +1231,91 @@ return fulcro.client.util.force_render.cljs$core$IFn$_invoke$arity$2(reconciler,
  */
 fulcro.client.impl.data_fetch.error_callback = (function fulcro$client$impl$data_fetch$error_callback(reconciler){
 return (function (error,items){
+fulcro.client.impl.data_fetch.record_network_error_BANG_(reconciler,items,error);
+
 var loading_items = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentHashSet.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.set_loading_BANG_,items));
-var app_state = om.next.app_state(reconciler);
-var refresh_set = cljs.core.into.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$ui_SLASH_loading_DASH_data,null], null), null),cljs.core.mapcat.cljs$core$IFn$_invoke$arity$variadic(fulcro.client.impl.data_fetch.data_refresh,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([items], 0)));
+var app_state = fulcro.client.primitives.app_state(reconciler);
+var refresh_set = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentHashSet.createAsIfByAssoc([cljs.core.cst$kw$ui_SLASH_fetch_DASH_state,fulcro.client.impl.data_fetch.marker_table,cljs.core.cst$kw$ui_SLASH_loading_DASH_data]),cljs.core.mapcat.cljs$core$IFn$_invoke$arity$variadic(fulcro.client.impl.data_fetch.data_refresh,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([items], 0)));
 var to_refresh = cljs.core.vec(refresh_set);
 var ran_fallbacks = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(false);
-var mark_errors = ((function (loading_items,app_state,refresh_set,to_refresh,ran_fallbacks){
+var history = fulcro.client.primitives.get_history(reconciler);
+var mark_errors = ((function (loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history){
 return (function (){
 cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(app_state,cljs.core.assoc,cljs.core.cst$kw$fulcro_SLASH_server_DASH_error,error);
 
-var seq__45794 = cljs.core.seq(loading_items);
-var chunk__45795 = null;
-var count__45796 = (0);
-var i__45797 = (0);
+var seq__41604 = cljs.core.seq(loading_items);
+var chunk__41605 = null;
+var count__41606 = (0);
+var i__41607 = (0);
 while(true){
-if((i__45797 < count__45796)){
-var item = chunk__45795.cljs$core$IIndexed$_nth$arity$2(null,i__45797);
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__45794,chunk__45795,count__45796,i__45797,item,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks){
+if((i__41607 < count__41606)){
+var item = chunk__41605.cljs$core$IIndexed$_nth$arity$2(null,i__41607);
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__41604,chunk__41605,count__41606,i__41607,item,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history){
 return (function (s){
-var G__45800 = s;
-var G__45800__$1 = (cljs.core.truth_(fulcro.client.impl.data_fetch.data_marker_QMARK_(item))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__45800,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.data_path(item),cljs.core.cst$kw$ui_SLASH_fetch_DASH_state),fulcro.client.impl.data_fetch.set_failed_BANG_,error):G__45800);
-return cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__45800__$1,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item));
+var G__41610 = s;
+var G__41610__$1 = (cljs.core.truth_((function (){var and__10793__auto__ = fulcro.client.impl.data_fetch.data_marker_QMARK_(item);
+if(cljs.core.truth_(and__10793__auto__)){
+return (fulcro.client.impl.data_fetch.data_marker(item) instanceof cljs.core.Keyword);
+} else {
+return and__10793__auto__;
+}
+})())?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__41610,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [fulcro.client.impl.data_fetch.marker_table,fulcro.client.impl.data_fetch.data_marker(item)], null),fulcro.client.impl.data_fetch.set_failed_BANG_,error):G__41610);
+var G__41610__$2 = (cljs.core.truth_(fulcro.client.impl.data_fetch.data_marker_QMARK_(item))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__41610__$1,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.data_path(item),cljs.core.cst$kw$ui_SLASH_fetch_DASH_state),fulcro.client.impl.data_fetch.set_failed_BANG_,error):G__41610__$1);
+return cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__41610__$2,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item));
 
-});})(seq__45794,chunk__45795,count__45796,i__45797,item,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks))
+});})(seq__41604,chunk__41605,count__41606,i__41607,item,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history))
 );
 
-var G__45847 = seq__45794;
-var G__45848 = chunk__45795;
-var G__45849 = count__45796;
-var G__45850 = (i__45797 + (1));
-seq__45794 = G__45847;
-chunk__45795 = G__45848;
-count__45796 = G__45849;
-i__45797 = G__45850;
+var G__41640 = seq__41604;
+var G__41641 = chunk__41605;
+var G__41642 = count__41606;
+var G__41643 = (i__41607 + (1));
+seq__41604 = G__41640;
+chunk__41605 = G__41641;
+count__41606 = G__41642;
+i__41607 = G__41643;
 continue;
 } else {
-var temp__5459__auto__ = cljs.core.seq(seq__45794);
-if(temp__5459__auto__){
-var seq__45794__$1 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(seq__45794__$1)){
-var c__11343__auto__ = cljs.core.chunk_first(seq__45794__$1);
-var G__45852 = cljs.core.chunk_rest(seq__45794__$1);
-var G__45853 = c__11343__auto__;
-var G__45854 = cljs.core.count(c__11343__auto__);
-var G__45855 = (0);
-seq__45794 = G__45852;
-chunk__45795 = G__45853;
-count__45796 = G__45854;
-i__45797 = G__45855;
+var temp__5457__auto__ = cljs.core.seq(seq__41604);
+if(temp__5457__auto__){
+var seq__41604__$1 = temp__5457__auto__;
+if(cljs.core.chunked_seq_QMARK_(seq__41604__$1)){
+var c__11736__auto__ = cljs.core.chunk_first(seq__41604__$1);
+var G__41644 = cljs.core.chunk_rest(seq__41604__$1);
+var G__41645 = c__11736__auto__;
+var G__41646 = cljs.core.count(c__11736__auto__);
+var G__41647 = (0);
+seq__41604 = G__41644;
+chunk__41605 = G__41645;
+count__41606 = G__41646;
+i__41607 = G__41647;
 continue;
 } else {
-var item = cljs.core.first(seq__45794__$1);
-cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__45794,chunk__45795,count__45796,i__45797,item,seq__45794__$1,temp__5459__auto__,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks){
+var item = cljs.core.first(seq__41604__$1);
+cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(app_state,((function (seq__41604,chunk__41605,count__41606,i__41607,item,seq__41604__$1,temp__5457__auto__,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history){
 return (function (s){
-var G__45803 = s;
-var G__45803__$1 = (cljs.core.truth_(fulcro.client.impl.data_fetch.data_marker_QMARK_(item))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__45803,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.data_path(item),cljs.core.cst$kw$ui_SLASH_fetch_DASH_state),fulcro.client.impl.data_fetch.set_failed_BANG_,error):G__45803);
-return cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__45803__$1,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item));
+var G__41612 = s;
+var G__41612__$1 = (cljs.core.truth_((function (){var and__10793__auto__ = fulcro.client.impl.data_fetch.data_marker_QMARK_(item);
+if(cljs.core.truth_(and__10793__auto__)){
+return (fulcro.client.impl.data_fetch.data_marker(item) instanceof cljs.core.Keyword);
+} else {
+return and__10793__auto__;
+}
+})())?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__41612,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [fulcro.client.impl.data_fetch.marker_table,fulcro.client.impl.data_fetch.data_marker(item)], null),fulcro.client.impl.data_fetch.set_failed_BANG_,error):G__41612);
+var G__41612__$2 = (cljs.core.truth_(fulcro.client.impl.data_fetch.data_marker_QMARK_(item))?cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(G__41612__$1,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(fulcro.client.impl.data_fetch.data_path(item),cljs.core.cst$kw$ui_SLASH_fetch_DASH_state),fulcro.client.impl.data_fetch.set_failed_BANG_,error):G__41612__$1);
+return cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__41612__$2,cljs.core.cst$kw$fulcro_SLASH_loads_DASH_in_DASH_progress,cljs.core.disj,fulcro.client.impl.data_fetch.data_uuid(item));
 
-});})(seq__45794,chunk__45795,count__45796,i__45797,item,seq__45794__$1,temp__5459__auto__,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks))
+});})(seq__41604,chunk__41605,count__41606,i__41607,item,seq__41604__$1,temp__5457__auto__,loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history))
 );
 
-var G__45870 = cljs.core.next(seq__45794__$1);
-var G__45871 = null;
-var G__45872 = (0);
-var G__45873 = (0);
-seq__45794 = G__45870;
-chunk__45795 = G__45871;
-count__45796 = G__45872;
-i__45797 = G__45873;
+var G__41651 = cljs.core.next(seq__41604__$1);
+var G__41652 = null;
+var G__41653 = (0);
+var G__41654 = (0);
+seq__41604 = G__41651;
+chunk__41605 = G__41652;
+count__41606 = G__41653;
+i__41607 = G__41654;
 continue;
 }
 } else {
@@ -1127,91 +1324,91 @@ return null;
 }
 break;
 }
-});})(loading_items,app_state,refresh_set,to_refresh,ran_fallbacks))
+});})(loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history))
 ;
-var run_fallbacks = ((function (loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,mark_errors){
+var run_fallbacks = ((function (loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history,mark_errors){
 return (function (){
-var seq__45804 = cljs.core.seq(loading_items);
-var chunk__45805 = null;
-var count__45806 = (0);
-var i__45807 = (0);
+var seq__41616 = cljs.core.seq(loading_items);
+var chunk__41617 = null;
+var count__41618 = (0);
+var i__41619 = (0);
 while(true){
-if((i__45807 < count__45806)){
-var item = chunk__45805.cljs$core$IIndexed$_nth$arity$2(null,i__45807);
-var temp__5459__auto___45875 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(temp__5459__auto___45875)){
-var fallback_symbol_45877 = temp__5459__auto___45875;
-var original_env_45878 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
-var env_45879 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_45878);
+if((i__41619 < count__41618)){
+var item = chunk__41617.cljs$core$IIndexed$_nth$arity$2(null,i__41619);
+var temp__5457__auto___41658 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(temp__5457__auto___41658)){
+var fallback_symbol_41659 = temp__5457__auto___41658;
+var original_env_41660 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
+var env_41661 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_41660);
 cljs.core.reset_BANG_(ran_fallbacks,true);
 
-var G__45814_45883 = (function (){var G__45816 = env_45879;
-var G__45817 = fallback_symbol_45877;
-var G__45818 = new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$error,error], null);
-return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__45816,G__45817,G__45818) : fulcro.client.mutations.mutate.call(null,G__45816,G__45817,G__45818));
+var G__41620_41662 = (function (){var G__41621 = env_41661;
+var G__41622 = fallback_symbol_41659;
+var G__41623 = new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$error,error], null);
+return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__41621,G__41622,G__41623) : fulcro.client.mutations.mutate.call(null,G__41621,G__41622,G__41623));
 })();
-var G__45814_45884__$1 = (((G__45814_45883 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__45814_45883));
-if((G__45814_45884__$1 == null)){
+var G__41620_41663__$1 = (((G__41620_41662 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__41620_41662));
+if((G__41620_41663__$1 == null)){
 } else {
-cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__45814_45884__$1,cljs.core.PersistentVector.EMPTY);
+cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__41620_41663__$1,cljs.core.PersistentVector.EMPTY);
 }
 } else {
 }
 
-var G__45889 = seq__45804;
-var G__45890 = chunk__45805;
-var G__45891 = count__45806;
-var G__45892 = (i__45807 + (1));
-seq__45804 = G__45889;
-chunk__45805 = G__45890;
-count__45806 = G__45891;
-i__45807 = G__45892;
+var G__41667 = seq__41616;
+var G__41668 = chunk__41617;
+var G__41669 = count__41618;
+var G__41670 = (i__41619 + (1));
+seq__41616 = G__41667;
+chunk__41617 = G__41668;
+count__41618 = G__41669;
+i__41619 = G__41670;
 continue;
 } else {
-var temp__5459__auto__ = cljs.core.seq(seq__45804);
-if(temp__5459__auto__){
-var seq__45804__$1 = temp__5459__auto__;
-if(cljs.core.chunked_seq_QMARK_(seq__45804__$1)){
-var c__11343__auto__ = cljs.core.chunk_first(seq__45804__$1);
-var G__45897 = cljs.core.chunk_rest(seq__45804__$1);
-var G__45898 = c__11343__auto__;
-var G__45899 = cljs.core.count(c__11343__auto__);
-var G__45900 = (0);
-seq__45804 = G__45897;
-chunk__45805 = G__45898;
-count__45806 = G__45899;
-i__45807 = G__45900;
+var temp__5457__auto__ = cljs.core.seq(seq__41616);
+if(temp__5457__auto__){
+var seq__41616__$1 = temp__5457__auto__;
+if(cljs.core.chunked_seq_QMARK_(seq__41616__$1)){
+var c__11736__auto__ = cljs.core.chunk_first(seq__41616__$1);
+var G__41673 = cljs.core.chunk_rest(seq__41616__$1);
+var G__41674 = c__11736__auto__;
+var G__41675 = cljs.core.count(c__11736__auto__);
+var G__41676 = (0);
+seq__41616 = G__41673;
+chunk__41617 = G__41674;
+count__41618 = G__41675;
+i__41619 = G__41676;
 continue;
 } else {
-var item = cljs.core.first(seq__45804__$1);
-var temp__5459__auto___45904__$1 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback.cljs$core$IFn$_invoke$arity$1(item);
-if(cljs.core.truth_(temp__5459__auto___45904__$1)){
-var fallback_symbol_45905 = temp__5459__auto___45904__$1;
-var original_env_45907 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
-var env_45908 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_45907);
+var item = cljs.core.first(seq__41616__$1);
+var temp__5457__auto___41678__$1 = cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_fallback.cljs$core$IFn$_invoke$arity$1(item);
+if(cljs.core.truth_(temp__5457__auto___41678__$1)){
+var fallback_symbol_41679 = temp__5457__auto___41678__$1;
+var original_env_41680 = cljs.core.meta(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_original_DASH_env.cljs$core$IFn$_invoke$arity$1(item));
+var env_41681 = fulcro.client.impl.data_fetch.callback_env(reconciler,item,original_env_41680);
 cljs.core.reset_BANG_(ran_fallbacks,true);
 
-var G__45826_45911 = (function (){var G__45827 = env_45908;
-var G__45828 = fallback_symbol_45905;
-var G__45829 = new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$error,error], null);
-return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__45827,G__45828,G__45829) : fulcro.client.mutations.mutate.call(null,G__45827,G__45828,G__45829));
+var G__41627_41682 = (function (){var G__41628 = env_41681;
+var G__41629 = fallback_symbol_41679;
+var G__41630 = new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$error,error], null);
+return (fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3 ? fulcro.client.mutations.mutate.cljs$core$IFn$_invoke$arity$3(G__41628,G__41629,G__41630) : fulcro.client.mutations.mutate.call(null,G__41628,G__41629,G__41630));
 })();
-var G__45826_45912__$1 = (((G__45826_45911 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__45826_45911));
-if((G__45826_45912__$1 == null)){
+var G__41627_41683__$1 = (((G__41627_41682 == null))?null:cljs.core.cst$kw$action.cljs$core$IFn$_invoke$arity$1(G__41627_41682));
+if((G__41627_41683__$1 == null)){
 } else {
-cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__45826_45912__$1,cljs.core.PersistentVector.EMPTY);
+cljs.core.apply.cljs$core$IFn$_invoke$arity$2(G__41627_41683__$1,cljs.core.PersistentVector.EMPTY);
 }
 } else {
 }
 
-var G__45923 = cljs.core.next(seq__45804__$1);
-var G__45924 = null;
-var G__45925 = (0);
-var G__45926 = (0);
-seq__45804 = G__45923;
-chunk__45805 = G__45924;
-count__45806 = G__45925;
-i__45807 = G__45926;
+var G__41686 = cljs.core.next(seq__41616__$1);
+var G__41687 = null;
+var G__41688 = (0);
+var G__41689 = (0);
+seq__41616 = G__41686;
+chunk__41617 = G__41687;
+count__41618 = G__41688;
+i__41619 = G__41689;
 continue;
 }
 } else {
@@ -1220,14 +1417,30 @@ return null;
 }
 break;
 }
-});})(loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,mark_errors))
+});})(loading_items,app_state,refresh_set,to_refresh,ran_fallbacks,history,mark_errors))
 ;
 mark_errors();
 
 run_fallbacks();
 
-fulcro.client.impl.data_fetch.set_global_loading(reconciler);
+fulcro.client.impl.data_fetch.set_global_loading_BANG_(reconciler);
 
-return om.next.force_root_render_BANG_(reconciler);
+fulcro.client.impl.data_fetch.clear_history_activity_BANG_(history,loading_items);
+
+fulcro.client.impl.data_fetch.tick_BANG_(reconciler);
+
+return fulcro.client.primitives.force_root_render_BANG_(reconciler);
 });
+});
+/**
+ * Returns true if the outgoing query is just a placeholder indicator for a deferred transaction in the load queue.
+ */
+fulcro.client.impl.data_fetch.is_deferred_transaction_QMARK_ = (function fulcro$client$impl$data_fetch$is_deferred_transaction_QMARK_(query){
+return cljs.core.boolean$((function (){var and__10793__auto__ = query;
+if(cljs.core.truth_(and__10793__auto__)){
+return (cljs.core.vector_QMARK_(query)) && (cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_deferred_DASH_transaction,cljs.core.first(query)));
+} else {
+return and__10793__auto__;
+}
+})());
 });

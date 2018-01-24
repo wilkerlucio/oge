@@ -1,15 +1,32 @@
 (ns fulcro.i18n
   ;; IMPORTANT: DO NOT REQUIRE A BUNCH OF STUFF HERE!!! It can adversely affect code splitting, since translations have to pull this NS in in order to complete loads
   #?(:cljs (:require-macros fulcro.i18n))
-  #?(:cljs (:require yahoo.intl-messageformat-with-locales))
+  (:require
+    [fulcro.client.logging :as log]
+    #?(:cljs yahoo.intl-messageformat-with-locales))
   #?(:clj
      (:import (com.ibm.icu.text MessageFormat)
               (java.util Locale))))
 
 (def ^:dynamic *current-locale* (atom "en-US"))
 (def ^:dynamic *loaded-translations* (atom {}))
-(defn current-locale [] @*current-locale*)
+(def ^:dynamic *custom-formats* (atom nil))
+(defn current-locale [] (or @*current-locale* "en-US"))
 (defn translations-for-locale [] (get @*loaded-translations* (current-locale)))
+
+#?(:clj
+   (defn merge-custom-formats [formats]
+     (log/warn "I18N: Custom formats not supported on the server!"))
+   :cljs
+   (defn merge-custom-formats
+     "Merges the given formats into the supported custom formats. See https://formatjs.io/guides/message-syntax/#custom-formats
+     for more information on the structure of custom formats.
+
+     IMPORTANT: `formats` must be a clj/cljs map. It will be converted to the proper JS object behind the scenes during
+     translation."
+     [formats]
+     {:pre [(map? formats)]}
+     (swap! *custom-formats* merge formats)))
 
 ;; This set of constructions probably looks pretty screwy. In order for xgettext to work right, it
 ;; must see `tr("hello")` in the output JS, but by default the compiler outputs a call(tr, args)
@@ -22,10 +39,6 @@
 ;; consideration for ensuring that translations can be extracted. The `tr-unsafe` macro exists
 ;; for cases where you must have logic invoved, but lets you know that you must have some other
 ;; way of ensuring those translations make it into your final product.
-
-(defmacro if-cljs
-  [then else]
-  (if (:ns &env) then else))
 
 (letfn [(real-tr [msg]
           (let [msg-key      (str "|" msg)
@@ -49,25 +62,38 @@
 
 #?(:clj
    (defn trf-ssr
-     [fmt & {:keys [] :as args}]
+     [fmt & rawargs]
      (try
-       (let [argmap       (into {} (map (fn [[k v]] [(name k) v]) args))
+       (let [args         (if (and (map? (first rawargs)) (= 1 (count rawargs)))
+                            (first rawargs)
+                            (into {} (mapv vec (partition 2 rawargs))))
+             argmap       (into {} (map (fn [[k v]] [(name k) v]) args))
              msg-key      (str "|" fmt)
              translations (translations-for-locale)
              translation  (get translations msg-key fmt)
              formatter    (new MessageFormat translation (Locale/forLanguageTag (current-locale)))]
          (.format formatter argmap))
-       (catch Exception e "???")))
+       (catch Exception e
+         (log/error "Formatting failed!" e)
+         "???")))
    :cljs
    (set! js/trf
-     (fn trf [fmt & {:keys [] :as argmap}]
+     (fn trf [fmt & args]
        (try
-         (let [msg-key      (str "|" fmt)
-               translations (translations-for-locale)
-               translation  (get translations msg-key fmt)
-               formatter    (js/IntlMessageFormat. translation (current-locale))]
+         (let [argmap         (if (and (map? (first args)) (= 1 (count args)))
+                                (first args)
+                                (into {} (mapv vec (partition 2 args))))
+               msg-key        (str "|" fmt)
+               translations   (translations-for-locale)
+               translation    (get translations msg-key fmt)
+               custom-formats (when @*custom-formats* (clj->js @*custom-formats*))
+               formatter      (if custom-formats
+                                (js/IntlMessageFormat. translation (current-locale) custom-formats)
+                                (js/IntlMessageFormat. translation (current-locale)))]
            (.format formatter (clj->js argmap)))
-         (catch :default e "???")))))
+         (catch :default e
+           (log/error "Unable to format trf output " e)
+           "???")))))
 
 #?(:clj
    (defmacro tr-unsafe
@@ -75,7 +101,7 @@
      happen for you. This means you have to use some other mechanism to make sure the string ends up in translation
      files (such as manually calling tr on the various raw string values elsewhere in your program)"
      [msg]
-     `(if-cljs (js/tr ~msg) (tr-ssr ~msg))))
+     (if (:ns &env) `(js/tr ~msg) `(tr-ssr ~msg))))
 
 #?(:clj
    (defmacro trlambda
@@ -88,7 +114,9 @@
            msg (if (string? msg)
                  msg
                  (str "ERROR: tr-lambda requires a literal string on line " line " in " (str *ns*)))]
-       `(fn [] (if-cljs (js/tr ~msg) (tr-ssr ~msg))))))
+       (if (:ns &env)
+         `(fn [] (js/tr ~msg))
+         `(fn [] (tr-ssr ~msg))))))
 
 #?(:clj
    (defmacro tr
@@ -101,7 +129,7 @@
            msg (if (string? msg)
                  msg
                  (str "ERROR: tr requires a literal string on line " line " in " (str *ns*)))]
-       `(if-cljs (js/tr ~msg) (tr-ssr ~msg)))))
+       (if (:ns &env) `(js/tr ~msg) `(tr-ssr ~msg)))))
 
 #?(:clj
    (defmacro trc
@@ -125,7 +153,7 @@
            [context msg] (if (and (string? context) (string? msg))
                            [context msg]
                            ["" (str "ERROR: trc requires literal strings on line " line " in " (str *ns*))])]
-       `(if-cljs (js/trc ~context ~msg) (trc-ssr ~context ~msg)))))
+       (if (:ns &env) `(js/trc ~context ~msg) `(trc-ssr ~context ~msg)))))
 
 #?(:clj
    (defmacro trf
@@ -142,4 +170,4 @@
            [format args] (if (string? format)
                            [format args]
                            ["ERROR: trf requires a literal string on line {line} in {file}" [:line line :file (str *ns*)]])]
-       `(if-cljs (js/trf ~format ~@args) (trf-ssr ~format ~@args)))))
+       (if (:ns &env) `(js/trf ~format ~@args) `(trf-ssr ~format ~@args)))))
