@@ -1,4 +1,4 @@
-(defproject com.wsscode.oge "1.0.0-alpha1-SNAPSHOT"
+(defproject com.wsscode.oge "1.0.0-alpha2-SNAPSHOT"
   :description "Om Graph Explorer"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
