@@ -92,12 +92,9 @@
                              :border       "1px solid #e0e0e0"
                              :border-width "1px 0"}]
                     [:.flame {:grid-area  "flame"
-                              :background "#f6f7f8"}]])
+                              :background "#f6f7f8"}]
+                    [:$cm-atom-composed {:color "#ab890d"}]])
   (include-children [_] [ui/CSS])
-
-  static css/Global
-  (global-rules [_]
-    [[:.cm-atom-composed {:color "#ab890d"}]])
 
   Object
   (render [this]
