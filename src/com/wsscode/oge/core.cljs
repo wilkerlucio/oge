@@ -93,7 +93,7 @@
                              :border-width "1px 0"}]
                     [:.flame {:grid-area  "flame"
                               :background "#f6f7f8"}]
-                    [:$cm-atom-composed {:color "#ab890d"}]])
+                    [:$cm-atom-composite {:color "#ab890d"}]])
   (include-children [_] [ui/CSS])
 
   Object

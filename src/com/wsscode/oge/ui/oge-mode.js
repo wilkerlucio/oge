@@ -18,7 +18,7 @@
 
   CodeMirror.defineMode("oge", function (options) {
     const BUILTIN = "builtin", COMMENT = "comment", STRING = "string", CHARACTER = "string-2",
-      ATOM = "atom", ATOM_IDENT = "atom-ident", ATOM_COMP = "atom-composed", NUMBER = "number", BRACKET = "bracket", KEYWORD = "keyword", VAR = "constiable";
+      ATOM = "atom", ATOM_IDENT = "atom-ident", ATOM_COMP = "atom-composite", NUMBER = "number", BRACKET = "bracket", KEYWORD = "keyword", VAR = "constiable";
     const INDENT_WORD_SKIP = options.indentUnit || 2;
     const NORMAL_INDENT_UNIT = options.indentUnit || 2;
 
@@ -44,7 +44,7 @@
       state.mode = state.pathStack.mode;
     }
 
-    function isNumber(ch, stream){
+    function readNumber(ch, stream){
       // hex
       if ( ch === '0' && stream.eat(/x/i) ) {
         stream.eatWhile(tests.hex);
@@ -98,6 +98,24 @@
       stream.eatWhile(tests.symbol);
 
       return ATOM;
+    }
+
+    function readJoin(stream, state) {
+      pushStack(state, {mode: "join", indent: nextIndent(stream)});
+
+      return BRACKET;
+    }
+
+    function readIdent(stream, state) {
+      pushStack(state, {mode: "ident", indent: nextIndent(stream)});
+
+      return BRACKET;
+    }
+
+    function readParamExp(stream, state) {
+      pushStack(state, {mode: "param-exp", indent: nextIndent(stream)});
+
+      return BRACKET;
     }
 
     function nextIndent(stream) {
@@ -171,27 +189,13 @@
               return atomOrComp(stream, state);
             }
 
-            if (ch == "*") {
-              return ATOM;
-            }
+            if (ch == "*") return ATOM;
 
-            if (ch == "[") {
-              pushStack(state, {mode: "ident", indent: nextIndent(stream)});
+            if (ch == "[") return readIdent(stream, state);
+            if (ch == "]") { popStack(state); return BRACKET; }
 
-              return BRACKET;
-            }
-
-            if (ch == "]") {
-              popStack(state);
-
-              return BRACKET;
-            }
-
-            if (ch == "{") {
-              pushStack(state, {mode: "join", indent: nextIndent(stream)});
-
-              return BRACKET;
-            }
+            if (ch == "{") return readJoin(stream, state);
+            if (ch == "(") return readParamExp(stream, state);
 
             break;
 
@@ -207,11 +211,8 @@
                 return atomOrComp(stream, state);
               }
 
-              if (ch == "[") {
-                pushStack(state, {mode: "ident", indent: nextIndent(stream)});
-
-                return BRACKET;
-              }
+              if (ch == "[") return readIdent(stream, state);
+              if (ch == "(") return readParamExp(stream, state);
             } else {
               if (ch == "[") {
                 pushStack(state, {mode: "attr-list", indent: nextIndent(stream)});
@@ -222,6 +223,8 @@
 
             if (ch == "}") {
               popStack(state);
+
+              if (stack.prev.mode == "param-exp") stack.prev.key = stack;
 
               return BRACKET;
             }
@@ -245,17 +248,69 @@
               return STRING;
             }
 
-            if (isNumber(ch,stream)){
+            if (readNumber(ch,stream)) {
               return NUMBER;
             }
 
             if (ch == "]") {
               popStack(state);
 
-              if (stack.prev.mode == "join") stack.prev.key = stack;
+              if (stack.prev.mode == "join" || stack.prev.mode == "param-exp")
+                stack.prev.key = stack;
 
               return BRACKET;
             }
+
+            readSymbol(stream);
+
+            return VAR;
+
+          case "param-exp":
+            ch = stream.next();
+
+            if (!stack.key) {
+              if (ch == ":") {
+                readSymbol(stream);
+
+                stack.key = stream.current();
+
+                return atomOrComp(stream, state);
+              }
+
+              if (ch == "[") return readIdent(stream, state);
+              if (ch == "{") return readJoin(stream, state);
+            } else {
+              if (ch == "{") {
+                pushStack(state, {mode: "param-map", indent: nextIndent(stream)});
+
+                return BRACKET;
+              }
+            }
+
+            if (ch == ")") { popStack(state); return BRACKET; }
+
+            break;
+
+          case "param-map":
+            ch = stream.next();
+
+            if (ch == ":") {
+              readSymbol(stream);
+
+              return ATOM;
+            }
+
+            if (ch == "\"") {
+              pushStack(state, {mode: "string", indent: nextIndent(stream)});
+
+              return STRING;
+            }
+
+            if (readNumber(ch,stream)) {
+              return NUMBER;
+            }
+
+            if (ch == "}") { popStack(state); return BRACKET; }
 
             readSymbol(stream);
 
