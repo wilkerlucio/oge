@@ -62,8 +62,8 @@ return (new fulcro.tempid.TempId(id,__hash));
 });
 
 fulcro.tempid.tempid = (function fulcro$tempid$tempid(var_args){
-var G__13765 = arguments.length;
-switch (G__13765) {
+var G__16423 = arguments.length;
+switch (G__16423) {
 case 0:
 return fulcro.tempid.tempid.cljs$core$IFn$_invoke$arity$0();
 

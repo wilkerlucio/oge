@@ -49,13 +49,13 @@ return and_spec;
  */
 com.wsscode.spec_inspec.spec__GT_root_sym = (function com$wsscode$spec_inspec$spec__GT_root_sym(spec){
 while(true){
-var f = (function (){var or__10412__auto__ = com.wsscode.spec_inspec.safe_form(spec);
-if(cljs.core.truth_(or__10412__auto__)){
-return or__10412__auto__;
+var f = (function (){var or__10805__auto__ = com.wsscode.spec_inspec.safe_form(spec);
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
 } else {
-var or__10412__auto____$1 = com.wsscode.spec_inspec.accept_symbol(spec);
-if(cljs.core.truth_(or__10412__auto____$1)){
-return or__10412__auto____$1;
+var or__10805__auto____$1 = com.wsscode.spec_inspec.accept_symbol(spec);
+if(cljs.core.truth_(or__10805__auto____$1)){
+return or__10805__auto____$1;
 } else {
 return com.wsscode.spec_inspec.accept_symbol_call(spec);
 }
@@ -63,8 +63,8 @@ return com.wsscode.spec_inspec.accept_symbol_call(spec);
 })();
 var spec_def = com.wsscode.spec_inspec.form__GT_spec(f);
 if(cljs.core.qualified_keyword_QMARK_(spec_def)){
-var G__45496 = spec_def;
-spec = G__45496;
+var G__25308 = spec_def;
+spec = G__25308;
 continue;
 } else {
 return spec_def;
@@ -76,9 +76,9 @@ break;
  * Look up for the parent coercer using the spec hierarchy.
  */
 com.wsscode.spec_inspec.parent_spec = (function com$wsscode$spec_inspec$parent_spec(k){
-var or__10412__auto__ = com.wsscode.spec_inspec.accept_keyword(cljs.spec.alpha.get_spec(k));
-if(cljs.core.truth_(or__10412__auto__)){
-return or__10412__auto__;
+var or__10805__auto__ = com.wsscode.spec_inspec.accept_keyword(cljs.spec.alpha.get_spec(k));
+if(cljs.core.truth_(or__10805__auto__)){
+return or__10805__auto__;
 } else {
 return com.wsscode.spec_inspec.accept_keyword(com.wsscode.spec_inspec.form__GT_spec(com.wsscode.spec_inspec.safe_form(k)));
 }
@@ -88,18 +88,18 @@ return com.wsscode.spec_inspec.accept_keyword(com.wsscode.spec_inspec.form__GT_s
  */
 com.wsscode.spec_inspec.registry_lookup = (function com$wsscode$spec_inspec$registry_lookup(registry,k){
 while(true){
-var temp__5457__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(registry,k);
-if(cljs.core.truth_(temp__5457__auto__)){
-var c = temp__5457__auto__;
+var temp__5455__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(registry,k);
+if(cljs.core.truth_(temp__5455__auto__)){
+var c = temp__5455__auto__;
 return c;
 } else {
-var temp__5459__auto__ = com.wsscode.spec_inspec.accept_keyword(com.wsscode.spec_inspec.parent_spec(k));
-if(cljs.core.truth_(temp__5459__auto__)){
-var parent = temp__5459__auto__;
-var G__45498 = registry;
-var G__45499 = parent;
-registry = G__45498;
-k = G__45499;
+var temp__5457__auto__ = com.wsscode.spec_inspec.accept_keyword(com.wsscode.spec_inspec.parent_spec(k));
+if(cljs.core.truth_(temp__5457__auto__)){
+var parent = temp__5457__auto__;
+var G__25322 = registry;
+var G__25323 = parent;
+registry = G__25322;
+k = G__25323;
 continue;
 } else {
 return null;

@@ -17,8 +17,8 @@ goog.require('fulcro.client.impl.parser');
  *   those things in their queries.
  */
 fulcro.client.util.force_render = (function fulcro$client$util$force_render(var_args){
-var G__39978 = arguments.length;
-switch (G__39978) {
+var G__37833 = arguments.length;
+switch (G__37833) {
 case 2:
 return fulcro.client.util.force_render.cljs$core$IFn$_invoke$arity$2((arguments[(0)]),(arguments[(1)]));
 
@@ -71,8 +71,8 @@ return null;
  *   for finding a child of the correct type when nesting react components.
  */
 fulcro.client.util.first_node = (function fulcro$client$util$first_node(react_class,sequence_of_react_instances){
-return cljs.core.some((function (p1__39982_SHARP_){
-return fulcro.client.util.react_instance_QMARK_(react_class,p1__39982_SHARP_);
+return cljs.core.some((function (p1__37839_SHARP_){
+return fulcro.client.util.react_instance_QMARK_(react_class,p1__37839_SHARP_);
 }),sequence_of_react_instances);
 });
 /**
@@ -91,11 +91,11 @@ return cognitect.transit.read(fulcro.client.primitives.reader.cljs$core$IFn$_inv
  * Removes parameters from the query, e.g. for PCI compliant logging.
  */
 fulcro.client.util.strip_parameters = (function fulcro$client$util$strip_parameters(query){
-return fulcro.client.impl.parser.ast__GT_expr.cljs$core$IFn$_invoke$arity$2(clojure.walk.prewalk((function (p1__39985_SHARP_){
-if(cljs.core.map_QMARK_(p1__39985_SHARP_)){
-return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(p1__39985_SHARP_,cljs.core.cst$kw$params);
+return fulcro.client.impl.parser.ast__GT_expr.cljs$core$IFn$_invoke$arity$2(clojure.walk.prewalk((function (p1__37841_SHARP_){
+if(cljs.core.map_QMARK_(p1__37841_SHARP_)){
+return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(p1__37841_SHARP_,cljs.core.cst$kw$params);
 } else {
-return p1__39985_SHARP_;
+return p1__37841_SHARP_;
 }
 }),fulcro.client.impl.parser.query__GT_ast(query)),true);
 });

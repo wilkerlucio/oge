@@ -3,11 +3,11 @@
   (:require
     [clojure.spec.alpha :as s]
     [fulcro.util :refer [conform! join-key join-value join?]]
-    [fulcro.client.logging :as log]
+    [fulcro.logging :as log]
     [fulcro.client.primitives :as prim]
-    [fulcro.i18n :as i18n]
     #?(:cljs [cljs.loader :as loader])
-    [fulcro.client.impl.protocols :as p]))
+    [fulcro.client.impl.protocols :as p]
+    [fulcro.client.impl.parser :as parser]))
 
 
 #?(:clj (s/def ::action (s/cat
@@ -101,48 +101,6 @@
 (defmulti post-mutate prim/dispatch)
 (defmethod post-mutate :default [env k p] nil)
 
-(defn default-locale? [locale-string] (#{"en" "en-US"} locale-string))
-
-(defn locale-present? [locale-string]
-  (or
-    (default-locale? locale-string)
-    (contains? @i18n/*loaded-translations* locale-string)))
-
-(defn locale-loadable?
-  "Returns true if the given locale is in a loadable module. Always returns false on the server-side."
-  [locale-key]
-  #?(:clj  false
-     :cljs (contains? cljs.loader/module-infos locale-key)))
-
-(defn change-locale-impl
-  "Given a state map and locale, returns a new state map with the locale properly changed. Also potentially triggers a module load.
-  There is also the mutation `change-locale` that can be used from transact."
-  [state-map lang]
-  (let [lang          (name lang)
-        locale-key    (keyword lang)
-        present?      (locale-present? lang)
-        loadable?     (locale-loadable? locale-key)
-        valid-locale? (or present? loadable?)
-        set-locale!   (fn []
-                        (reset! i18n/*current-locale* lang)
-                        (assoc state-map :ui/locale lang))
-        should-load?  (and (not present?) loadable?)]
-    (cond
-      should-load? (do
-                     #?(:cljs (loader/load locale-key set-locale!))
-                     (set-locale!))
-      valid-locale? (set-locale!)
-      :otherwise (do
-                   (log/error (str "Attempt to change locale to " lang " but there was no such locale required or available as a loadable module."))
-                   state-map))))
-
-#?(:cljs
-   (fulcro.client.mutations/defmutation change-locale
-     "mutation: Change the locale of the UI. lang can be a string or keyword version of the locale name (e.g. :en-US or \"en-US\").
-     NOTE: Locale is *global* within a browser page. I.e. If you have more than one Fulcro app on a page then this will change the locale of them all and re-render them."
-     [{:keys [lang]}]
-     (action [{:keys [reconciler state]}] (swap! state change-locale-impl lang reconciler))))
-
 #?(:cljs
    (fulcro.client.mutations/defmutation set-props
      "
@@ -167,7 +125,7 @@
 
 (defmethod mutate :default [{:keys [target]} k _]
   (when (nil? target)
-    (log/error (log/value-message "Unknown app state mutation. Have you required the file with your mutations?" k))))
+    (log/error "Unknown app state mutation. Have you required the file with your mutations?" k)))
 
 
 (defn toggle!
@@ -270,7 +228,7 @@
      (remote [{:keys [reconciler state ast]}]
        (let [history (-> reconciler (prim/get-history) deref)
              params  (assoc params :history history)]
-         (log/debug (str "Sending " (count (:history-steps history)) " history steps to the server."))
+         (log/debug "Sending " (count (:history-steps history)) " history steps to the server.")
          (assoc ast :params params)))))
 
 (defn returning
@@ -300,3 +258,51 @@
   "Modify an AST containing a single mutation, changing it's parameters to those given as an argument."
   [ast params]
   (assoc ast :params params))
+
+(defn is-call? [expr]
+  (and (list? expr)
+    (symbol? (first expr))
+    (or (= 1 (count expr))
+      (map? (second expr)))))
+
+(defn with-progressive-updates
+  "Modifies the AST node to enable progressive updates (if available) about the response download progress.
+  `progress-mutation` is a call expression (e.g. `(f {})`) for a mutation, which can include the normal parameter
+  map. This mutation mutation will be triggered on each progress step. It will receive
+  one call when the request is sent, followed by zero or more progress events from the low-level network layer,
+  and one call when the request is done (with any status). The first and last calls are guaranteed.
+
+  An extra parameter keyed at `fulcro.client.network/progress` will be included that contains a :progress key
+  (:sending, :receiving, :complete, or :failed), and a status that will be dependent on the network implementation
+  (e.g. a google XhrIO progress event)."
+  [ast progress-mutation]
+  {:pre [(symbol? (-> ast :key)) (is-call? progress-mutation)]}
+  (update ast :key vary-meta assoc :fulcro.client.network/progress-mutation progress-mutation))
+
+(defn progressive-update-transaction
+  "Given a remote transaction containing one or more remote mutations, returns a local transaction of zero or
+  more mutations that should be run to provide a progress update. The `progress` argument will be added to
+  each resulting mutation in parameters as `:fulcro.client.network/progress`."
+  [network-transaction progress]
+  (let [add-progress (fn [expr]
+                       (let [ast   (parser/expr->ast expr)
+                             ast-2 (update ast :params assoc :fulcro.client.network/progress progress)]
+                         (parser/ast->expr ast-2)))]
+    (vec (keep
+           (fn [m] (some-> m seq first meta :fulcro.client.network/progress-mutation add-progress))
+           network-transaction))))
+
+(defn with-abort-id
+  "Modifies the mutation to enable network-level aborts. The id is a user-defined ID (any type) that identifies
+  things that can be aborted on networking. IDs need not be unique per node, though aborting an ID that refers to
+  more than one in-flight request will abort them all."
+  [ast id]
+  {:pre [(symbol? (-> ast :key))]}
+  (update ast :key vary-meta assoc :fulcro.client.network/abort-id id))
+
+(defn abort-ids
+  "Returns a set of abort IDs from the given transaction."
+  [tx]
+  (set (keep
+         (fn [m] (some-> m seq first meta :fulcro.client.network/abort-id))
+         tx)))

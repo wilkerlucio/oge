@@ -4,21 +4,21 @@ goog.require('cljs.core');
 goog.require('cljs.core.constants');
 goog.require('cljs.spec.alpha');
 goog.require('clojure.walk');
-goog.require('fulcro.client.logging');
+goog.require('fulcro.logging');
 fulcro.util.force_children = (function fulcro$util$force_children(x){
-var G__19283 = x;
+var G__21559 = x;
 if(cljs.core.seq_QMARK_(x)){
-return cljs.core.into.cljs$core$IFn$_invoke$arity$3(cljs.core.PersistentVector.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$1(fulcro.util.force_children),G__19283);
+return cljs.core.into.cljs$core$IFn$_invoke$arity$3(cljs.core.PersistentVector.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$1(fulcro.util.force_children),G__21559);
 } else {
-return G__19283;
+return G__21559;
 }
 });
 fulcro.util.union_QMARK_ = (function fulcro$util$union_QMARK_(expr){
-var expr__$1 = (function (){var G__19285 = expr;
+var expr__$1 = (function (){var G__21560 = expr;
 if(cljs.core.seq_QMARK_(expr)){
-return cljs.core.first(G__19285);
+return cljs.core.first(G__21560);
 } else {
-return G__19285;
+return G__21560;
 }
 })();
 return (cljs.core.map_QMARK_(expr__$1)) && (cljs.core.map_QMARK_(cljs.core.second(cljs.core.first(expr__$1))));
@@ -34,11 +34,10 @@ fulcro.util.ident_QMARK_ = (function fulcro$util$ident_QMARK_(x){
 return (cljs.core.vector_QMARK_(x)) && (((2) === cljs.core.count(x))) && ((cljs.core.nth.cljs$core$IFn$_invoke$arity$2(x,(0)) instanceof cljs.core.Keyword));
 });
 fulcro.util.join_entry = (function fulcro$util$join_entry(expr){
-if(cljs.core.seq_QMARK_(expr)){
-return cljs.core.ffirst(expr);
-} else {
-return cljs.core.first(expr);
-}
+var vec__21565 = ((cljs.core.seq_QMARK_(expr))?cljs.core.ffirst(expr):cljs.core.first(expr));
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__21565,(0),null);
+var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__21565,(1),null);
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [((cljs.core.list_QMARK_(k))?cljs.core.first(k):k),v], null);
 });
 fulcro.util.join_key = (function fulcro$util$join_key(expr){
 if(cljs.core.map_QMARK_(expr)){
@@ -50,8 +49,8 @@ return cljs.core.ffirst(expr);
 }
 } else {
 if(cljs.core.seq_QMARK_(expr)){
-var G__19295 = cljs.core.first(expr);
-return (fulcro.util.join_key.cljs$core$IFn$_invoke$arity$1 ? fulcro.util.join_key.cljs$core$IFn$_invoke$arity$1(G__19295) : fulcro.util.join_key.call(null,G__19295));
+var G__21568 = cljs.core.first(expr);
+return (fulcro.util.join_key.cljs$core$IFn$_invoke$arity$1 ? fulcro.util.join_key.cljs$core$IFn$_invoke$arity$1(G__21568) : fulcro.util.join_key.call(null,G__21568));
 } else {
 return expr;
 
@@ -80,11 +79,11 @@ var or__10805__auto__ = fulcro.util.mutation_join_QMARK_(expr);
 if(cljs.core.truth_(or__10805__auto__)){
 return or__10805__auto__;
 } else {
-return ((function (){var G__19310 = expr;
+return ((function (){var G__21578 = expr;
 if(cljs.core.seq_QMARK_(expr)){
-return cljs.core.first(G__19310);
+return cljs.core.first(G__21578);
 } else {
-return G__19310;
+return G__21578;
 }
 })() instanceof cljs.core.Symbol);
 }
@@ -109,14 +108,14 @@ return (a instanceof cljs.core.Atom);
 });
 fulcro.util.deep_merge = (function fulcro$util$deep_merge(var_args){
 var args__12091__auto__ = [];
-var len__12084__auto___19329 = arguments.length;
-var i__12085__auto___19330 = (0);
+var len__12084__auto___21595 = arguments.length;
+var i__12085__auto___21596 = (0);
 while(true){
-if((i__12085__auto___19330 < len__12084__auto___19329)){
-args__12091__auto__.push((arguments[i__12085__auto___19330]));
+if((i__12085__auto___21596 < len__12084__auto___21595)){
+args__12091__auto__.push((arguments[i__12085__auto___21596]));
 
-var G__19332 = (i__12085__auto___19330 + (1));
-i__12085__auto___19330 = G__19332;
+var G__21597 = (i__12085__auto___21596 + (1));
+i__12085__auto___21596 = G__21597;
 continue;
 } else {
 }
@@ -138,8 +137,8 @@ return cljs.core.last(xs);
 
 fulcro.util.deep_merge.cljs$lang$maxFixedArity = (0);
 
-fulcro.util.deep_merge.cljs$lang$applyTo = (function (seq19327){
-return fulcro.util.deep_merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq19327));
+fulcro.util.deep_merge.cljs$lang$applyTo = (function (seq21588){
+return fulcro.util.deep_merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.seq(seq21588));
 });
 
 fulcro.util.conform_BANG_ = (function fulcro$util$conform_BANG_(spec,x){
@@ -158,6 +157,13 @@ fulcro.util.soft_invariant = (function fulcro$util$soft_invariant(v,msg){
 if(cljs.core.truth_(v)){
 return null;
 } else {
-return fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Invariant failed"], 0));
+try{return fulcro.logging._log.cljs$core$IFn$_invoke$arity$variadic(new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$file,"fulcro.util",cljs.core.cst$kw$line,103], null),cljs.core.cst$kw$error,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Invariant failed"], 0));
+}catch (e21606){if((e21606 instanceof Error)){
+var e__18456__auto__ = e21606;
+return fulcro.logging._log.cljs$core$IFn$_invoke$arity$variadic(new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$file,"fulcro.util",cljs.core.cst$kw$line,103], null),cljs.core.cst$kw$error,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Log statement failed (arguments did not evaluate).",e__18456__auto__], 0));
+} else {
+throw e21606;
+
 }
+}}
 });

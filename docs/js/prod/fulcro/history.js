@@ -2,8 +2,9 @@
 goog.provide('fulcro.history');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
-goog.require('fulcro.client.logging');
+goog.require('fulcro.logging');
 goog.require('fulcro.util');
+goog.require('clojure.set');
 goog.require('cljs.spec.alpha');
 fulcro.history.is_timestamp_QMARK_ = (function fulcro$history$is_timestamp_QMARK_(t){
 return (t instanceof Date);
@@ -15,45 +16,59 @@ cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_client_DASH_time,
 cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_tx,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_,cljs.core.vector_QMARK_);
 cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_time,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.int_QMARK_);
 cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_result,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$nil,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_,cljs.core.cst$kw$map,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_),cljs.spec.alpha.or_spec_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$nil,cljs.core.cst$kw$map], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.nil_QMARK_,cljs.core.map_QMARK_], null),null));
-cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$keyword_QMARK_,cljs.core.cst$sym$vector_QMARK_),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,cljs.core.vector_QMARK_], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__19409){
-return cljs.core.map_QMARK_(G__19409);
-}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17232__auto__,v__17233__auto__){
-return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17233__auto__,(0));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$keyword_QMARK_,cljs.core.cst$sym$vector_QMARK_),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,cljs.core.vector_QMARK_], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__21767){
+return cljs.core.map_QMARK_(G__21767);
+}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17969__auto__,v__17970__auto__){
+return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17970__auto__,(0));
 }),cljs.core.cst$kw$cljs$spec$alpha_SLASH_conform_DASH_all,true,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_)], null),null));
-cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$req,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before], null),cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_tx,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_result,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_result,cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.cst$kw$fulcro$history_SLASH_client_DASH_time], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__19440){
-return cljs.core.map_QMARK_(G__19440);
-}),(function (G__19440){
-return cljs.core.contains_QMARK_(G__19440,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after);
-}),(function (G__19440){
-return cljs.core.contains_QMARK_(G__19440,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before);
-})], null),(function (G__19440){
-return (cljs.core.map_QMARK_(G__19440)) && (cljs.core.contains_QMARK_(G__19440,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after)) && (cljs.core.contains_QMARK_(G__19440,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$req,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before], null),cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_tx,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_result,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_result,cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.cst$kw$fulcro$history_SLASH_client_DASH_time], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__21775){
+return cljs.core.map_QMARK_(G__21775);
+}),(function (G__21775){
+return cljs.core.contains_QMARK_(G__21775,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after);
+}),(function (G__21775){
+return cljs.core.contains_QMARK_(G__21775,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before);
+})], null),(function (G__21775){
+return (cljs.core.map_QMARK_(G__21775)) && (cljs.core.contains_QMARK_(G__21775,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after)) && (cljs.core.contains_QMARK_(G__21775,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before));
 }),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_tx,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_result,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_result,cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.cst$kw$fulcro$history_SLASH_client_DASH_time], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_tx,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_result,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_result,cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.cst$kw$fulcro$history_SLASH_client_DASH_time], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$sym$_PERCENT_)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_after)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_db_DASH_before))], null),new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_tx,cljs.core.cst$kw$fulcro$history_SLASH_tx_DASH_result,cljs.core.cst$kw$fulcro$client$impl$data_DASH_fetch_SLASH_network_DASH_result,cljs.core.cst$kw$fulcro$history_SLASH_network_DASH_sends,cljs.core.cst$kw$fulcro$history_SLASH_client_DASH_time], null)])));
-cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__19465){
-return cljs.core.map_QMARK_(G__19465);
-}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17232__auto__,v__17233__auto__){
-return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17233__auto__,(0));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__21801){
+return cljs.core.map_QMARK_(G__21801);
+}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17969__auto__,v__17970__auto__){
+return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17970__auto__,(0));
 }),cljs.core.cst$kw$cljs$spec$alpha_SLASH_conform_DASH_all,true,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_step)], null),null));
-cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_set_QMARK_),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$keyword_QMARK_,cljs.core.cst$sym$set_QMARK_),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_set_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,cljs.core.set_QMARK_], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__19467){
-return cljs.core.map_QMARK_(G__19467);
-}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17232__auto__,v__17233__auto__){
-return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17233__auto__,(0));
-}),cljs.core.cst$kw$cljs$spec$alpha_SLASH_conform_DASH_all,true,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_set_QMARK_)], null),null));
-cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes], null),cljs.core.cst$kw$req,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__19472){
-return cljs.core.map_QMARK_(G__19472);
-}),(function (G__19472){
-return cljs.core.contains_QMARK_(G__19472,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size);
-}),(function (G__19472){
-return cljs.core.contains_QMARK_(G__19472,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
-})], null),(function (G__19472){
-return (cljs.core.map_QMARK_(G__19472)) && (cljs.core.contains_QMARK_(G__19472,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size)) && (cljs.core.contains_QMARK_(G__19472,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_)),cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$keyword_QMARK_,cljs.core.list(cljs.core.cst$sym$s_SLASH_map_DASH_of,cljs.core.cst$sym$pos_DASH_int_QMARK_,cljs.core.cst$sym$pos_DASH_int_QMARK_)),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword_QMARK_,cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_tuple,cljs.core.cst$sym$pos_DASH_int_QMARK_,cljs.core.cst$sym$pos_DASH_int_QMARK_),cljs.spec.alpha.tuple_impl.cljs$core$IFn$_invoke$arity$2(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.pos_int_QMARK_,cljs.core.pos_int_QMARK_], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__21831){
+return cljs.core.map_QMARK_(G__21831);
+}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17969__auto__,v__17970__auto__){
+return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17970__auto__,(0));
+}),cljs.core.cst$kw$cljs$spec$alpha_SLASH_conform_DASH_all,true,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_)], null),null)], null)),new cljs.core.PersistentArrayMap(null, 7, [cljs.core.cst$kw$into,cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__21825){
+return cljs.core.map_QMARK_(G__21825);
+}),cljs.core.cst$kw$kind,cljs.core.map_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_kfn,(function (i__17969__auto__,v__17970__auto__){
+return cljs.core.nth.cljs$core$IFn$_invoke$arity$2(v__17970__auto__,(0));
+}),cljs.core.cst$kw$cljs$spec$alpha_SLASH_conform_DASH_all,true,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_keyword_QMARK_,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_map_DASH_of,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_,cljs.core.cst$sym$cljs$core_SLASH_pos_DASH_int_QMARK_))], null),null));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_keys,cljs.core.cst$kw$opt,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes], null),cljs.core.cst$kw$req,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps], null)),cljs.spec.alpha.map_spec_impl(cljs.core.PersistentHashMap.fromArrays([cljs.core.cst$kw$req_DASH_un,cljs.core.cst$kw$opt_DASH_un,cljs.core.cst$kw$gfn,cljs.core.cst$kw$pred_DASH_exprs,cljs.core.cst$kw$keys_DASH_pred,cljs.core.cst$kw$opt_DASH_keys,cljs.core.cst$kw$req_DASH_specs,cljs.core.cst$kw$req,cljs.core.cst$kw$req_DASH_keys,cljs.core.cst$kw$opt_DASH_specs,cljs.core.cst$kw$pred_DASH_forms,cljs.core.cst$kw$opt],[null,null,null,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (G__21849){
+return cljs.core.map_QMARK_(G__21849);
+}),(function (G__21849){
+return cljs.core.contains_QMARK_(G__21849,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size);
+}),(function (G__21849){
+return cljs.core.contains_QMARK_(G__21849,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
+})], null),(function (G__21849){
+return (cljs.core.map_QMARK_(G__21849)) && (cljs.core.contains_QMARK_(G__21849,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size)) && (cljs.core.contains_QMARK_(G__21849,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps));
 }),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_map_QMARK_,cljs.core.cst$sym$_PERCENT_)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_contains_QMARK_,cljs.core.cst$sym$_PERCENT_,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps))], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes], null)])));
-cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_and,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__19499_SHARP_], null),cljs.core.list(cljs.core.cst$sym$fulcro$util_SLASH_atom_QMARK_,cljs.core.cst$sym$p1__19499_SHARP_)),cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__19500_SHARP_], null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_valid_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_deref,cljs.core.cst$sym$p1__19500_SHARP_)))),cljs.spec.alpha.and_spec_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$fulcro$util_SLASH_atom_QMARK_,cljs.core.cst$sym$_PERCENT_)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_valid_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_deref,cljs.core.cst$sym$_PERCENT_)))], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (p1__19499_SHARP_){
-return fulcro.util.atom_QMARK_(p1__19499_SHARP_);
-}),(function (p1__19500_SHARP_){
-return cljs.spec.alpha.valid_QMARK_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.deref(p1__19500_SHARP_));
+cljs.spec.alpha.def_impl(cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_atom,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_and,cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__21867_SHARP_], null),cljs.core.list(cljs.core.cst$sym$fulcro$util_SLASH_atom_QMARK_,cljs.core.cst$sym$p1__21867_SHARP_)),cljs.core.list(cljs.core.cst$sym$fn_STAR_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$p1__21868_SHARP_], null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_valid_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_deref,cljs.core.cst$sym$p1__21868_SHARP_)))),cljs.spec.alpha.and_spec_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$fulcro$util_SLASH_atom_QMARK_,cljs.core.cst$sym$_PERCENT_)),cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_fn,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$sym$_PERCENT_], null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_valid_QMARK_,cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.list(cljs.core.cst$sym$cljs$core_SLASH_deref,cljs.core.cst$sym$_PERCENT_)))], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [(function (p1__21867_SHARP_){
+return fulcro.util.atom_QMARK_(p1__21867_SHARP_);
+}),(function (p1__21868_SHARP_){
+return cljs.spec.alpha.valid_QMARK_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$fulcro$history_SLASH_history,cljs.core.deref(p1__21868_SHARP_));
 })], null),null));
 fulcro.history.max_tx_time = (9200000000000000000);
+fulcro.history.decrement_or_remove = (function fulcro$history$decrement_or_remove(m,k){
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((1),cljs.core.get.cljs$core$IFn$_invoke$arity$3(m,k,(1)))){
+return cljs.core.dissoc.cljs$core$IFn$_invoke$arity$2(m,k);
+} else {
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(m,k,cljs.core.dec);
+}
+});
+fulcro.history.add_or_increment = (function fulcro$history$add_or_increment(m,k){
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(m,k,cljs.core.fnil.cljs$core$IFn$_invoke$arity$2(cljs.core.inc,(0)));
+});
 /**
  * Record that remote activity started for the given remote at the given tx-time. Returns a new history.
  */
@@ -65,7 +80,7 @@ return tx_time;
 return and__10793__auto__;
 }
 })())){
-return cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(history,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes,remote], null),cljs.core.fnil.cljs$core$IFn$_invoke$arity$2(cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),tx_time);
+return cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(history,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes,remote], null),fulcro.history.add_or_increment,tx_time);
 } else {
 return history;
 }
@@ -82,7 +97,7 @@ return tx_time;
 return and__10793__auto__;
 }
 })())){
-return cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(history,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes,remote], null),cljs.core.disj,tx_time);
+return cljs.core.update_in.cljs$core$IFn$_invoke$arity$4(history,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes,remote], null),fulcro.history.decrement_or_remove,tx_time);
 } else {
 return history;
 }
@@ -91,24 +106,31 @@ cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_remote_DASH_acti
 /**
  * Returns the tx time for the oldest in-flight send that is active. Returns Long/MAX_VALUE if none are active.
  */
-fulcro.history.oldest_active_network_request = (function fulcro$history$oldest_active_network_request(p__19551){
-var map__19553 = p__19551;
-var map__19553__$1 = ((((!((map__19553 == null)))?((((map__19553.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19553.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19553):map__19553);
-var history = map__19553__$1;
-var active_remotes = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19553__$1,cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes);
-return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(cljs.core.min,fulcro.history.max_tx_time,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.concat,cljs.core.vals(active_remotes)));
+fulcro.history.oldest_active_network_request = (function fulcro$history$oldest_active_network_request(p__21942){
+var map__21943 = p__21942;
+var map__21943__$1 = ((((!((map__21943 == null)))?((((map__21943.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__21943.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__21943):map__21943);
+var history = map__21943__$1;
+var active_remotes = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__21943__$1,cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes);
+return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(cljs.core.min,fulcro.history.max_tx_time,cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.concat,(function (){var G__21951 = active_remotes;
+var G__21951__$1 = (((G__21951 == null))?null:cljs.core.vals(G__21951));
+if((G__21951__$1 == null)){
+return null;
+} else {
+return cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.keys,G__21951__$1);
+}
+})()));
 });
 cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_oldest_DASH_active_DASH_network_DASH_request,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.core.cst$kw$ret,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$hist], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.int_QMARK_,null,null),cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,null,null,null));
 cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_oldest_DASH_active_DASH_network_DASH_request,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.core.cst$kw$ref,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$hist], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$sym$cljs$core_SLASH_any_QMARK_,cljs.core.any_QMARK_,null,null),cljs.core.cst$sym$cljs$core_SLASH_any_QMARK_,null,null,null));
 /**
  * Returns a new history that has been reduced in size to target levels.
  */
-fulcro.history.gc_history = (function fulcro$history$gc_history(p__19585){
-var map__19586 = p__19585;
-var map__19586__$1 = ((((!((map__19586 == null)))?((((map__19586.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19586.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19586):map__19586);
-var history = map__19586__$1;
-var max_size = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19586__$1,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size);
-var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19586__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
+fulcro.history.gc_history = (function fulcro$history$gc_history(p__21990){
+var map__21991 = p__21990;
+var map__21991__$1 = ((((!((map__21991 == null)))?((((map__21991.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__21991.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__21991):map__21991);
+var history = map__21991__$1;
+var max_size = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__21991__$1,cljs.core.cst$kw$fulcro$history_SLASH_max_DASH_size);
+var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__21991__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
 if((cljs.core.pos_int_QMARK_(max_size)) && ((cljs.core.count(history_steps) > max_size))){
 var oldest_required_history_step = fulcro.history.oldest_active_network_request(history);
 var current_size = cljs.core.count(history_steps);
@@ -116,17 +138,22 @@ var overage = (current_size - max_size);
 var ordered_step_keys = cljs.core.sort.cljs$core$IFn$_invoke$arity$1(cljs.core.keys(history_steps));
 var proposed_keeper_keys = cljs.core.drop.cljs$core$IFn$_invoke$arity$2(overage,ordered_step_keys);
 var real_keeper_keys = (((cljs.core.first(proposed_keeper_keys) > oldest_required_history_step))?(function (){
-fulcro.client.logging.info.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["WARNING: History has grown beyond max size due to network congestion."], 0));
+try{fulcro.logging._log.cljs$core$IFn$_invoke$arity$variadic(new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$file,"fulcro.history",cljs.core.cst$kw$line,82], null),cljs.core.cst$kw$warn,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["History has grown beyond max size due to network congestion."], 0));
+}catch (e22000){if((e22000 instanceof Error)){
+var e__18456__auto___22025 = e22000;
+fulcro.logging._log.cljs$core$IFn$_invoke$arity$variadic(new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$file,"fulcro.history",cljs.core.cst$kw$line,82], null),cljs.core.cst$kw$warn,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Log statement failed (arguments did not evaluate).",e__18456__auto___22025], 0));
+} else {
+throw e22000;
 
-return cljs.core.drop_while.cljs$core$IFn$_invoke$arity$2(((function (oldest_required_history_step,current_size,overage,ordered_step_keys,proposed_keeper_keys,map__19586,map__19586__$1,history,max_size,history_steps){
+}
+}
+return cljs.core.drop_while.cljs$core$IFn$_invoke$arity$2(((function (oldest_required_history_step,current_size,overage,ordered_step_keys,proposed_keeper_keys,map__21991,map__21991__$1,history,max_size,history_steps){
 return (function (t){
 return (t < oldest_required_history_step);
-});})(oldest_required_history_step,current_size,overage,ordered_step_keys,proposed_keeper_keys,map__19586,map__19586__$1,history,max_size,history_steps))
+});})(oldest_required_history_step,current_size,overage,ordered_step_keys,proposed_keeper_keys,map__21991,map__21991__$1,history,max_size,history_steps))
 ,ordered_step_keys);
 })()
 :proposed_keeper_keys);
-fulcro.client.logging.debug.cljs$core$IFn$_invoke$arity$1(["Compressing history from ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.count(history_steps))," steps to ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.count(real_keeper_keys)),". Max size is ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(max_size)].join(''));
-
 return cljs.core.update.cljs$core$IFn$_invoke$arity$4(history,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,cljs.core.select_keys,real_keeper_keys);
 } else {
 return history;
@@ -141,12 +168,12 @@ cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_compressible_DAS
  * Returns true if the given transaction is marked as compressible.
  */
 fulcro.history.compressible_tx_QMARK_ = (function fulcro$history$compressible_tx_QMARK_(tx){
-return cljs.core.boolean$((function (){var G__19730 = tx;
-var G__19730__$1 = (((G__19730 == null))?null:cljs.core.meta(G__19730));
-if((G__19730__$1 == null)){
+return cljs.core.boolean$((function (){var G__22096 = tx;
+var G__22096__$1 = (((G__22096 == null))?null:cljs.core.meta(G__22096));
+if((G__22096__$1 == null)){
 return null;
 } else {
-return cljs.core.cst$kw$fulcro$history_SLASH_compressible_QMARK_.cljs$core$IFn$_invoke$arity$1(G__19730__$1);
+return cljs.core.cst$kw$fulcro$history_SLASH_compressible_QMARK_.cljs$core$IFn$_invoke$arity$1(G__22096__$1);
 }
 })());
 });
@@ -154,50 +181,57 @@ cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_compressible_DAS
 /**
  * Returns the most recent transition edge time recorded in the given history.
  */
-fulcro.history.last_tx_time = (function fulcro$history$last_tx_time(p__19744){
-var map__19748 = p__19744;
-var map__19748__$1 = ((((!((map__19748 == null)))?((((map__19748.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19748.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19748):map__19748);
-var history = map__19748__$1;
-var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19748__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
+fulcro.history.last_tx_time = (function fulcro$history$last_tx_time(p__22136){
+var map__22137 = p__22136;
+var map__22137__$1 = ((((!((map__22137 == null)))?((((map__22137.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22137.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22137):map__22137);
+var history = map__22137__$1;
+var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22137__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
 return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(cljs.core.max,(0),cljs.core.keys(history_steps));
 });
 cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_last_DASH_tx_DASH_time,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.core.cst$kw$ret,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$hist], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.int_QMARK_,null,null),cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,null,null,null));
 /**
  * Record a history step in the reconciler. 
  */
-fulcro.history.record_history_step = (function fulcro$history$record_history_step(p__19788,tx_time,p__19789){
-var map__19790 = p__19788;
-var map__19790__$1 = ((((!((map__19790 == null)))?((((map__19790.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19790.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19790):map__19790);
-var history = map__19790__$1;
-var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19790__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
-var map__19792 = p__19789;
-var map__19792__$1 = ((((!((map__19792 == null)))?((((map__19792.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19792.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19792):map__19792);
-var step = map__19792__$1;
-var tx = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19792__$1,cljs.core.cst$kw$fulcro$history_SLASH_tx);
+fulcro.history.record_history_step = (function fulcro$history$record_history_step(p__22163,tx_time,p__22164){
+var map__22165 = p__22163;
+var map__22165__$1 = ((((!((map__22165 == null)))?((((map__22165.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22165.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22165):map__22165);
+var history = map__22165__$1;
+var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22165__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
+var active_remotes = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22165__$1,cljs.core.cst$kw$fulcro$history_SLASH_active_DASH_remotes);
+var map__22166 = p__22164;
+var map__22166__$1 = ((((!((map__22166 == null)))?((((map__22166.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22166.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22166):map__22166);
+var step = map__22166__$1;
+var tx = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22166__$1,cljs.core.cst$kw$fulcro$history_SLASH_tx);
 var last_time = fulcro.history.last_tx_time(history);
 var gc_QMARK_ = cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((0),cljs.core.mod(tx_time,(10)));
 var last_tx = cljs.core.get_in.cljs$core$IFn$_invoke$arity$3(history_steps,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [last_time,cljs.core.cst$kw$fulcro$history_SLASH_tx], null),cljs.core.PersistentVector.EMPTY);
+var all_active_steps = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(clojure.set.union,cljs.core.PersistentHashSet.EMPTY,(function (){var G__22183 = active_remotes;
+var G__22183__$1 = (((G__22183 == null))?null:cljs.core.vals(G__22183));
+if((G__22183__$1 == null)){
+return null;
+} else {
+return cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.comp.cljs$core$IFn$_invoke$arity$2(cljs.core.set,cljs.core.keys),G__22183__$1);
+}
+})());
 var compressible_QMARK_ = (function (){var and__10793__auto__ = fulcro.history.compressible_tx_QMARK_(tx);
 if(cljs.core.truth_(and__10793__auto__)){
-return fulcro.history.compressible_tx_QMARK_(last_tx);
+var and__10793__auto____$1 = fulcro.history.compressible_tx_QMARK_(last_tx);
+if(cljs.core.truth_(and__10793__auto____$1)){
+return !(cljs.core.contains_QMARK_(all_active_steps,last_time));
+} else {
+return and__10793__auto____$1;
+}
 } else {
 return and__10793__auto__;
 }
 })();
-var new_history = (function (){var G__19799 = cljs.core.assoc_in(history,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,tx_time], null),step);
+var new_history = (function (){var G__22185 = cljs.core.assoc_in(history,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,tx_time], null),step);
 if(cljs.core.truth_(compressible_QMARK_)){
-return cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__19799,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,cljs.core.dissoc,last_time);
+return cljs.core.update.cljs$core$IFn$_invoke$arity$4(G__22185,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps,cljs.core.dissoc,last_time);
 } else {
-return G__19799;
+return G__22185;
 }
 })();
-if(((last_tx == null)) || ((tx_time > last_time))){
-} else {
-fulcro.client.logging.error.cljs$core$IFn$_invoke$arity$variadic(cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["Time did not move forward! History may have been lost."], 0));
-}
-
-fulcro.util.soft_invariant(((last_tx == null)) || ((tx_time > last_time)),"Time moved forward.");
-
 if(gc_QMARK_){
 return fulcro.history.gc_history(new_history);
 } else {
@@ -213,42 +247,42 @@ cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_new_DASH_history
  * Returns the current valid sequence of step times in the given history as a sorted vector.
  */
 fulcro.history.ordered_steps = (function fulcro$history$ordered_steps(history){
-var G__19856 = history;
-var G__19856__$1 = (((G__19856 == null))?null:cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps.cljs$core$IFn$_invoke$arity$1(G__19856));
-var G__19856__$2 = (((G__19856__$1 == null))?null:cljs.core.keys(G__19856__$1));
-var G__19856__$3 = (((G__19856__$2 == null))?null:cljs.core.sort.cljs$core$IFn$_invoke$arity$1(G__19856__$2));
-if((G__19856__$3 == null)){
+var G__22248 = history;
+var G__22248__$1 = (((G__22248 == null))?null:cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps.cljs$core$IFn$_invoke$arity$1(G__22248));
+var G__22248__$2 = (((G__22248__$1 == null))?null:cljs.core.keys(G__22248__$1));
+var G__22248__$3 = (((G__22248__$2 == null))?null:cljs.core.sort.cljs$core$IFn$_invoke$arity$1(G__22248__$2));
+if((G__22248__$3 == null)){
 return null;
 } else {
-return cljs.core.vec(G__19856__$3);
+return cljs.core.vec(G__22248__$3);
 }
 });
-cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_ordered_DASH_steps,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.core.cst$kw$ret,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$v,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$kw$nothing,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_)),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$hist], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$v,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$kw$nothing,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_),cljs.spec.alpha.or_spec_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$v,cljs.core.cst$kw$nothing], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$sym$int_QMARK_,cljs.core.int_QMARK_,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__19863){
-return cljs.core.vector_QMARK_(G__19863);
+cljs.spec.alpha.def_impl(cljs.core.cst$sym$fulcro$history_SLASH_ordered_DASH_steps,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_fspec,cljs.core.cst$kw$args,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.core.cst$kw$ret,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$v,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$kw$nothing,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_)),cljs.spec.alpha.fspec_impl(cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.cat_impl(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$hist], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$fulcro$history_SLASH_history], null)),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_cat,cljs.core.cst$kw$hist,cljs.core.cst$kw$fulcro$history_SLASH_history),cljs.spec.alpha.spec_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$v,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$kw$nothing,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_),cljs.spec.alpha.or_spec_impl(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$v,cljs.core.cst$kw$nothing], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.spec.alpha.every_impl.cljs$core$IFn$_invoke$arity$4(cljs.core.cst$sym$int_QMARK_,cljs.core.int_QMARK_,new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$cljs$spec$alpha_SLASH_kind_DASH_form,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_cpred,(function (G__22266){
+return cljs.core.vector_QMARK_(G__22266);
 }),cljs.core.cst$kw$kind,cljs.core.vector_QMARK_,cljs.core.cst$kw$cljs$spec$alpha_SLASH_describe,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_)], null),null),cljs.core.nil_QMARK_], null),null),null,null),cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_or,cljs.core.cst$kw$v,cljs.core.list(cljs.core.cst$sym$cljs$spec$alpha_SLASH_every,cljs.core.cst$sym$cljs$core_SLASH_int_QMARK_,cljs.core.cst$kw$kind,cljs.core.cst$sym$cljs$core_SLASH_vector_QMARK_),cljs.core.cst$kw$nothing,cljs.core.cst$sym$cljs$core_SLASH_nil_QMARK_),null,null,null));
 /**
  * Returns a step from the given history that has the given tx-time. If tx-time specifies a spot where there is a gap in the history
  *   (there are steps before and after), then it will return the earlier step, unless the latter was compressible, in which case
  *   it will return the step into which the desired spot was compressed. 
  */
-fulcro.history.get_step = (function fulcro$history$get_step(p__19868,tx_time){
-var map__19869 = p__19868;
-var map__19869__$1 = ((((!((map__19869 == null)))?((((map__19869.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19869.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19869):map__19869);
-var history = map__19869__$1;
-var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19869__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
+fulcro.history.get_step = (function fulcro$history$get_step(p__22291,tx_time){
+var map__22292 = p__22291;
+var map__22292__$1 = ((((!((map__22292 == null)))?((((map__22292.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22292.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22292):map__22292);
+var history = map__22292__$1;
+var history_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22292__$1,cljs.core.cst$kw$fulcro$history_SLASH_history_DASH_steps);
 var temp__5455__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(history_steps,tx_time);
 if(cljs.core.truth_(temp__5455__auto__)){
 var exact_step = temp__5455__auto__;
 return exact_step;
 } else {
 var timeline = fulcro.history.ordered_steps(history);
-var vec__19879 = cljs.core.split_with(((function (timeline,temp__5455__auto__,map__19869,map__19869__$1,history,history_steps){
-return (function (p1__19866_SHARP_){
-return (tx_time > p1__19866_SHARP_);
-});})(timeline,temp__5455__auto__,map__19869,map__19869__$1,history,history_steps))
+var vec__22304 = cljs.core.split_with(((function (timeline,temp__5455__auto__,map__22292,map__22292__$1,history,history_steps){
+return (function (p1__22285_SHARP_){
+return (tx_time > p1__22285_SHARP_);
+});})(timeline,temp__5455__auto__,map__22292,map__22292__$1,history,history_steps))
 ,timeline);
-var before = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__19879,(0),null);
-var after = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__19879,(1),null);
+var before = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__22304,(0),null);
+var after = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__22304,(1),null);
 var step_before = cljs.core.get.cljs$core$IFn$_invoke$arity$2(history_steps,cljs.core.last(before));
 var step_after = cljs.core.get.cljs$core$IFn$_invoke$arity$2(history_steps,cljs.core.first(after));
 if(cljs.core.truth_((function (){var and__10793__auto__ = step_before;
@@ -298,72 +332,72 @@ return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMP
  * Returns a new history navigation with the focus on the next step (or the last if already there). See history-navigator
  */
 fulcro.history.focus_next = (function fulcro$history$focus_next(history_nav){
-var map__19922 = history_nav;
-var map__19922__$1 = ((((!((map__19922 == null)))?((((map__19922.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19922.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19922):map__19922);
-var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19922__$1,cljs.core.cst$kw$index);
-var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19922__$1,cljs.core.cst$kw$history);
-var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19922__$1,cljs.core.cst$kw$legal_DASH_steps);
+var map__22351 = history_nav;
+var map__22351__$1 = ((((!((map__22351 == null)))?((((map__22351.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22351.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22351):map__22351);
+var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22351__$1,cljs.core.cst$kw$index);
+var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22351__$1,cljs.core.cst$kw$history);
+var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22351__$1,cljs.core.cst$kw$legal_DASH_steps);
 var last_legal_idx = (cljs.core.count(legal_steps) - (1));
-return cljs.core.update.cljs$core$IFn$_invoke$arity$3(history_nav,cljs.core.cst$kw$index,((function (map__19922,map__19922__$1,index,history,legal_steps,last_legal_idx){
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(history_nav,cljs.core.cst$kw$index,((function (map__22351,map__22351__$1,index,history,legal_steps,last_legal_idx){
 return (function (i){
 if((i < last_legal_idx)){
 return (i + (1));
 } else {
 return i;
 }
-});})(map__19922,map__19922__$1,index,history,legal_steps,last_legal_idx))
+});})(map__22351,map__22351__$1,index,history,legal_steps,last_legal_idx))
 );
 });
 /**
  * Returns a new history navigation with the focus on the prior step (or the first if already there). See history-navigator
  */
 fulcro.history.focus_previous = (function fulcro$history$focus_previous(history_nav){
-var map__19944 = history_nav;
-var map__19944__$1 = ((((!((map__19944 == null)))?((((map__19944.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19944.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19944):map__19944);
-var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19944__$1,cljs.core.cst$kw$index);
-var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19944__$1,cljs.core.cst$kw$history);
-var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19944__$1,cljs.core.cst$kw$legal_DASH_steps);
-return cljs.core.update.cljs$core$IFn$_invoke$arity$3(history_nav,cljs.core.cst$kw$index,((function (map__19944,map__19944__$1,index,history,legal_steps){
+var map__22359 = history_nav;
+var map__22359__$1 = ((((!((map__22359 == null)))?((((map__22359.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22359.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22359):map__22359);
+var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22359__$1,cljs.core.cst$kw$index);
+var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22359__$1,cljs.core.cst$kw$history);
+var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22359__$1,cljs.core.cst$kw$legal_DASH_steps);
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(history_nav,cljs.core.cst$kw$index,((function (map__22359,map__22359__$1,index,history,legal_steps){
 return (function (i){
 if((i === (0))){
 return (0);
 } else {
 return (i - (1));
 }
-});})(map__19944,map__19944__$1,index,history,legal_steps))
+});})(map__22359,map__22359__$1,index,history,legal_steps))
 );
 });
 /**
  * Returns a new history navigation with the focus on the prior step (or the first if already there). See history-navigator
  */
 fulcro.history.focus_start = (function fulcro$history$focus_start(history_nav){
-var map__19952 = history_nav;
-var map__19952__$1 = ((((!((map__19952 == null)))?((((map__19952.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19952.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19952):map__19952);
-var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19952__$1,cljs.core.cst$kw$index);
-var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19952__$1,cljs.core.cst$kw$history);
-var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19952__$1,cljs.core.cst$kw$legal_DASH_steps);
+var map__22379 = history_nav;
+var map__22379__$1 = ((((!((map__22379 == null)))?((((map__22379.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22379.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22379):map__22379);
+var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22379__$1,cljs.core.cst$kw$index);
+var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22379__$1,cljs.core.cst$kw$history);
+var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22379__$1,cljs.core.cst$kw$legal_DASH_steps);
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(history_nav,cljs.core.cst$kw$index,(0));
 });
 /**
  * Returns a new history navigation with the focus on the prior step (or the first if already there). See history-navigator
  */
 fulcro.history.focus_end = (function fulcro$history$focus_end(history_nav){
-var map__19959 = history_nav;
-var map__19959__$1 = ((((!((map__19959 == null)))?((((map__19959.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19959.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19959):map__19959);
-var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19959__$1,cljs.core.cst$kw$index);
-var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19959__$1,cljs.core.cst$kw$history);
-var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19959__$1,cljs.core.cst$kw$legal_DASH_steps);
+var map__22402 = history_nav;
+var map__22402__$1 = ((((!((map__22402 == null)))?((((map__22402.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22402.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22402):map__22402);
+var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22402__$1,cljs.core.cst$kw$index);
+var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22402__$1,cljs.core.cst$kw$history);
+var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22402__$1,cljs.core.cst$kw$legal_DASH_steps);
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(history_nav,cljs.core.cst$kw$index,(cljs.core.count(legal_steps) - (1)));
 });
 /**
  * Get the current history step from the history-nav. See history-navigator.
  */
 fulcro.history.current_step = (function fulcro$history$current_step(history_nav){
-var map__19968 = history_nav;
-var map__19968__$1 = ((((!((map__19968 == null)))?((((map__19968.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__19968.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__19968):map__19968);
-var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19968__$1,cljs.core.cst$kw$index);
-var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19968__$1,cljs.core.cst$kw$history);
-var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__19968__$1,cljs.core.cst$kw$legal_DASH_steps);
+var map__22410 = history_nav;
+var map__22410__$1 = ((((!((map__22410 == null)))?((((map__22410.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__22410.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__22410):map__22410);
+var index = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22410__$1,cljs.core.cst$kw$index);
+var history = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22410__$1,cljs.core.cst$kw$history);
+var legal_steps = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__22410__$1,cljs.core.cst$kw$legal_DASH_steps);
 var history_step_tx_time = cljs.core.get.cljs$core$IFn$_invoke$arity$2(legal_steps,index);
 var history_step = fulcro.history.get_step(history,history_step_tx_time);
 return history_step;
