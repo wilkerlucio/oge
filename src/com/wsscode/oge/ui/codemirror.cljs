@@ -160,7 +160,9 @@
       (and (= "join" mode)
            (or (= (gobj/get token "string") (gobj/get path-stack "key"))
                (nil? (gobj/get path-stack "key"))))
-      (find-ctx (gobj/getValueByKeys path-stack #js ["prev" "prev"]))
+      (find-ctx (if (= "param-exp" (gobj/getValueByKeys path-stack #js ["prev" "mode"]))
+                  (gobj/getValueByKeys path-stack #js ["prev" "prev" "prev"])
+                  (gobj/getValueByKeys path-stack #js ["prev" "prev"])))
 
       (= "attr-list" mode)
       (if (gobj/getValueByKeys path-stack #js ["prev" "mode"])
