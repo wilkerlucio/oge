@@ -279,6 +279,14 @@
 
               if (ch == "[") return readIdent(stream, state);
               if (ch == "{") return readJoin(stream, state);
+
+              if (ch != ")") {
+                readSymbol(stream);
+
+                stack.key = stream.current();
+
+                return VAR;
+              }
             } else {
               if (ch == "{") {
                 pushStack(state, {mode: "param-map", indent: nextIndent(stream)});
@@ -287,7 +295,13 @@
               }
             }
 
-            if (ch == ")") { popStack(state); return BRACKET; }
+            if (ch == ")") {
+              popStack(state);
+
+              if (stack.prev.mode == "join") stack.prev.key = stack.key;
+
+              return BRACKET;
+            }
 
             break;
 

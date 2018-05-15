@@ -131,23 +131,25 @@
         find-ctx   (fn find-ctx
                      ([s] (find-ctx s []))
                      ([s ctx]
-                      (cond
-                        ; ident join: [{[:ident x] [|]}]
-                        (and (= "join" (gobj/get s "mode"))
-                             (= "ident" (gobj/getValueByKeys s #js ["key" "mode"])))
-                        (let [key (str->keyword (gobj/getValueByKeys s #js ["key" "key"]))]
-                          {:type :attribute :context (conj ctx key)})
+                      (let [mode (gobj/get s "mode")
+                            key  (gobj/get s "key")]
+                        (cond
+                          ; ident join: [{[:ident x] [|]}]
+                          (and (= "join" mode)
+                               (= "ident" (gobj/getValueByKeys s #js ["key" "mode"])))
+                          (let [key (str->keyword (gobj/getValueByKeys s #js ["key" "key"]))]
+                            {:type :attribute :context (conj ctx key)})
 
-                        ; join: [{:child [|]}]
-                        (and (= "join" (gobj/get s "mode"))
-                             (= (string? (gobj/get s "key"))))
-                        (let [key (str->keyword (gobj/get s "key"))]
-                          (if (contains? (get index-io #{}) key)
-                            {:type :attribute :context (conj ctx key)}
-                            (recur (gobj/getValueByKeys s #js ["prev" "prev"]) (conj ctx key))))
+                          ; join: [{:child [|]}]
+                          (and (= "join" mode)
+                               (= (string? key)))
+                          (let [key (str->keyword key)]
+                            (if (contains? (get index-io #{}) key)
+                              {:type :attribute :context (conj ctx key)}
+                              (recur (gobj/getValueByKeys s #js ["prev" "prev"]) (conj ctx key))))
 
-                        (not (seq (js->clj s)))
-                        {:type :attribute :context ctx})))]
+                          (not (seq (js->clj s)))
+                          {:type :attribute :context ctx}))))]
 
     (cond
       (and (= "ident" mode)
@@ -160,9 +162,17 @@
                (nil? (gobj/get path-stack "key"))))
       (find-ctx (gobj/getValueByKeys path-stack #js ["prev" "prev"]))
 
-      (or (= "attr-list" mode))
+      (= "attr-list" mode)
       (if (gobj/getValueByKeys path-stack #js ["prev" "mode"])
         (find-ctx (gobj/get path-stack "prev"))
+        ; no stack, empty context
+        {:type :attribute :context []})
+
+      (= "param-exp" mode)
+      (if (and (gobj/getValueByKeys path-stack #js ["prev" "prev" "mode"])
+               (or (= "attr-list" (gobj/getValueByKeys path-stack #js ["prev" "mode"]))
+                   (gobj/getValueByKeys path-stack #js ["prev" "prev" "prev" "mode"])))
+        (find-ctx (gobj/getValueByKeys path-stack #js ["prev" "prev"]))
         ; no stack, empty context
         {:type :attribute :context []}))))
 
@@ -190,7 +200,7 @@
         ch     (.-ch cur)
         token  (.getTokenAt cm cur)
         reg    (subs (.-string token) 0 (- ch (.-start token)))
-        blank? (#{"[" "{" " "} reg)
+        blank? (#{"[" "{" " " "("} reg)
         start  (if blank? cur (-> js/CodeMirror (.Pos line (- ch (count reg)))))
         end    (if blank? cur (-> js/CodeMirror (.Pos line (gobj/get token "end"))))
         words  (->> (cm-completions index cm) (mapv first))]
@@ -226,7 +236,7 @@
                      0)]
 
       (if (and (= "attr-list" (gobj/getValueByKeys token #js ["state" "mode"]))
-               (= "atom-composed" (gobj/get token "type")))
+               (= "atom-composite" (gobj/get token "type")))
         (let [line  (.-line cur)
               start (.Pos js/CodeMirror line (gobj/get token "start"))
               end   (.Pos js/CodeMirror line (gobj/get token "end"))
