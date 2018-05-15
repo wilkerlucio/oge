@@ -5,12 +5,11 @@
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.946"]
-                 [org.clojure/core.async "0.3.465"]
+                 [org.clojure/core.async "0.4.474"]
 
                  [spec-coerce "1.0.0-alpha5"]
-                 [fulcrologic/fulcro "2.1.2"]
-                 [fulcrologic/fulcro-css "2.0.0"]
-                 [fulcrologic/fulcro-inspect "2.0.0-alpha4"]
+                 [fulcrologic/fulcro "2.5.4"]
+                 [fulcrologic/fulcro-inspect "2.1.0"]
                  [com.wsscode/pathom "2.0.0-beta1"]
 
                  [cljsjs/codemirror "5.24.0-1"]
@@ -20,7 +19,7 @@
   :source-paths ["src"]
 
   :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-figwheel "0.5.14"]]
+            [lein-figwheel "0.5.16"]]
 
   :jar-exclusions [#"public/js/.*"]
 
@@ -49,5 +48,5 @@
                                        :parallel-build       true
                                        :verbose              false}}]}
 
-  :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.14"]
-                                  [binaryage/devtools "0.9.4"]]}})
+  :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.16"]
+                                  [binaryage/devtools "0.9.10"]]}})

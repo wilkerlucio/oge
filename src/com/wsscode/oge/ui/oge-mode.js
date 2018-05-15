@@ -17,12 +17,12 @@
   "use strict";
 
   CodeMirror.defineMode("oge", function (options) {
-    var BUILTIN = "builtin", COMMENT = "comment", STRING = "string", CHARACTER = "string-2",
-      ATOM = "atom", ATOM_IDENT = "atom-ident", ATOM_COMP = "atom-composed", NUMBER = "number", BRACKET = "bracket", KEYWORD = "keyword", VAR = "variable";
-    var INDENT_WORD_SKIP = options.indentUnit || 2;
-    var NORMAL_INDENT_UNIT = options.indentUnit || 2;
+    const BUILTIN = "builtin", COMMENT = "comment", STRING = "string", CHARACTER = "string-2",
+      ATOM = "atom", ATOM_IDENT = "atom-ident", ATOM_COMP = "atom-composed", NUMBER = "number", BRACKET = "bracket", KEYWORD = "keyword", VAR = "constiable";
+    const INDENT_WORD_SKIP = options.indentUnit || 2;
+    const NORMAL_INDENT_UNIT = options.indentUnit || 2;
 
-    var tests = {
+    const tests = {
       digit: /\d/,
       digit_or_colon: /[\d:]/,
       hex: /[0-9a-f]/i,
@@ -82,7 +82,7 @@
 
     // Eat character that starts after backslash \
     function eatCharacter(stream) {
-      var first = stream.next();
+      let first = stream.next();
       // Read special literals: backspace, newline, space, return.
       // Just read all lowercase letters.
       if (first && first.match(/[a-z]/) && stream.match(/[a-z]+/, true)) {
@@ -137,7 +137,7 @@
       },
 
       token: function (stream, state) {
-        var ch, stack = state.pathStack;
+        let ch, stack = state.pathStack;
 
         if (stack == null && stream.sol()) {
           // update indentation, but only if indentStack is empty
@@ -151,7 +151,7 @@
 
         switch(state.mode) {
           case "string": // multi-line string parsing mode
-            var next, escaped = false;
+            let next, escaped = false;
             while ((next = stream.next()) != null) {
               if (next == "\"" && !escaped) {
                 popStack(state);
