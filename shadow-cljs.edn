@@ -1,0 +1,17 @@
+{:source-paths ["src"]
+
+ :dependencies [[org.clojure/core.async "0.4.474"]
+                [spec-coerce "1.0.0-alpha5"]
+                [fulcrologic/fulcro "2.5.4"]
+                [fulcrologic/fulcro-inspect "2.1.0"]
+                [com.wsscode/pathom "2.0.0-beta1"]
+                [binaryage/devtools "0.9.9"]]
+
+ :builds       {:hosted {:target           :browser
+                         :output-dir       "docs/assets/js/hosted"
+                         :asset-path       "/assets/js/hosted"
+                         :compiler-options {:closure-defines {goog.LOCALE "en"}}
+                         :devtools         {:preloads  [devtools.preload fulcro.inspect.preload]
+                                            :http-root "docs"
+                                            :http-port 8083}
+                         :modules          {:main {:entries [com.wsscode.oge.pub.main]}}}}}

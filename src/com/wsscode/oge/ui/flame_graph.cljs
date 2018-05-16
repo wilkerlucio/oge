@@ -2,12 +2,16 @@
   (:require [fulcro.client.primitives :as om]
             [fulcro.client.dom :as dom]
             [com.wsscode.pathom.profile :as p.profile]
-            [d3.flamegraph]
+            [cljsjs.d3]
+            ["d3-tip" :as tip]
+            ["d3-flame-graph" :as flame]
             [goog.object :as gobj]))
 
 (defn js-call [obj fn & args]
   (let [f (gobj/get obj fn)]
     (.apply f obj (to-array args))))
+
+(js/console.log "FLAME" flame)
 
 (defn render-flame [profile target]
   (let [profile' (-> profile p.profile/profile->flame-graph clj->js)
@@ -22,11 +26,11 @@
                      (str name "<br>"
                        self "/" value "ms<br />"
                        pct "% of total")))
-        tip      (-> ((gobj/get js/d3 "tip"))
+        tip      (-> (tip)
                      (js-call "attr" "class" "d3-flame-graph-tip")
                      (js-call "html" tooltip))
 
-        flame    (-> ((gobj/get js/d3 "flameGraph"))
+        flame    (-> (flame/flamegraph)
                      (js-call "width" 600)
                      (js-call "height" 300)
                      (js-call "tooltip" tip))]

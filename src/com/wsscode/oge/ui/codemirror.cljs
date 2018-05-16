@@ -2,28 +2,28 @@
   (:require [fulcro.client.primitives :as fp]
             [fulcro.client.dom :as dom]
             [goog.object :as gobj]
-            [com.wsscode.pathom.connect :as p.connect]
-            [cljsjs.codemirror]
-            [cljsjs.codemirror.mode.clojure]
-            [cljsjs.codemirror.addon.dialog.dialog]
-            [cljsjs.codemirror.addon.edit.matchbrackets]
-            [cljsjs.codemirror.addon.edit.closebrackets]
-            [cljsjs.codemirror.addon.fold.foldcode]
-            [cljsjs.codemirror.addon.fold.foldgutter]
-            [cljsjs.codemirror.addon.fold.brace-fold]
-            [cljsjs.codemirror.addon.fold.indent-fold]
-            [cljsjs.codemirror.addon.selection.active-line]
-            [cljsjs.codemirror.addon.search.match-highlighter]
-            [cljsjs.codemirror.addon.search.search]
-            [cljsjs.codemirror.addon.search.searchcursor]
-            [cljsjs.codemirror.addon.hint.anyword-hint]
-            [cljsjs.codemirror.addon.hint.show-hint]
-            [cljsjs.codemirror.addon.display.placeholder]
-            [codemirror.oge]
-            [codemirror.parinfer]
+            [com.wsscode.pathom.connect :as pc]
+            [clojure.string :as str]
             [cljs.spec.alpha :as s]
             [cljs.reader :refer [read-string]]
-            [clojure.string :as str]))
+
+            [cljsjs.codemirror]
+            ["codemirror/mode/clojure/clojure"]
+            ["codemirror/addon/edit/matchbrackets"]
+            ["codemirror/addon/edit/closebrackets"]
+            ["codemirror/addon/fold/foldcode"]
+            ["codemirror/addon/fold/foldgutter"]
+            ["codemirror/addon/fold/brace-fold"]
+            ["codemirror/addon/fold/indent-fold"]
+            ["codemirror/addon/selection/active-line"]
+            ["codemirror/addon/search/match-highlighter"]
+            ["codemirror/addon/search/search"]
+            ["codemirror/addon/search/searchcursor"]
+            ["codemirror/addon/hint/anyword-hint"]
+            ["codemirror/addon/hint/show-hint"]
+            ["codemirror/addon/display/placeholder"]
+            ["parinfer-codemirror" :as parinfer-cm]
+            ["./oge-mode"]))
 
 (s/def ::mode (s/or :string string? :obj map?))
 (s/def ::theme string?)
@@ -63,8 +63,8 @@
 
 (fp/defui ^:once Editor
   Object
-  (componentWillReceiveProps [this {:keys            [value]
-                                    ::p.connect/keys [indexes]}]
+  (componentWillReceiveProps [this {:keys     [value]
+                                    ::pc/keys [indexes]}]
     (let [cm        (gobj/get this "codemirror")
           cur-index (gobj/getValueByKeys cm #js ["options" "ogeIndex"])]
       (when (and cur-index (not= indexes @cur-index))
@@ -123,7 +123,7 @@
 
 (defn str->keyword [s] (keyword (subs s 1)))
 
-(defn token-context [{::p.connect/keys [index-io]} token]
+(defn token-context [{::pc/keys [index-io]} token]
   (let [state      (gobj/get token "state")
         mode       (gobj/get state "mode")
         path-stack (gobj/get state "pathStack")
@@ -182,9 +182,9 @@
   (let [ctx (token-context index token)]
     (when reg
       (case (:type ctx)
-        :attribute (->> (p.connect/discover-attrs (assoc index ::p.connect/cache oge-cache)
+        :attribute (->> (pc/discover-attrs (assoc index ::pc/cache oge-cache)
                           (->> ctx :context (remove (comp #{">"} namespace)))))
-        :ident (into {} (map #(hash-map % {})) (-> index ::p.connect/idents))
+        :ident (into {} (map #(hash-map % {})) (-> index ::pc/idents))
         {}))))
 
 (gobj/set js/window "cljsDeref" deref)
@@ -210,7 +210,7 @@
     (if words
       (let [fuzzy (if blank? #".*" (fuzzy-re reg))]
         #js {:list (->> words
-                        (remove (get index ::p.connect/autocomplete-ignore #{}))
+                        (remove (get index ::pc/autocomplete-ignore #{}))
                         (map str)
                         (filter #(re-find fuzzy %))
                         sort
@@ -257,7 +257,7 @@
           (.setCursor cm cursor-end)
           (.showHint cm))))))
 
-(defn oge [{::p.connect/keys [indexes] :as props}]
+(defn oge [{::pc/keys [indexes] :as props}]
   (let [options {::lineNumbers               true
                  ::mode                      "oge"
                  ::matchBrackets             true
@@ -274,7 +274,7 @@
                                    (.on cm "keyup" (fn [cm e] (when (and (not (gobj/getValueByKeys cm #js ["state" "completionActive"]))
                                                                          (= 1 (-> (gobj/get e "key") (count))))
                                                                 (js/CodeMirror.showHint cm))))
-                                   ((gobj/get js/parinferCodeMirror "init") cm "smart" #js {:forceBalance true})))
+                                   (parinfer-cm/init cm "smart" #js {:forceBalance true})))
                 (update ::options #(merge options %))))))
 
 (defn clojure [props]

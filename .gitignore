@@ -12,3 +12,4 @@ pom.xml.asc
 /resources/public/js/dev/
 /out
 figwheel_server.log
+/node_modules
