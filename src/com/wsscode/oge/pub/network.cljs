@@ -4,7 +4,8 @@
 (defn request-transform [req]
   (let [token nil]
     (-> req
-        (cond-> token (assoc-in [:headers "Authorization"] (str "Bearer " token))))))
+        (cond-> token (assoc-in [:headers "Authorization"] (str "Bearer " token)))
+        (assoc-in [:headers "Accept"] "application/transit+json"))))
 
 (defn network-error-callback [& args]
   (js/console.log "Network error" args))
