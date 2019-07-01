@@ -6,7 +6,7 @@ A Graph explorer for the Om Graph syntax.
 
 OgE as a project is deprecated and will not be updated anymore.
 
-For a more modern query runner for Pathom check https://github.com/wilkerlucio/pathom/issues/97
+For a more modern query runner for Pathom check https://github.com/wilkerlucio/pathom-viz
 
 # Usage
 
